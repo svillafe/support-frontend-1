@@ -239,6 +239,7 @@ function Bundles(props: PropTypes) {
       <div className="bundles__introduction-bleed-margins" />
       <div className="bundles__content gu-content-margin">
         <div className="bundles__introduction-bleed" />
+        <div className="bundles__canvas-background" id="canvas-container" />
         <div className="bundles__wrapper">
           <ContributionBundle {...props} />
           <div className="bundles__divider" />
