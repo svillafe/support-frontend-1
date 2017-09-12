@@ -12,6 +12,8 @@ import SimpleFooter from 'components/footers/simpleFooter/simpleFooter';
 
 import pageStartup from 'helpers/pageStartup';
 import { getQueryParameter } from 'helpers/url';
+
+import type { CircleProperties } from 'helpers/animation/circle';
 import type { CanvasProperties } from 'helpers/animation/canvas';
 import startCanvasAnimation from 'helpers/animation/canvas';
 
@@ -42,12 +44,24 @@ const drawableObjects: Array<Object> = [];
 const canvasProperties: CanvasProperties = {
   containerId: 'canvas-container',
   canvasId: 'canvas-el',
-  width: 200,
+  width: 600,
   height: 200,
-  zIndex: 1,
+  zIndex: 100,
+  strokeColour: '#ffffff',
+  fillColour: '#ff0000',
 };
 
 function animate() {
+  const maxDim = canvasProperties.width || 100;
+  let c = 0;
+  for (c = 0; c < 10; c += 1) {
+    const circleProperties: CircleProperties = {
+      x: Math.random() * (canvasProperties.width || maxDim),
+      y: Math.random() * (canvasProperties.height || maxDim),
+      radius: Math.random() * 50,
+    };
+    drawableObjects.push(circleProperties);
+  }
   startCanvasAnimation(canvasProperties, drawableObjects);
 }
 

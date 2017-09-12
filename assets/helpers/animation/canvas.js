@@ -1,5 +1,7 @@
 // @flow
 
+import { draw } from 'helpers/animation/circle';
+
 export type CanvasProperties = {
   containerId: ?string,
   canvasId: ?string,
@@ -8,20 +10,20 @@ export type CanvasProperties = {
   zIndex: ?number,
 }
 
-let canvasContext = null;
-let width: number = 0;
-let height: number = 0;
-const drawableObjects = [];
+let canvasContext: CanvasRenderingContext2D;
+let width: number;
+let height: number;
+const shapeDefs = [];
 
-function addDrawableObject(drawableObject) {
-  drawableObjects.push(drawableObject);
+function addDrawableShape(shapeDefiniton) {
+  shapeDefs.push(shapeDefiniton);
 }
 
 function render() {
   if (canvasContext) {
     canvasContext.clearRect(0, 0, width, height);
-    drawableObjects.forEach(o =>
-      o.draw(canvasContext),
+    shapeDefs.forEach(shape =>
+      draw(canvasContext, shape),
     );
   }
 }
@@ -51,8 +53,8 @@ export default function startCanvasAnimation(
     }
   }
   if (canvasContext && drawables) {
-    drawables.forEach(o =>
-      addDrawableObject(o),
+    drawables.forEach(shape =>
+      addDrawableShape(shape),
     );
     animate();
   }
