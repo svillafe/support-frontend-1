@@ -33,6 +33,14 @@ function animate() {
   window.requestAnimationFrame(animate.bind(this));
 }
 
+/* eslint-disable no-param-reassign */
+function randomiseStartPosition(shape) {
+  shape.x = shape.x ? shape.x : (Math.random() * width) - shape.radius;
+  shape.y = shape.y ? shape.y : (Math.random() * height) - shape.radius;
+  return shape;
+}
+/* eslint-enable no-param-reassign */
+
 // ----- Exports ----- //
 
 export default function startCanvasAnimation(
@@ -45,8 +53,9 @@ export default function startCanvasAnimation(
   if (canvasProperties.containerId) {
     containerElem = document.getElementById(canvasProperties.containerId);
     if (containerElem) {
-      containerWidth = (containerElem.style.width !== '' && Number(containerElem.style.width)) || null;
-      containerHeight = (containerElem.style.height !== '' && Number(containerElem.style.height)) || null;
+      const boundingClientRect = containerElem.getBoundingClientRect();
+      containerWidth = boundingClientRect.width || null;
+      containerHeight = boundingClientRect.height || null;
     }
   }
   width = canvasProperties.width || containerWidth || window.innerWidth;
@@ -64,7 +73,7 @@ export default function startCanvasAnimation(
   }
   if (canvasContext && drawables) {
     drawables.forEach(shape =>
-      addDrawableShape(shape),
+      addDrawableShape(randomiseStartPosition(shape)),
     );
     animate();
   }

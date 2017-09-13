@@ -44,7 +44,6 @@ const drawableObjects: Array<Object> = [];
 const canvasProperties: CanvasProperties = {
   containerId: 'canvas-container',
   canvasId: 'canvas-el',
-  width: 960,
   height: 300,
   zIndex: 100,
 };
@@ -53,14 +52,12 @@ function animate() {
   const multimediaMain2 = '#ffbb00';
   const neutral1 = '#333333';
   let c = 0;
-  for (c = 0; c < 10; c += 1) {
+  for (c = 0; c < 20; c += 1) {
     const colour = Math.random() * 100 > 49 ? multimediaMain2 : neutral1;
     const rad = Math.random() * 50;
     const circleProperties: CircleProperties = {
-      x: Math.random() * (canvasProperties.width || canvasProperties.width || window.innerWidth),
-      y: Math.random() * (canvasProperties.height || canvasProperties.height || window.innerHeight),
-      maxTravelX: Math.random() * rad * 3,
-      maxTravelY: Math.random() * rad * 2,
+      x: 0, // zero x and y components are replaced with randomised values by canvas
+      y: 0,
       radius: rad,
       strokeColour: colour,
       fillColour: colour,

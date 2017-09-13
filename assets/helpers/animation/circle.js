@@ -1,11 +1,9 @@
 // @flow
 
 export type CircleProperties = {
+  radius: number,
   x: number,
   y: number,
-  maxTravelX: number,
-  maxTravelY: number,
-  radius: number,
   startAngle?: number,
   endAngle?: number,
   antiClockwise?: boolean,
@@ -14,6 +12,11 @@ export type CircleProperties = {
   fillColour?: string,
   vX?: number,
   vY?: number,
+}
+
+function randomVelocity() {
+  const speed = Math.random() * 0.75;
+  return Math.random() * 100 > 49 ? speed : speed * -1;
 }
 
 /* eslint-disable no-param-reassign */
@@ -47,7 +50,7 @@ export function draw(context: CanvasRenderingContext2D, properties: CircleProper
       }
     }
   } else {
-    properties.vX = Math.random() * 100 > 49 ? 1 : -1;
+    properties.vX = randomVelocity();
   }
 
   if (properties.vY) {
@@ -62,7 +65,7 @@ export function draw(context: CanvasRenderingContext2D, properties: CircleProper
       }
     }
   } else {
-    properties.vY = Math.random() * 100 > 49 ? 1 : -1;
+    properties.vY = randomVelocity();
   }
 
   properties.x += properties.vX;

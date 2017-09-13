@@ -40,6 +40,11 @@
         padding: 0 0;
         padding-bottom: ($gu-v-spacing * 8);
       }
+
+      .bundles__canvas-background {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     .bundles__wrapper {
