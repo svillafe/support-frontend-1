@@ -3,6 +3,8 @@
 export type CircleProperties = {
   x: number,
   y: number,
+  maxTravelX: number,
+  maxTravelY: number,
   radius: number,
   startAngle?: number,
   endAngle?: number,
@@ -10,8 +12,11 @@ export type CircleProperties = {
   lineWidth?: number,
   strokeColour?: string,
   fillColour?: string,
+  vX?: number,
+  vY?: number,
 }
 
+/* eslint-disable no-param-reassign */
 export function draw(context: CanvasRenderingContext2D, properties: CircleProperties) {
   const myContext = context;
   if (myContext) {
@@ -30,25 +35,38 @@ export function draw(context: CanvasRenderingContext2D, properties: CircleProper
     myContext.strokeStyle = properties.strokeColour || '#000000';
     myContext.stroke();
   }
+  if (properties.vX) {
+    if (properties.vX > 0) {
+      if (properties.x + properties.vX + properties.radius > context.canvas.width) {
+        properties.vX *= -1;
+      }
+    }
+    if (properties.vX < 0) {
+      if (properties.x - properties.vX - properties.radius < 0) {
+        properties.vX *= -1;
+      }
+    }
+  } else {
+    properties.vX = Math.random() * 100 > 49 ? 1 : -1;
+  }
+
+  if (properties.vY) {
+    if (properties.vY > 0) {
+      if (properties.y + properties.vY + properties.radius > context.canvas.height) {
+        properties.vY *= -1;
+      }
+    }
+    if (properties.vY < 0) {
+      if (properties.y - properties.vY - properties.radius < 0) {
+        properties.vY *= -1;
+      }
+    }
+  } else {
+    properties.vY = Math.random() * 100 > 49 ? 1 : -1;
+  }
+
+  properties.x += properties.vX;
+  properties.y += properties.vY;
 }
-
-// export function Circle(circleProperties: CircleProperties) {
-//   const properties = circleProperties;
-//   const draw = (context: CanvasRenderingContext2D) =>
-//     drawThis(context, properties);
-// }
-
-// export class Circle {
-//   draw: (context: CanvasRenderingContext2D, properties: CircleProperties) => void {
-//     drawThis(context, properties);
-//   };
-//   // properties: CircleProperties;
-//   // draw(context: CanvasRenderingContext2D): void {
-//   //   drawThis(context, properties);
-//   // }
-//   //
-//   // constructor(props: CircleProperties) {
-//   //   this.properties = props;
-//   // }
-// }
+/* eslint-enable no-param-reassign */
 
