@@ -1,5 +1,10 @@
 // @flow
 
+// ----- Imports ----- //
+
+import type { Campaign } from 'helpers/tracking/guTracking';
+
+
 // ----- Types ----- //
 
 type Product = 'paper' | 'digital' | 'paperDig';
@@ -23,29 +28,20 @@ const defaultPromos: PromoCodes = {
   paperDig: 'p/GXX83X',
 };
 
-const tests = [
-  {
-    name: 'baseline',
-    intCmps: [
-      'gdnwb_copts_memco_sandc_support_baseline_support_banner',
-      'gdnwb_copts_memco_sandc_support_baseline_support_epic',
-      'gdnwb_copts_memco_sandc_support_baseline_support_liveblog',
-      'gdnwb_copts_memco_sandc_support_baseline_support_header_become_supporter',
-      'gdnwb_copts_memco_sandc_support_baseline_support_header_subscribe',
-      'gdnwb_copts_memco_sandc_support_baseline_support_side_menu_become_supporter',
-      'gdnwb_copts_memco_sandc_support_baseline_support_side_menu_subscribe',
-    ],
-    promoCodes: {
-      digital: 'p/DJ6CCJZLL',
-      paper: 'p/NJ6CCQLD4',
-      paperDig: 'p/NJ6CCSVMC',
-    },
+const customPromos : {
+  [Campaign]: PromoCodes,
+} = {
+  baseline_test: {
+    digital: 'p/DJ6CCJZLL',
+    paper: 'p/NJ6CCQLD4',
+    paperDig: 'p/NJ6CCSVMC',
   },
-];
+};
 
 
 // ----- Functions ----- //
 
+// Creates URLs for the subs site from promo codes and intCmp.
 function buildUrls(promoCodes: PromoCodes, intCmp: string): SubsUrls {
 
   const params = new URLSearchParams();
@@ -59,21 +55,20 @@ function buildUrls(promoCodes: PromoCodes, intCmp: string): SubsUrls {
 
 }
 
+// Creates links to subscriptions, tailored to the user's campaign.
+function getSubsLinks(intCmp: string, campaign: ?Campaign): SubsUrls {
+
+  if (campaign && customPromos[campaign]) {
+    return buildUrls(customPromos[campaign], intCmp);
+  }
+
+  return buildUrls(defaultPromos, intCmp);
+
+}
+
 
 // ----- Exports ----- //
 
-export default function buildLinks(intCmp: string): SubsUrls {
-
-  let links = null;
-
-  tests.forEach((test) => {
-
-    if (test.intCmps.indexOf(intCmp) > -1) {
-      links = buildUrls(test.promoCodes, intCmp);
-    }
-
-  });
-
-  return links || buildUrls(defaultPromos, intCmp);
-
-}
+export {
+  getSubsLinks,
+};

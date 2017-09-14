@@ -10,9 +10,11 @@ import type { Contrib, Amount } from 'helpers/contributions';
 export type Action =
   | { type: 'CHANGE_CONTRIB_TYPE', contribType: Contrib }
   | { type: 'CHANGE_CONTRIB_AMOUNT', amount: Amount }
-  | { type: 'CHANGE_CONTRIB_AMOUNT_RECURRING', amount: Amount }
+  | { type: 'CHANGE_CONTRIB_AMOUNT_ANNUAL', amount: Amount }
+  | { type: 'CHANGE_CONTRIB_AMOUNT_MONTHLY', amount: Amount }
   | { type: 'CHANGE_CONTRIB_AMOUNT_ONEOFF', amount: Amount }
   | { type: 'PAYPAL_ERROR', message: string }
+  | { type: 'SET_CONTEXT', context: boolean }
   ;
 
 
@@ -26,8 +28,12 @@ export function changeContribAmount(amount: Amount): Action {
   return { type: 'CHANGE_CONTRIB_AMOUNT', amount };
 }
 
-export function changeContribAmountRecurring(amount: Amount): Action {
-  return { type: 'CHANGE_CONTRIB_AMOUNT_RECURRING', amount };
+export function changeContribAmountAnnual(amount: Amount): Action {
+  return { type: 'CHANGE_CONTRIB_AMOUNT_ANNUAL', amount };
+}
+
+export function changeContribAmountMonthly(amount: Amount): Action {
+  return { type: 'CHANGE_CONTRIB_AMOUNT_MONTHLY', amount };
 }
 
 export function changeContribAmountOneOff(amount: Amount): Action {
@@ -36,4 +42,8 @@ export function changeContribAmountOneOff(amount: Amount): Action {
 
 export function payPalError(message: string): Action {
   return { type: 'PAYPAL_ERROR', message };
+}
+
+export function setContext(context: boolean) {
+  return { type: 'SET_CONTEXT', context };
 }

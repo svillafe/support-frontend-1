@@ -4,14 +4,13 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import SimpleHeader from 'components/headers/simpleHeader/simpleHeader';
 import SimpleFooter from 'components/footers/simpleFooter/simpleFooter';
 
-import pageStartup from 'helpers/pageStartup';
-import { getQueryParameter } from 'helpers/url';
+import { init as pageInit } from 'helpers/page/page';
+import { setIntCmp } from 'helpers/page/pageActions';
 
 import type { CircleProperties } from 'helpers/animation/circle';
 import type { CanvasProperties } from 'helpers/animation/canvas';
@@ -22,20 +21,27 @@ import Bundles from './components/Bundles';
 import WhySupport from './components/WhySupport';
 import WaysOfSupport from './components/WaysOfSupport';
 import reducer from './reducers/reducers';
-
-
-// ----- Page Startup ----- //
-
-const participation = pageStartup.start();
+import { trackOphan } from '../../helpers/abtest';
 
 
 // ----- Redux Store ----- //
 
-const store = createStore(reducer, {
-  intCmp: getQueryParameter('INTCMP', 'gdnwb_copts_bundles_landing_default'),
-});
+const store = pageInit(reducer);
 
-store.dispatch({ type: 'SET_AB_TEST_PARTICIPATION', payload: participation });
+
+// ----- Setup ----- //
+
+let intCmp = store.getState().common.intCmp;
+
+if (!intCmp) {
+  intCmp = 'gdnwb_copts_bundles_landing_default';
+  store.dispatch(setIntCmp(intCmp));
+}
+
+const participations = store.getState().common.abParticipations;
+if (participations.addAnnualContributions) {
+  trackOphan('addAnnualContributions', participations.addAnnualContributions);
+}
 
 
 // ----- Render ----- //
@@ -74,7 +80,7 @@ const content = (
       <Introduction />
       <Bundles />
       <WhySupport />
-      <WaysOfSupport />
+      {store.getState().common.campaign === 'baseline_test' ? '' : <WaysOfSupport />}
       <SimpleFooter />
     </div>
   </Provider>

@@ -1,7 +1,7 @@
 package selenium.pages
 
 import org.scalatest.selenium.Page
-import selenium.util.{Browser, Config}
+import selenium.util.{Browser, Config, PayPalCheckout}
 
 object MonthlyContribution extends Page with Browser {
 
@@ -9,9 +9,17 @@ object MonthlyContribution extends Page with Browser {
 
   private val stripeButton = id("qa-pay-with-card")
 
-  def pageHasLoaded: Boolean = pageHasElement(stripeButton)
+  private val payPalButton = id("component-paypal-button-checkout")
+
+  private val stateSelector = id("qa-state-dropdown")
+
+  def pageHasLoaded: Boolean = pageHasElement(stripeButton) && pageHasElement(payPalButton)
+
+  def selectState: Unit = setSingleSelectionValue(stateSelector, "NY")
 
   // ----- Stripe ----- //
+
+  def selectStripePayment(): Unit = clickOn(stripeButton)
 
   def stripeCheckoutHasLoaded: Boolean = pageHasElement(StripeCheckout.container)
 
@@ -25,11 +33,15 @@ object MonthlyContribution extends Page with Browser {
 
   def switchToStripe(): Unit = switchFrame(StripeCheckout.container)
 
-  def fillInCreditCardPaymentDetailsStripe(): Unit = StripeCheckout.fillIn
-
-  def selectStripePayment(): Unit = clickOn(stripeButton)
+  def fillInCreditCardDetails(): Unit = StripeCheckout.fillIn
 
   def clickStripePayButton(): Unit = StripeCheckout.acceptPayment
+
+  // ----- PayPal ----- //
+
+  def selectPayPalPayment(): Unit = clickOn(payPalButton)
+
+  def fillInPayPalDetails(): Unit = PayPalCheckout.fillIn
 
   // Handles interaction with the Stripe Checkout iFrame.
   private object StripeCheckout {
@@ -51,5 +63,4 @@ object MonthlyContribution extends Page with Browser {
     def acceptPayment(): Unit = clickOn(submitButton)
 
   }
-
 }

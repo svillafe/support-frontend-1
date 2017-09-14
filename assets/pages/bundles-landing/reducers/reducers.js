@@ -2,10 +2,6 @@
 
 // ----- Imports ----- //
 
-import { combineReducers } from 'redux';
-
-import { abTestReducer as abTests } from 'helpers/abtest';
-import { intCmpReducer as intCmp } from 'helpers/intCmp';
 import type { Contrib, ContribError, Amounts } from 'helpers/contributions';
 
 import { parse as parseContribution } from 'helpers/contributions';
@@ -24,10 +20,14 @@ export type ContribState = {
 // ----- Setup ----- //
 
 const initialContrib: ContribState = {
-  type: 'RECURRING',
+  type: 'MONTHLY',
   error: null,
   amount: {
-    recurring: {
+    annual: {
+      value: '75',
+      userDefined: false,
+    },
+    monthly: {
       value: '10',
       userDefined: false,
     },
@@ -41,7 +41,7 @@ const initialContrib: ContribState = {
 
 // ----- Reducers ----- //
 
-function contribution(
+function contributionReducer(
   state: ContribState = initialContrib,
   action: Action): ContribState {
 
@@ -53,8 +53,10 @@ function contribution(
 
       if (action.contribType === 'ONE_OFF') {
         amount = state.amount.oneOff.value;
+      } else if (action.contribType === 'ANNUAL') {
+        amount = state.amount.annual.value;
       } else {
-        amount = state.amount.recurring.value;
+        amount = state.amount.monthly.value;
       }
 
       return Object.assign({}, state, {
@@ -67,21 +69,40 @@ function contribution(
     case 'CHANGE_CONTRIB_AMOUNT':
 
       return Object.assign({}, state, {
-        amount: { recurring: action.amount, oneOff: action.amount },
+        amount: { annual: action.amount, monthly: action.amount, oneOff: action.amount },
         error: parseContribution(action.amount.value, state.type).error,
       });
 
-    case 'CHANGE_CONTRIB_AMOUNT_RECURRING':
+    case 'CHANGE_CONTRIB_AMOUNT_ANNUAL':
 
       return Object.assign({}, state, {
-        amount: { recurring: action.amount, oneOff: state.amount.oneOff },
+        amount: {
+          annual: action.amount,
+          monthly: state.amount.monthly,
+          oneOff: state.amount.oneOff,
+        },
+        error: parseContribution(action.amount.value, state.type).error,
+      });
+
+    case 'CHANGE_CONTRIB_AMOUNT_MONTHLY':
+
+      return Object.assign({}, state, {
+        amount: {
+          annual: state.amount.annual,
+          monthly: action.amount,
+          oneOff: state.amount.oneOff,
+        },
         error: parseContribution(action.amount.value, state.type).error,
       });
 
     case 'CHANGE_CONTRIB_AMOUNT_ONEOFF':
 
       return Object.assign({}, state, {
-        amount: { recurring: state.amount.recurring, oneOff: action.amount },
+        amount: {
+          annual: state.amount.annual,
+          monthly: state.amount.monthly,
+          oneOff: action.amount,
+        },
         error: parseContribution(action.amount.value, state.type).error,
       });
 
@@ -92,10 +113,7 @@ function contribution(
 
 }
 
+
 // ----- Exports ----- //
 
-export default combineReducers({
-  contribution,
-  intCmp,
-  abTests,
-});
+export default contributionReducer;

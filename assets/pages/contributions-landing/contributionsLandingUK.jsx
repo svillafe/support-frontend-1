@@ -14,10 +14,11 @@ import ContribLegal from 'components/legal/contribLegal/contribLegal';
 
 import pageStartup from 'helpers/pageStartup';
 import { getQueryParameter } from 'helpers/url';
+import { setCountry } from 'helpers/internationalisation/country';
 
 import reducer from './reducers/reducers';
-import ContributionsIntroduction from './components/contributionsIntroduction';
-import ContributionsBundle from './components/contributionsBundle';
+import { saveContext } from './helpers/context';
+import ContributionsBundleContent from './components/contributionsBundleContent';
 
 
 // ----- Page Startup ----- //
@@ -27,12 +28,17 @@ const participation = pageStartup.start();
 
 // ----- Redux Store ----- //
 
+const country = 'GB';
+setCountry(country);
+
 const store = createStore(reducer, {
   intCmp: getQueryParameter('INTCMP'),
-  isoCountry: 'GB',
+  isoCountry: country,
+  refpvid: getQueryParameter('REFPVID'),
 }, applyMiddleware(thunkMiddleware));
 
 store.dispatch({ type: 'SET_AB_TEST_PARTICIPATION', payload: participation });
+saveContext(store.dispatch);
 
 
 // ----- Render ----- //
@@ -42,10 +48,7 @@ const content = (
     <div className="gu-content">
       <SimpleHeader />
       <section className="contributions-bundle">
-        <div className="contributions-bundle__content gu-content-margin">
-          <ContributionsIntroduction />
-          <ContributionsBundle />
-        </div>
+        <ContributionsBundleContent />
       </section>
       <section className="contributions-legal gu-content-filler">
         <div className="contributions-legal__content gu-content-filler__inner">

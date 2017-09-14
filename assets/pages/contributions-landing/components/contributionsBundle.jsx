@@ -17,10 +17,12 @@ import PayPalContributionButton from 'components/payPalContributionButton/payPal
 import {
   changeContribType,
   changeContribAmount,
-  changeContribAmountRecurring,
+  changeContribAmountAnnual,
+  changeContribAmountMonthly,
   changeContribAmountOneOff,
   payPalError,
 } from '../actions/contributionsLandingActions';
+import type { Participations } from '../../../helpers/abtest';
 
 
 // ----- Types ----- //
@@ -33,13 +35,16 @@ type PropTypes = {
   contribAmount: Amounts,
   contribError: ContribError,
   intCmp: string,
+  refpvid: string,
   toggleContribType: (string) => void,
-  changeContribRecurringAmount: (string) => void,
+  changeContribAnnualAmount: (string) => void,
+  changeContribMonthlyAmount: (string) => void,
   changeContribOneOffAmount: (string) => void,
   changeContribAmount: (string) => void,
   isoCountry: IsoCountry,
   payPalErrorHandler: (string) => void,
   payPalError: ?string,
+  abTests: Participations,
 };
 
 /* eslint-enable react/no-unused-prop-types */
@@ -64,7 +69,8 @@ const subHeadingText = {
 };
 
 const contribCtaText = {
-  RECURRING: 'Contribute with card or PayPal',
+  ANNUAL: 'Contribute with card or PayPal',
+  MONTHLY: 'Contribute with card or PayPal',
   ONE_OFF: 'Contribute with debit/credit card',
 };
 
@@ -84,6 +90,7 @@ function showPayPal(props: PropTypes) {
     return (<PayPalContributionButton
       amount={props.contribAmount.oneOff.value}
       intCmp={props.intCmp}
+      refpvid={props.refpvid}
       isoCountry={props.isoCountry}
       errorHandler={props.payPalErrorHandler}
       canClick={!props.contribError}
@@ -100,25 +107,38 @@ function showPayPalError(props: PropTypes) {
 }
 
 const ctaLinks = {
-  recurring: routes.recurringContribCheckout,
+  annual: routes.recurringContribCheckout,
+  monthly: routes.recurringContribCheckout,
   oneOff: routes.oneOffContribCheckout,
 };
 
 
 // ----- Functions ----- //
 
+function getContribKey(contribType) {
+  switch (contribType) {
+    case 'ANNUAL': return 'annual';
+    case 'MONTHLY': return 'monthly';
+    default: return 'oneOff';
+  }
+}
+
 const getContribAttrs = ({
-  contribType, contribAmount, intCmp, isoCountry,
+  contribType, contribAmount, intCmp, refpvid, isoCountry,
 }): ContribAttrs => {
 
-  const contType = contribType === 'RECURRING' ? 'recurring' : 'oneOff';
+  const contType = getContribKey(contribType);
   const params = new URLSearchParams();
 
   params.append('contributionValue', contribAmount[contType].value);
-  params.append('country', isoCountry);
+  params.append('contribType', contribType);
 
   if (intCmp) {
     params.append('INTCMP', intCmp);
+  }
+
+  if (refpvid) {
+    params.append('REFPVID', refpvid);
   }
 
   const ctaLink = `${ctaLinks[contType]}?${params.toString()}`;
@@ -166,6 +186,7 @@ function mapStateToProps(state) {
     contribAmount: state.contribution.amount,
     contribError: state.contribution.error,
     intCmp: state.intCmp,
+    refpvid: state.refpvid,
     isoCountry: state.isoCountry,
     payPalError: state.contribution.payPalError,
   };
@@ -177,8 +198,11 @@ function mapDispatchToProps(dispatch) {
     toggleContribType: (period: Contrib) => {
       dispatch(changeContribType(period));
     },
-    changeContribRecurringAmount: (value: string) => {
-      dispatch(changeContribAmountRecurring({ value, userDefined: false }));
+    changeContribAnnualAmount: (value: string) => {
+      dispatch(changeContribAmountAnnual({ value, userDefined: false }));
+    },
+    changeContribMonthlyAmount: (value: string) => {
+      dispatch(changeContribAmountMonthly({ value, userDefined: false }));
     },
     changeContribOneOffAmount: (value: string) => {
       dispatch(changeContribAmountOneOff({ value, userDefined: false }));

@@ -10,9 +10,17 @@ object Config {
 
   private val conf = ConfigFactory.load()
 
+  val guardianDomain = conf.getString("guardianDomain")
+
   val supportFrontendUrl = conf.getString("support.url")
 
   val identityFrontendUrl = conf.getString("identity.webapp.url")
+
+  val contributionFrontend = conf.getString("contribution.url")
+
+  val waitTimeout = 40
+
+  val paypalSandbox = conf.getString("paypal.sandbox.url")
 
   val testUsersSecret = conf.getString("identity.test.users.secret")
 
@@ -20,6 +28,10 @@ object Config {
     case Success(url) => url
     case Failure(_) => ""
   }
+
+  val paypalBuyerEmail = conf.getString("paypal.sandbox.buyer.email")
+
+  val paypalBuyerPassword = conf.getString("paypal.sandbox.buyer.password")
 
   def printSummary(): Unit = {
     logger.info("Selenium Test Configuration")

@@ -14,6 +14,7 @@ import services.MembersDataService.UserNotFound
 import services.stepfunctions.{CreateMonthlyContributorRequest, MonthlyContributionsClient}
 import services.{IdentityService, MembersDataService, TestUserService}
 import views.html.monthlyContributions
+import io.circe.syntax._
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -55,8 +56,18 @@ class MonthlyContributions(
     } getOrElse InternalServerError
   }
 
+  def status(jobId: String): Action[AnyContent] = AuthenticatedAction.async { implicit request =>
+    client.status(jobId, request.uuid).fold(
+      { error =>
+        logger.error(s"Failed to get status: $error")
+        InternalServerError
+      },
+      response => Ok(response.asJson)
+    )
+  }
+
   def create: Action[CreateMonthlyContributorRequest] = AuthenticatedAction.async(circe.json[CreateMonthlyContributorRequest]) { implicit request =>
-    logger.info(s"[${request.uuid}] User ${request.user.id} is attempting to create a new monthly contribution")
+    logger.info(s"[${request.uuid}] User ${request.user.id} is attempting to create a new ${request.body.contribution.billingPeriod} contribution")
 
     val result = for {
       user <- identityService.getUser(request.user)
@@ -68,7 +79,7 @@ class MonthlyContributions(
         logger.error(s"Failed to create new monthly contributor: $error")
         InternalServerError
       },
-      _ => Accepted
+      response => Accepted(response.asJson)
     )
   }
 

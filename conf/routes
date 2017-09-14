@@ -9,6 +9,12 @@ GET /uk                                             controllers.Application.reac
 GET /                                               controllers.Default.redirect(to = "/uk")
 
 
+
+# This is a temporary client-side redirect based on geo-location
+# Once we have a separate payment failure email for US and UK we can consider removing it
+
+GET  /monthly-contributions                         controllers.Application.contributionsRedirect()
+
 # ----- Contributions ----- #
 
 GET  /uk/contribute                                 controllers.Application.contributionsLanding(title="Support the Guardian | Make a Contribution", id="contributions-landing-page-uk", js="contributionsLandingPageUK.js")
@@ -18,6 +24,8 @@ GET  /contribute/recurring                          controllers.MonthlyContribut
 GET  /contribute/recurring/thankyou                 controllers.Application.reactTemplate(title="Support the Guardian | Thank You", id="monthly-contributions-thankyou-page", js="monthlyContributionsThankyouPage.js")
 GET  /contribute/recurring/existing                 controllers.Application.reactTemplate(title="Support the Guardian | Existing Contributor", id="monthly-contributions-existing-page", js="monthlyContributionsExistingPage.js")
 POST /contribute/recurring/create                   controllers.MonthlyContributions.create
+GET  /contribute/recurring/status                   controllers.MonthlyContributions.status(jobId: String)
+GET  /contribute/recurring/pending                 controllers.Application.reactTemplate(title="Support the Guardian | Thank You", id="monthly-contributions-pending-page", js="monthlyContributionsPendingPage.js")
 
 GET  /contribute/one-off                            controllers.OneOffContributions.displayForm(paypal: Option[Boolean])
 GET  /contribute/one-off/thankyou                   controllers.Application.reactTemplate(title="Support the Guardian | Thank You", id="oneoff-contributions-thankyou-page", js="oneoffContributionsThankyouPage.js")

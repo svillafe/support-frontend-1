@@ -12,17 +12,20 @@ import Bundle from 'components/bundle/bundle';
 import ContribAmounts from 'components/contribAmounts/contribAmounts';
 import type { Contrib, Amounts, ContribError } from 'helpers/contributions';
 import type { IsoCountry } from 'helpers/internationalisation/country';
+import type { Campaign } from 'helpers/tracking/guTracking';
 import { routes } from 'helpers/routes';
 
 import {
   changeContribType,
   changeContribAmount,
-  changeContribAmountRecurring,
+  changeContribAmountAnnual,
+  changeContribAmountMonthly,
   changeContribAmountOneOff,
 } from '../actions/bundlesLandingActions';
-import getSubsLinks from '../helpers/subscriptionsLinks';
+import { getSubsLinks } from '../helpers/subscriptionsLinks';
 
 import type { SubsUrls } from '../helpers/subscriptionsLinks';
+import type { Participations } from '../../../helpers/abtest';
 
 
 // ----- Types ----- //
@@ -35,11 +38,14 @@ type PropTypes = {
   contribAmount: Amounts,
   contribError: ContribError,
   intCmp: string,
+  campaign: ?Campaign,
   toggleContribType: (string) => void,
-  changeContribRecurringAmount: (string) => void,
+  changeContribAnnualAmount: (string) => void,
+  changeContribMonthlyAmount: (string) => void,
   changeContribOneOffAmount: (string) => void,
   changeContribAmount: (string) => void,
-  isoCountry: IsoCountry
+  isoCountry: IsoCountry,
+  abTests: Participations,
 };
 
 type ContribAttrs = {
@@ -112,7 +118,7 @@ const digitalCopy: DigitalAttrs = {
 
 const paperCopy: PaperAttrs = {
   heading: 'paper subscription',
-  subheading: 'from £22.06/month',
+  subheading: 'from £10.79/month',
   listItems: [
     {
       heading: 'Newspaper',
@@ -140,26 +146,37 @@ const bundles: BundlesType = {
 };
 
 const ctaLinks = {
-  recurring: routes.recurringContribCheckout,
+  annual: routes.recurringContribCheckout,
+  monthly: routes.recurringContribCheckout,
   oneOff: routes.oneOffContribCheckout,
   subs: 'https://subscribe.theguardian.com',
 };
 
 const contribSubheading = {
-  recurring: 'from £5/month',
+  annual: 'from £50/year',
+  monthly: 'from £5/month',
   oneOff: '',
 };
 
 
 // ----- Functions ----- //
 
+function getContribKey(contribType) {
+  switch (contribType) {
+    case 'ANNUAL': return 'annual';
+    case 'MONTHLY': return 'monthly';
+    default: return 'oneOff';
+  }
+}
+
 const getContribAttrs = ({ contribType, contribAmount, intCmp }): ContribAttrs => {
 
-  const contType = contribType === 'RECURRING' ? 'recurring' : 'oneOff';
+  const contType = getContribKey(contribType);
   const subheading = contribSubheading[contType];
   const params = new URLSearchParams();
 
   params.append('contributionValue', contribAmount[contType].value);
+  params.append('contribType', contribType);
   params.append('INTCMP', intCmp);
   const ctaLink = `${ctaLinks[contType]}?${params.toString()}`;
 
@@ -230,7 +247,7 @@ function PaperBundle(props: PaperAttrs) {
 
 function Bundles(props: PropTypes) {
 
-  const subsLinks: SubsUrls = getSubsLinks(props.intCmp);
+  const subsLinks: SubsUrls = getSubsLinks(props.intCmp, props.campaign);
   const paperAttrs: PaperAttrs = getPaperAttrs(subsLinks);
   const digitalAttrs: DigitalAttrs = getDigitalAttrs(subsLinks);
 
@@ -257,11 +274,13 @@ function Bundles(props: PropTypes) {
 
 function mapStateToProps(state) {
   return {
-    contribType: state.contribution.type,
-    contribAmount: state.contribution.amount,
-    contribError: state.contribution.error,
-    intCmp: state.intCmp,
-    isoCountry: state.isoCountry,
+    contribType: state.page.type,
+    contribAmount: state.page.amount,
+    contribError: state.page.error,
+    intCmp: state.common.intCmp,
+    campaign: state.common.campaign,
+    isoCountry: state.common.country,
+    abTests: state.common.abParticipations,
   };
 }
 
@@ -271,8 +290,11 @@ function mapDispatchToProps(dispatch) {
     toggleContribType: (period: Contrib) => {
       dispatch(changeContribType(period));
     },
-    changeContribRecurringAmount: (value: string) => {
-      dispatch(changeContribAmountRecurring({ value, userDefined: false }));
+    changeContribAnnualAmount: (value: string) => {
+      dispatch(changeContribAmountAnnual({ value, userDefined: false }));
+    },
+    changeContribMonthlyAmount: (value: string) => {
+      dispatch(changeContribAmountMonthly({ value, userDefined: false }));
     },
     changeContribOneOffAmount: (value: string) => {
       dispatch(changeContribAmountOneOff({ value, userDefined: false }));

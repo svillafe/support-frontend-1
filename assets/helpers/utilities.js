@@ -6,7 +6,6 @@ export function ascending(a: number, b: number): number {
   return a > b ? 1 : 0;
 }
 
-
 // Descending comparison function for use with Array.prototype.sort.
 export function descending(a: number, b: number): number {
   return a < b ? 1 : 0;
@@ -42,3 +41,20 @@ export function clickSubstituteKeyPressHandler(handler?: () => void = () => {}) 
   };
 }
 
+// Attempts to parse a boolean from a string.
+export function parseBoolean(boolString: string, fallback: boolean): boolean {
+
+  switch (boolString.toLowerCase()) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      return fallback;
+  }
+
+}
+
+export function titleCase(s: string) {
+  return s.charAt(0).toUpperCase() + s.toLowerCase().substring(1);
+}

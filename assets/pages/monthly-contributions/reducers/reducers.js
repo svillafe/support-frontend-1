@@ -9,13 +9,14 @@ import type { State as StripeCheckoutState } from 'helpers/stripeCheckout/stripe
 import type { State as PayPalExpressCheckoutState } from 'helpers/payPalExpressCheckout/payPalExpressCheckoutReducer';
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
 
-import { intCmpReducer as intCmp } from 'helpers/intCmp';
+import { intCmpReducer as intCmp } from 'helpers/tracking/guTracking';
 import createStripeCheckoutReducer from 'helpers/stripeCheckout/stripeCheckoutReducer';
 import createPayPalExpressCheckout from 'helpers/payPalExpressCheckout/payPalExpressCheckoutReducer';
 import user from 'helpers/user/userReducer';
 import csrf from 'helpers/csrf/csrfReducer';
 import type { Currency } from 'helpers/internationalisation/currency';
 import type { IsoCountry } from 'helpers/internationalisation/country';
+import type { PaymentStatus } from 'components/paymentMethods/paymentMethods';
 
 import type { PayPalButtonType } from 'components/paymentMethods/paymentMethods';
 import type { Action } from '../actions/monthlyContributionsActions';
@@ -28,7 +29,10 @@ export type State = {
   currency: Currency,
   country: IsoCountry,
   error: ?string,
+  paymentStatus: PaymentStatus,
   payPalType: PayPalButtonType,
+  statusUri: ?string,
+  pollCount: number,
 };
 
 export type CombinedState = {
@@ -49,18 +53,32 @@ function createMonthlyContribReducer(amount: number, currency: Currency, country
     currency,
     country,
     error: null,
-    payPalButtonExists: false,
+    paymentStatus: 'NotStarted',
     payPalType: 'NotSet',
+    statusUri: null,
+    pollCount: 0,
   };
 
   return function monthlyContrib(state: State = initialState, action: Action): State {
     switch (action.type) {
 
       case 'CHECKOUT_ERROR':
-        return Object.assign({}, state, { error: action.message });
+        return Object.assign({}, state, { paymentStatus: 'Failed', error: action.message });
 
-      case 'SET_PAYPAL_BUTTON' :
+      case 'CREATING_CONTRIBUTOR':
+        return Object.assign({}, state, { paymentStatus: 'Pending' });
+
+      case 'SET_PAYPAL_BUTTON':
         return Object.assign({}, state, { payPalType: action.value });
+
+      case 'SET_STATUS_URI' :
+        return Object.assign({}, state, { statusUri: action.uri });
+
+      case 'INCREMENT_POLL_COUNT':
+        return Object.assign({}, state, { pollCount: state.pollCount + 1 });
+
+      case 'RESET_POLL_COUNT':
+        return Object.assign({}, state, { pollCount: 0 });
 
       default:
         return state;

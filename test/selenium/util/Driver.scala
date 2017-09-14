@@ -1,6 +1,7 @@
 package selenium.util
 
 import java.net.URL
+import java.util.{Date}
 import io.github.bonigarcia.wdm.ChromeDriverManager
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
@@ -10,7 +11,9 @@ object Driver {
 
   def apply(): WebDriver = driver
 
-  private lazy val driver: WebDriver =
+  private lazy val driver: WebDriver = createDriver
+
+  def createDriver: WebDriver =
     if (Config.webDriverRemoteUrl.isEmpty)
       instantiateLocalBrowser()
     else
@@ -31,13 +34,24 @@ object Driver {
   }
 
   def reset(): Unit = {
+    driver.get(Config.paypalSandbox)
     driver.manage.deleteAllCookies()
+
+    driver.get(Config.contributionFrontend)
+    driver.manage.deleteAllCookies()
+
+    driver.get(Config.identityFrontendUrl)
+    driver.manage.deleteAllCookies()
+
     driver.get(Config.supportFrontendUrl)
+    driver.manage.deleteAllCookies()
   }
 
   def quit(): Unit = driver.quit()
 
-  def addCookie(name: String, value: String): Unit = driver.manage.addCookie(new Cookie(name, value))
+  def addCookie(name: String, value: String, domain: Option[String] = None, path: String = "/", date: Option[Date] = None): Unit = {
+    driver.manage.addCookie(new Cookie(name, value, domain.orNull, path, date.orNull))
+  }
 
   val sessionId = driver.asInstanceOf[RemoteWebDriver].getSessionId.toString
 

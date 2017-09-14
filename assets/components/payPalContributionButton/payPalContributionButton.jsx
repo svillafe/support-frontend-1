@@ -10,13 +10,16 @@ import { paypalContributionsRedirect } from 'helpers/payPalContributionsCheckout
 
 // ---- Types ----- //
 
+/* eslint-disable react/no-unused-prop-types */
 type PropTypes = {
   amount: string,
   intCmp?: string,
+  refpvid?: string,
   isoCountry: IsoCountry,
   errorHandler: (string) => void,
   canClick?: boolean,
 };
+/* eslint-enable react/no-unused-prop-types */
 
 function payWithPayPal(props: PropTypes) {
   return () => {
@@ -24,6 +27,7 @@ function payWithPayPal(props: PropTypes) {
       paypalContributionsRedirect(
         Number(props.amount),
         props.intCmp,
+        props.refpvid,
         props.isoCountry,
         props.errorHandler);
     }
@@ -34,7 +38,12 @@ function payWithPayPal(props: PropTypes) {
 
 const PayPalContributionButton = (props: PropTypes) =>
   (
-    <button className={'component-paypal-contribution-button'} onClick={payWithPayPal(props)}>
+    <button
+      id="qa-contribute-paypal-button"
+      className="component-paypal-contribution-button"
+      onClick={payWithPayPal(props)}
+    >
+
       <Svg svgName="paypal-p-logo" />
       <span>contribute with PayPal</span>
       <Svg svgName="arrow-right-straight" />
@@ -46,6 +55,7 @@ const PayPalContributionButton = (props: PropTypes) =>
 
 PayPalContributionButton.defaultProps = {
   intCmp: null,
+  refpvid: null,
   canClick: true,
 };
 
