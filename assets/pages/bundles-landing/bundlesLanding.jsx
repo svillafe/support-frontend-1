@@ -57,19 +57,45 @@ const canvasProperties: CanvasProperties = {
 function animate() {
   const multimediaMain2 = '#ffbb00';
   const neutral1 = '#333333';
-  let c = 0;
-  for (c = 0; c < 20; c += 1) {
-    const colour = Math.random() * 100 > 49 ? multimediaMain2 : neutral1;
-    const rad = Math.random() * 50;
-    const circleProperties: CircleProperties = {
-      x: 0, // zero x and y components are replaced with randomised values by canvas
-      y: 0,
-      radius: rad,
-      strokeColour: colour,
-      fillColour: colour,
-    };
-    drawableObjects.push(circleProperties);
+  let row;
+  let col;
+  const circleRadius = 20; // Math.random() * 50;
+  const padding = 60;
+
+  // set up the crowd
+  for (row = 0; row < 3; row += 1) {
+    for (col = 0; col < 15; col += 1) {
+      const cx = (col * circleRadius * 4) + padding;
+      const cy = (row * circleRadius * 3) + padding;
+      const target: CircleProperties = {
+        circleType: 'rigidBody',
+        x: cx, // zero x and y components are replaced with randomised values by canvas
+        y: cy,
+        vX: 0,
+        vY: 0,
+        radius: circleRadius,
+        strokeColour: neutral1,
+        fillColour: neutral1,
+      };
+      drawableObjects.push(target);
+    }
   }
+
+  // set up and activate the disruptor
+  const cx = 0 - circleRadius;
+  const cy = circleRadius * 3;
+  const disruptor: CircleProperties = {
+    circleType: 'disruptor',
+    x: cx, // zero x and y components are replaced with randomised values by canvas
+    y: cy,
+    vX: 8,
+    vY: 1,
+    radius: circleRadius,
+    strokeColour: multimediaMain2,
+    fillColour: multimediaMain2,
+  };
+  drawableObjects.push(disruptor);
+
   startCanvasAnimation(canvasProperties, drawableObjects);
 }
 

@@ -1,6 +1,11 @@
 // @flow
 
+export type CircleType =
+  | 'rigidBody'
+  | 'disruptor';
+
 export type CircleProperties = {
+  circleType: CircleType,
   radius: number,
   x: number,
   y: number,
@@ -14,62 +19,70 @@ export type CircleProperties = {
   vY?: number,
 }
 
-function randomVelocity() {
-  const speed = Math.random() * 0.75;
-  return Math.random() * 100 > 49 ? speed : speed * -1;
+function isVisible(circle: CircleProperties, context: CanvasRenderingContext2D) {
+  return circle.x && circle.x + circle.radius > 0 &&
+    circle.y && circle.y + circle.radius > 0 &&
+    circle.x && circle.x + circle.radius < context.canvas.width &&
+    circle.y && circle.y + circle.radius < context.canvas.height;
 }
 
 /* eslint-disable no-param-reassign */
-export function draw(context: CanvasRenderingContext2D, properties: CircleProperties) {
-  const myContext = context;
-  if (myContext) {
-    myContext.beginPath();
-    myContext.arc(
-      properties.x,
-      properties.y,
-      properties.radius,
-      properties.startAngle || 0,
-      properties.endAngle || 2 * Math.PI,
-      properties.antiClockwise || false,
+export function draw(context: CanvasRenderingContext2D, circle: CircleProperties) {
+  // const friction = 1;
+
+  if (context && isVisible(circle, context)) {
+    context.beginPath();
+    context.arc(
+      circle.x,
+      circle.y,
+      circle.radius,
+      circle.startAngle || 0,
+      circle.endAngle || 2 * Math.PI,
+      circle.antiClockwise || false,
     );
-    myContext.fillStyle = properties.fillColour || '#FFFFFF';
-    myContext.fill();
-    myContext.lineWidth = properties.lineWidth || 1;
-    myContext.strokeStyle = properties.strokeColour || '#000000';
-    myContext.stroke();
-  }
-  if (properties.vX) {
-    if (properties.vX > 0) {
-      if (properties.x + properties.vX + properties.radius > context.canvas.width) {
-        properties.vX *= -1;
+    context.fillStyle = circle.fillColour || '#FFFFFF';
+    context.fill();
+    context.lineWidth = circle.lineWidth || 1;
+    context.strokeStyle = circle.strokeColour || '#000000';
+    context.stroke();
+
+    if (circle.vX && circle.circleType === 'rigidBody') {
+      if (circle.vX > 0) {
+        if (circle.x + circle.vX + circle.radius > context.canvas.width) {
+          circle.vX *= -1;
+        }
       }
-    }
-    if (properties.vX < 0) {
-      if (properties.x - properties.vX - properties.radius < 0) {
-        properties.vX *= -1;
+      if (circle.vX < 0) {
+        if (circle.x - circle.vX - circle.radius < 0) {
+          circle.vX *= -1;
+        }
       }
+      // circle.vX *= friction;
+    } else {
+      // circle.vX = randomVelocity();
     }
-  } else {
-    properties.vX = randomVelocity();
+
+    if (circle.vY && circle.circleType === 'rigidBody') {
+      if (circle.vY > 0) {
+        if (circle.y + circle.vY + circle.radius > context.canvas.height) {
+          circle.vY *= -1;
+        }
+      }
+      if (circle.vY < 0) {
+        if (circle.y - circle.vY - circle.radius < 0) {
+          circle.vY *= -1;
+        }
+      }
+      // circle.vY *= friction;
+    } else {
+      // circle.vY = randomVelocity();
+    }
+
   }
 
-  if (properties.vY) {
-    if (properties.vY > 0) {
-      if (properties.y + properties.vY + properties.radius > context.canvas.height) {
-        properties.vY *= -1;
-      }
-    }
-    if (properties.vY < 0) {
-      if (properties.y - properties.vY - properties.radius < 0) {
-        properties.vY *= -1;
-      }
-    }
-  } else {
-    properties.vY = randomVelocity();
-  }
+  circle.x += circle.vX;
+  circle.y += circle.vY;
 
-  properties.x += properties.vX;
-  properties.y += properties.vY;
 }
 /* eslint-enable no-param-reassign */
 

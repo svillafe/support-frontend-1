@@ -19,12 +19,29 @@ function addDrawableShape(shapeDefiniton) {
   shapeDefs.push(shapeDefiniton);
 }
 
+function collide(shape) {
+  let collided;
+  for (collided = 0; collided < shapeDefs.length; collided += 1) {
+    const candidate = shapeDefs[collided];
+    if (candidate !== shape && candidate.circleType !== 'disruptor') {
+      const dx = shape.x - candidate.x;
+      const dy = shape.y - candidate.y;
+      const distance = Math.sqrt((dx * dx) + (dy * dy));
+      if (distance < shape.radius + candidate.radius) {
+        candidate.vX = shape.vX;
+        candidate.vY = shape.vY;
+      }
+    }
+  }
+}
+
 function render() {
   if (canvasContext) {
     canvasContext.clearRect(0, 0, width, height);
-    shapeDefs.forEach(shape =>
-      draw(canvasContext, shape),
-    );
+    shapeDefs.forEach((shape) => {
+      collide(shape);
+      draw(canvasContext, shape);
+    });
   }
 }
 
