@@ -9,6 +9,7 @@ export type CircleProperties = {
   radius: number,
   x: number,
   y: number,
+  mass: number,
   startAngle?: number,
   endAngle?: number,
   antiClockwise?: boolean,
@@ -28,7 +29,6 @@ function isVisible(circle: CircleProperties, context: CanvasRenderingContext2D) 
 
 /* eslint-disable no-param-reassign */
 export function draw(context: CanvasRenderingContext2D, circle: CircleProperties) {
-  // const friction = 1;
 
   if (context && isVisible(circle, context)) {
     context.beginPath();
@@ -45,43 +45,7 @@ export function draw(context: CanvasRenderingContext2D, circle: CircleProperties
     context.lineWidth = circle.lineWidth || 1;
     context.strokeStyle = circle.strokeColour || '#000000';
     context.stroke();
-
-    if (circle.vX && circle.circleType === 'rigidBody') {
-      if (circle.vX > 0) {
-        if (circle.x + circle.vX + circle.radius > context.canvas.width) {
-          circle.vX *= -1;
-        }
-      }
-      if (circle.vX < 0) {
-        if (circle.x - circle.vX - circle.radius < 0) {
-          circle.vX *= -1;
-        }
-      }
-      // circle.vX *= friction;
-    } else {
-      // circle.vX = randomVelocity();
-    }
-
-    if (circle.vY && circle.circleType === 'rigidBody') {
-      if (circle.vY > 0) {
-        if (circle.y + circle.vY + circle.radius > context.canvas.height) {
-          circle.vY *= -1;
-        }
-      }
-      if (circle.vY < 0) {
-        if (circle.y - circle.vY - circle.radius < 0) {
-          circle.vY *= -1;
-        }
-      }
-      // circle.vY *= friction;
-    } else {
-      // circle.vY = randomVelocity();
-    }
-
   }
-
-  circle.x += circle.vX;
-  circle.y += circle.vY;
 
 }
 /* eslint-enable no-param-reassign */

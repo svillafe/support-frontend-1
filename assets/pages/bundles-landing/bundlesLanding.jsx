@@ -71,6 +71,7 @@ function animate() {
         circleType: 'rigidBody',
         x: cx, // zero x and y components are replaced with randomised values by canvas
         y: cy,
+        mass: 1,
         vX: 0,
         vY: 0,
         radius: circleRadius,
@@ -88,6 +89,7 @@ function animate() {
     circleType: 'disruptor',
     x: cx, // zero x and y components are replaced with randomised values by canvas
     y: cy,
+    mass: 10,
     vX: 8,
     vY: 1,
     radius: circleRadius,
