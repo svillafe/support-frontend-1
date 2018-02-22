@@ -22,12 +22,23 @@ class Application(
 
   import actionRefiners._
 
-  implicit val ar = assets
+  implicit val ar: AssetsResolver = assets
 
-  private def applyCircles(queryParam: String, id: String, js: String, modifiedId: String, modifiedJs: String): (String, String) = {
-    queryParam match {
-      case "circles-garnett" => (modifiedId, modifiedJs)
-      case _ => (id, js)
+  private def applyCircles(
+    mvtCookie: Option[Cookie],
+    queryParam: String,
+    id: String,
+    js: String,
+    modifiedId: String,
+    modifiedJs: String): (String, String, Boolean) = {
+    val useCircles = mvtCookie match {
+      case mvtId: Some[Cookie] => mvtId.get.value.toInt <= 499999
+      case _ => false
+    }
+    if (useCircles || queryParam == "circles-garnett") {
+      (modifiedId, modifiedJs, true)
+    } else {
+      (id, js, false)
     }
   }
 
@@ -60,56 +71,52 @@ class Application(
   }
 
   def bundleLanding(title: String, id: String, js: String, newDesigns: String): Action[AnyContent] = CachedAction() { implicit request =>
-    if (newDesigns == "circles") {
-      Ok(views.html.bundleLanding(
-        title,
-        "support-landing-page-old",
-        "supportLandingPageOld.js",
-        contributionsPayPalEndpoint,
-        description = Some(stringsConfig.bundleLandingDescription)
-      ))
-    } else {
-      val (updatedId, updatedJs) = applyCircles(newDesigns, id, js, "support-landing-page", "supportLandingPage.js")
-      Ok(views.html.bundleLanding(
-        title,
-        updatedId,
-        updatedJs,
-        contributionsPayPalEndpoint,
-        description = Some(stringsConfig.bundleLandingDescription)
-      ))
-    }
+    val (updatedId, updatedJs, useCircles) =
+      applyCircles(request.cookies.get("GU_mvt_id"), newDesigns, id, js, "support-landing-page", "supportLandingPage.js")
+
+    Ok(views.html.bundleLanding(
+      title,
+      updatedId,
+      updatedJs,
+      contributionsPayPalEndpoint,
+      description = Some(stringsConfig.bundleLandingDescription)
+    )).withCookies(Cookie("inCircles", useCircles.toString))
   }
 
   def regularContributionsThankYou(title: String, id: String, js: String, newDesigns: String): Action[AnyContent] = CachedAction() { implicit request =>
-    val (updatedId, updatedJs) = applyCircles(newDesigns, id, js, "regular-contributions-thank-you-page", "regularContributionsThankYouPage.js")
-    Ok(views.html.react(title, updatedId, updatedJs))
+    val (updatedId, updatedJs, useCircles) =
+      applyCircles(request.cookies.get("GU_mvt_id"), newDesigns, id, js, "regular-contributions-thank-you-page", "regularContributionsThankYouPage.js")
+    Ok(views.html.react(title, updatedId, updatedJs)).withCookies(Cookie("inCircles", useCircles.toString))
   }
 
   def contributionsLandingUK(title: String, id: String, js: String, newDesigns: String): Action[AnyContent] = CachedAction() { implicit request =>
-    val (updatedId, updatedJs) = applyCircles(newDesigns, id, js, "contributions-landing-page-uk", "contributionsLandingPageUK.js")
+    val (updatedId, updatedJs, useCircles) =
+      applyCircles(request.cookies.get("GU_mvt_id"), newDesigns, id, js, "contributions-landing-page-uk", "contributionsLandingPageUK.js")
     Ok(views.html.contributionsLanding(
       title,
       description = Some(stringsConfig.contributionLandingDescription),
       updatedId,
       updatedJs,
       contributionsPayPalEndpoint
-    ))
+    )).withCookies(Cookie("inCircles", useCircles.toString))
   }
 
   def contributionsLandingUS(title: String, id: String, js: String, newDesigns: String): Action[AnyContent] = CachedAction() { implicit request =>
-    val (updatedId, updatedJs) = applyCircles(newDesigns, id, js, "contributions-landing-page-us", "contributionsLandingPageUS.js")
+    val (updatedId, updatedJs, useCircles) =
+      applyCircles(request.cookies.get("GU_mvt_id"), newDesigns, id, js, "contributions-landing-page-us", "contributionsLandingPageUS.js")
     Ok(views.html.contributionsLanding(
       title,
       description = Some(stringsConfig.contributionLandingDescription),
       updatedId,
       updatedJs,
       contributionsPayPalEndpoint
-    ))
+    )).withCookies(Cookie("inCircles", useCircles.toString))
   }
 
   def regularContributionsPending(title: String, id: String, js: String, newDesigns: String): Action[AnyContent] = CachedAction() { implicit request =>
-    val (updatedId, updatedJs) = applyCircles(newDesigns, id, js, "regular-contributions-thank-you-page", "regularContributionsThankYouPage.js")
-    Ok(views.html.react(title, updatedId, updatedJs))
+    val (updatedId, updatedJs, useCircles) =
+      applyCircles(request.cookies.get("GU_mvt_id"), newDesigns, id, js, "regular-contributions-thank-you-page", "regularContributionsThankYouPage.js")
+    Ok(views.html.react(title, updatedId, updatedJs)).withCookies(Cookie("inCircles", useCircles.toString))
   }
 
   def contributionsLanding(title: String, id: String, js: String): Action[AnyContent] = CachedAction() { implicit request =>
