@@ -1,79 +1,58 @@
 #paypal-error-page {
 
-  a {
-    color: gu-colour(neutral-1);
+  .component-questions-contact {
+    @include gu-content-filler;
   }
 
-  // ----- Headings
-
-  .paypal-error {
-    background-color: darken(gu-colour(multimedia-main-2), 5%);
+  .try-again {
+    margin-bottom: $gu-v-spacing;
   }
 
-  .paypal-error__content {
-    background-color: gu-colour(multimedia-main-2);
-    padding: $gu-v-spacing $gu-h-spacing;
-  }
+  .component-page-section--paypal-try-again {
+    .component-page-section__header {
+      position: relative;
 
-  .paypal-error__wrapper {
-
-    @include mq($from: desktop) {
-      margin-left: 20%;
-      margin-right: 20%;
+      @include dropline;
     }
-  }
 
-  .paypal-error__heading {
-    font-family: $gu-egyptian-web;
-    color: gu-colour(neutral-1);
-    font-size: 28px;
-    line-height: 32px;
-    font-weight: bold;
+    .component-page-section__body {
+      padding-top: $gu-v-spacing / 2;
+      padding-bottom: $gu-v-spacing * 2;
 
-    @include mq($from: desktop) {
-      font-size: 36px;
-      line-height: 40px;
-    }
-  }
-
-  .paypal-error__subheading {
-    font-family: $gu-egyptian-web;
-    font-size: 28px;
-    line-height: 32px;
-    font-weight: lighter;
-    color: gu-colour(neutral-1);
-
-    @include mq($from: desktop) {
-      font-size: 36px;
-      line-height: 40px;
+      @include mq($from: desktop) {
+        padding-left: $gu-h-spacing;
+      }
     }
   }
 
   .component-cta-link {
+    background-color: gu-colour(garnett-neutral-1);
+    border: 1px solid gu-colour(garnett-neutral-1);
     color: #fff;
-    background: gu-colour(neutral-1);
-    display: inline-block;
-    width: 180px;
-    border: 1px solid gu-colour(neutral-1);
-    font-weight: normal;
-    margin-bottom: $gu-v-spacing * 4;
+    height: 54px;
+    line-height: 54px;
+    padding: 0 30px 0 25px;
+    transition: background-color .3s;
+    margin: 0;
 
-    svg {
-      fill: #fff;
-      // Fix for IE10.
-      left: 190px;
+    @include mq($from: mobileMedium) {
+      width: 300px;
     }
 
     &:hover {
-      background: darken(gu-colour(neutral-1), 10%);
+      background-color: darken(gu-colour(garnett-neutral-1), 10%);
     }
   }
 
-  .component-social-share {
-    margin-right: $gu-h-spacing / 2;
+  .svg-arrow-right-straight {
+    height: 35%;
+    top: 17px;
+    right: 13px;
 
-    svg {
-      margin-top: $gu-v-spacing;
+    // Fix for IE.
+    @include mq($from: mobileMedium) {
+      left: 321px;
     }
   }
+
 }
