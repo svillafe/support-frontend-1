@@ -49,6 +49,8 @@ class PayPalCheckout(implicit val webDriver: WebDriver) extends Browser {
 
   def switchToPayPalPopUp(): Unit = {
     switchWindow
+    if (pageHasElement(container))
+      switchFrame(container)
   }
 
   def acceptPayPalPaymentPopUp(): Unit = {
