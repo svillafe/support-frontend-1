@@ -7,15 +7,24 @@ import React from 'react';
 import PageSection from 'components/pageSection/pageSection';
 import SvgDirectDebitSymbolAndText from 'components/svgs/directDebitSymbolAndText';
 
+
+// ----- Types ----- //
+
 type PropTypes = {
   accountHolderName: string,
   accountNumber: string,
   sortCodeArray: string[],
 }
 
+
+// ----- Functions ----- //
+
 function mask(s: string): string {
   return `******${s.substring(6)}`;
 }
+
+
+// ----- Component ----- //
 
 export default function DirectDebitPaymentMethodDetails(props: PropTypes) {
   return (
@@ -35,6 +44,9 @@ export default function DirectDebitPaymentMethodDetails(props: PropTypes) {
     </div>
   );
 }
+
+
+// ----- Auxiliary Components ----- //
 
 function DirectDebitItem(props: {name: string, value: string}) {
   return (
