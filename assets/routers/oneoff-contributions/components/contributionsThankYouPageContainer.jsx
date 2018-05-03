@@ -4,7 +4,7 @@
 
 import { connect } from 'react-redux';
 
-import ContributionsThankYouPage from 'containerisableComponents/contributionsThankYou/contributionsThankYouPage';
+import ContributionsThankYouPage from 'pages/contributionsThankYou/contributionsThankYouPage';
 
 // ----- Map State/Props ----- //
 
