@@ -28,13 +28,13 @@ function mask(s: string): string {
 
 export default function DirectDebitPaymentMethodDetails(props: PropTypes) {
   return (
-    <div className="component-direct-debit-confirmation">
+    <div className="component-direct-debit-payment-method-details">
       <PageSection modifierClass="email-confirmation" heading="Your contribution">
         <SvgDirectDebitSymbolAndText />
-        <p className="component-email-confirmation__copy component-email-confirmation__copy--with-dd">
+        <p className="component-direct-debit-payment-method-details__email-confirmation">
           Look out for an email confirming your recurring payment.
         </p>
-        <ul className="component-direct-debit-confirmation__details">
+        <ul className="component-direct-debit-payment-method-details__details">
           <DirectDebitItem name="Payment Method:" value="Direct Debit" />
           <DirectDebitItem name="Account Name:" value={props.accountHolderName} />
           <DirectDebitItem name="Account number:" value={mask(props.accountNumber)} />
@@ -50,9 +50,9 @@ export default function DirectDebitPaymentMethodDetails(props: PropTypes) {
 
 function DirectDebitItem(props: {name: string, value: string}) {
   return (
-    <li className="component-direct-debit-confirmation__item">
-      <div className="component-direct-debit-confirmation__item-name">{props.name}</div>
-      <div className="component-direct-debit-confirmation__item-value">{props.value}</div>
+    <li className="component-direct-debit-payment-method-details__item">
+      <div className="component-direct-debit-payment-method-details__item-name">{props.name}</div>
+      <div className="component-direct-debit-payment-method-details__item-value">{props.value}</div>
     </li>
   );
 }
