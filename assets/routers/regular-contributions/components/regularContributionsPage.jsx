@@ -19,10 +19,10 @@ import Signout from 'components/signout/signout';
 import { getQueryParameter } from 'helpers/url';
 import { parseContrib, type Contrib } from 'helpers/contributions';
 import { type IsoCountry } from 'helpers/internationalisation/country';
+import type { Currency } from 'helpers/internationalisation/currency';
 
 import FormFields from './formFields';
 import RegularContributionsPayment from './regularContributionsPayment';
-import type { Currency } from '../../../helpers/internationalisation/currency';
 
 // ----- Types ----- //
 
