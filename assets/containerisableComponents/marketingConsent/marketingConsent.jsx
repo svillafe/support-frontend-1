@@ -6,7 +6,6 @@ import * as React from 'react';
 import CtaLink from 'components/ctaLink/ctaLink';
 import CheckboxInput from 'components/checkboxInput/checkboxInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import DotcomCta from 'components/dotcomCta/dotcomCta';
 import PageSection from 'components/pageSection/pageSection';
 
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
@@ -109,8 +108,13 @@ function MarketingConfirmationMessage(props: { confirmOptIn: ?boolean }) {
         heading="Stay in touch"
       >
         <span className="component-marketing-consent__final-message">{message}</span>
+        <CtaLink
+          text="Return to The Guardian"
+          accessibilityHint="click here to return to The Guardian front page"
+          ctaId="return-to-the-guardian"
+          url="https://www.theguardian.com"
+        />
       </PageSection>
-      <DotcomCta />
     </div>
   );
 }
