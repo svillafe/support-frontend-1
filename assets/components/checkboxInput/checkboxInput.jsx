@@ -18,23 +18,23 @@ type PropTypes = {
 
 // ----- Component ----- //
 
-const CheckboxInput: (PropTypes) => React.Node = (props: PropTypes) => {
+const CheckboxInput = (props: PropTypes): React.Node => {
   let labelTitle = '';
   let labelCopy = '';
 
   if (props.labelTitle) {
-    labelTitle = <p className="component-checkbox__title">{props.labelTitle}</p>;
+    labelTitle = <p className="component-checkbox-input__title">{props.labelTitle}</p>;
   }
   if (props.labelCopy) {
-    labelCopy = <p className="component-checkbox__copy" >{props.labelCopy}</p>;
+    labelCopy = <p className="component-checkbox-input__copy">{props.labelCopy}</p>;
   }
 
   return (
-    <span>
+    <span className="component-checkbox-input">
       {labelTitle}
       <label htmlFor={props.id}>
         <input
-          className="component-checkbox__checkbox"
+          className="component-checkbox-input__checkbox"
           id={props.id}
           type="checkbox"
           onChange={e => props.onChange(e.target.checked)}
@@ -46,9 +46,15 @@ const CheckboxInput: (PropTypes) => React.Node = (props: PropTypes) => {
   );
 };
 
+
+// ----- Default Props ----- //
+
 CheckboxInput.defaultProps = {
   labelCopy: '',
   labelTitle: '',
 };
+
+
+// ----- Exports ----- //
 
 export default CheckboxInput;

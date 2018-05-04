@@ -1,23 +1,17 @@
-.component-checkbox__checkbox {
+.component-checkbox-input__checkbox {
   padding-top: 3px;
   float: left;
 }
 
-.component-checkbox__title {
-  font-size: 18px;
-  line-height: 20px;
-  font-weight: 500;
+.component-checkbox-input__title {
   margin-bottom: 4px;
   cursor: pointer;
   display: block;
-  font-family: $gu-egyptian-web
-
+  font-family: $gu-text-egyptian-web;
 }
 
-.component-checkbox__copy {
+.component-checkbox-input__copy {
   overflow: hidden;
   padding-left: 8px;
-  font-size: 14px;
-  line-height: 16px;
   cursor: pointer;
 }
