@@ -27,14 +27,26 @@
     max-width: 500px;
   }
 
-  .component-checkbox__title {
-    font-weight: normal;
+  .component-checkbox-input__title {
+    font-weight: bold;
     font-size: 16px;
+    line-height: 20px;
     margin-bottom: 10px;
   }
 
-  .component-checkbox__copy {
+  .component-checkbox-input__copy {
     font-family: $gu-text-sans-web;
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .component-error-message {
+    margin-top: $gu-v-spacing;
+    height: 32px;
+
+    @include mq($from: mobileMedium) {
+      width: 317px;
+    }
   }
 
   .component-cta-link {
@@ -75,7 +87,8 @@
 }
 
 .component-marketing-consent__final-message {
-  font-family: $gu-text-sans-web;
-  font-size: 14px;
-  padding-left: $gu-h-spacing;
+  font-family: $gu-text-egyptian-web;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: bold;
 }

@@ -107,7 +107,7 @@ function MarketingConfirmationMessage(props: { confirmOptIn: ?boolean }) {
         modifierClass="marketing-consent"
         heading="Stay in touch"
       >
-        <span className="component-marketing-consent__final-message">{message}</span>
+        <p className="component-marketing-consent__final-message">{message}</p>
         <CtaLink
           text="Return to The Guardian"
           accessibilityHint="click here to return to The Guardian front page"
