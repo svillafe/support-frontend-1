@@ -24,35 +24,40 @@ type PropTypes = {
   csrf: CsrfState,
 };
 
+
 // ----- Component ----- //
 
 const MarketingConsent = (props: PropTypes): React.Node => {
-  let content = null;
+
   if (!props.email) {
-    return content;
+    return null;
   }
 
   if (props.confirmOptIn === null && props.email !== null && props.email !== undefined) {
-    content = (
-      <ChooseMarketingPreference
-        marketingPreferencesOptIn={props.marketingPreferencesOptIn}
-        email={props.email}
-        marketingPreferenceUpdate={props.marketingPreferenceUpdate}
-        consentApiError={props.consentApiError}
-        onClick={props.onClick}
-        csrf={props.csrf}
-      />
+    return (
+      <div className="component-marketing-consent">
+        <ChooseMarketingPreference
+          marketingPreferencesOptIn={props.marketingPreferencesOptIn}
+          email={props.email}
+          marketingPreferenceUpdate={props.marketingPreferenceUpdate}
+          consentApiError={props.consentApiError}
+          onClick={props.onClick}
+          csrf={props.csrf}
+        />
+      </div>
     );
-  } else {
-    const message = props.confirmOptIn ? 'We\'ll be in touch. Check your inbox for a confirmation link.' : 'Your preference has been recorded.';
-    content = (<MarketingConfirmationMessage message={message} />);
   }
 
-  return content;
+  return (
+    <div className="component-marketing-consent">
+      <MarketingConfirmationMessage confirmOptIn={props.confirmOptIn} />
+    </div>
+  );
+
 };
 
 
-// ----- Auxiliary components ----- //
+// ----- Auxiliary Components ----- //
 
 function ChooseMarketingPreference(props: {
     marketingPreferencesOptIn: boolean,
@@ -91,20 +96,31 @@ function ChooseMarketingPreference(props: {
   );
 }
 
+function MarketingConfirmationMessage(props: { confirmOptIn: ?boolean }) {
 
-function MarketingConfirmationMessage(props: {message: string}) {
+  const message = props.confirmOptIn ?
+    'We\'ll be in touch. Check your inbox for a confirmation link.' :
+    'Your preference has been recorded.';
+
   return (
     <div className="component-marketing-consent__confirmation-message">
       <PageSection
         modifierClass="marketing-consent"
         heading="Stay in touch"
       >
-        <span className="marketing-consent__final-message">{props.message}</span>
+        <span className="component-marketing-consent__final-message">{message}</span>
       </PageSection>
       <DotcomCta />
     </div>
   );
 }
+
+
+// ----- Default Props ----- //
+
+MarketingConsent.defaultProps = {
+  email: null,
+};
 
 
 // ----- Exports ----- //

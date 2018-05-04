@@ -1,4 +1,4 @@
-.component-page-section--marketing-consent {
+.component-marketing-consent {
 
   .component-page-section__heading {
     font-family: $gu-egyptian-web;
@@ -37,7 +37,6 @@
     font-family: $gu-text-sans-web;
   }
 
-
   .component-cta-link--next {
     background-color: gu-colour(garnett-neutral-1);
     border: 1px solid gu-colour(garnett-neutral-1);
@@ -58,8 +57,6 @@
     }
   }
 
-
-
   .svg-arrow-right-straight {
     height: 35%;
     top: 12px;
@@ -78,7 +75,7 @@
   }
 }
 
-.marketing-consent__final-message {
+.component-marketing-consent__final-message {
   font-family: $gu-text-sans-web;
   font-size: 14px;
   padding-left: $gu-h-spacing;
