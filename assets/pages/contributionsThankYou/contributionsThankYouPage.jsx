@@ -39,7 +39,7 @@ export default function ContributionsThankYouPage(props: PropTypes) {
       <CirclesIntroduction
         headings={['Thank you', 'for a valuable', 'contribution']}
       />
-      <div className="multiline-divider" />
+      <hr className="multiline-divider" />
       <BodyCopy {...props} />
       <MarketingConsentContainer />
       <QuestionsContact />

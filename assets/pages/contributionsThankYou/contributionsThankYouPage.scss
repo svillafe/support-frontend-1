@@ -1,6 +1,8 @@
 #contributions-thank-you-page {
   .multiline-divider {
-    @include multiline(4, gu-colour(garnett-neutral-4));
+    @include multiline-top-border;
+    border: none;
+    margin: 0;
   }
 
   .component-page-section__header {
