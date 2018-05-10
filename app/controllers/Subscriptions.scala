@@ -35,7 +35,21 @@ class Subscriptions(
     Redirect("https://subscribe.theguardian.com", request.queryString, status = FOUND)
   }
 
-  def subscriptionsLanding(title: String, id: String, js: String): Action[AnyContent] = CachedAction() { implicit request =>
-    Ok(views.html.main(title, id, js, description = Some(stringsConfig.subscriptionsLandingDescription)))
+  def subscriptionsLanding(): Action[AnyContent] = CachedAction() { implicit request =>
+    Ok(views.html.main(
+      title = "Support the Guardian | Get a Subscription",
+      mainId = "subscriptions-landing-page",
+      mainJsBundle = "subscriptionsLandingPage.js",
+      description = Some(stringsConfig.subscriptionsLandingDescription)
+    ))
+  }
+
+  def digitalProduct(): Action[AnyContent] = CachedAction() { implicit request =>
+    Ok(views.html.main(
+      title = "Support the Guardian | Get a Subscription",
+      mainId = "digital-subscription-product-page",
+      mainJsBundle = "digitalSubscriptionProductPage.js",
+      description = Some(stringsConfig.subscriptionsLandingDescription)
+    ))
   }
 }
