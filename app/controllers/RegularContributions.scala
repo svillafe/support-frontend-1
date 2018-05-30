@@ -1,9 +1,10 @@
 package controllers
 
 import actions.CustomActionBuilders
+import akka.http.scaladsl.model.HttpRequest
 import assets.AssetsResolver
 import cats.implicits._
-import com.gu.identity.play.{AccessCredentials, IdUser}
+import com.gu.identity.play.{AccessCredentials, AuthenticatedIdUser, IdMinimalUser, IdUser}
 import com.gu.support.config.{PayPalConfigProvider, StripeConfigProvider}
 import com.gu.support.workers.model.User
 import io.circe.syntax._
@@ -35,11 +36,11 @@ class RegularContributions(
 
   implicit val ar = assets
 
-  def displayForm(): Action[AnyContent] = AuthenticatedAction.async { implicit request =>
-    identityService.getUser(request.user).semiflatMap { fullUser =>
-      isMonthlyContributor(request.user.credentials) map {
+  def displayFormSignedIn(user: AuthenticatedIdUser)(implicit request: RequestHeader): Future[Result] = {
+    identityService.getUser(user).semiflatMap { fullUser =>
+      isMonthlyContributor(user.credentials) map {
         case Some(true) =>
-          SafeLogger.info(s"Determined that ${request.user.id} is already a monthly contributor; re-directing to /contribute/recurring/existing")
+          SafeLogger.info(s"Determined that ${user.id} is already a monthly contributor; re-directing to /contribute/recurring/existing")
           Redirect("/contribute/recurring/existing")
         case Some(false) | None =>
           val uatMode = testUsers.isTestUser(fullUser.publicFields.displayName)
@@ -49,7 +50,7 @@ class RegularContributions(
               id = "regular-contributions-page",
               js = "regularContributionsPage.js",
               css = "regularContributionsPageStyles.css",
-              user = fullUser,
+              idUser = Some(fullUser),
               uatMode = uatMode,
               defaultStripeConfig = stripeConfigProvider.get(false),
               uatStripeConfig = stripeConfigProvider.get(true),
@@ -57,13 +58,32 @@ class RegularContributions(
             )
           )
       }
-    } fold (
-      { error =>
-        SafeLogger.error(scrub"Failed to display recurring contributions form for ${request.user.id} due to error from identityService: $error")
-        InternalServerError
-      },
+    } fold ({ error =>
+      SafeLogger.error(scrub"Failed to display recurring contributions form for ${user.id} due to error from identityService: $error")
+      InternalServerError
+    },
       identity
     )
+  }
+
+  def displayForm(): Action[AnyContent] = MaybeAuthenticatedAction.async { implicit request =>
+    request.user.fold {
+      Future(Ok(
+        monthlyContributions(
+          title = "Support the Guardian | Monthly Contributions",
+          id = "regular-contributions-page",
+          js = "regularContributionsPage.js",
+          css = "regularContributionsPageStyles.css",
+          idUser = None,
+          uatMode = false,
+          defaultStripeConfig = stripeConfigProvider.get(false),
+          uatStripeConfig = stripeConfigProvider.get(true),
+          payPalConfig = payPalConfigProvider.get(false)
+        )
+      ))
+    } {
+      idUser => displayFormSignedIn(idUser)
+    }
   }
 
   def status(jobId: String): Action[AnyContent] = AuthenticatedAction.async { implicit request =>

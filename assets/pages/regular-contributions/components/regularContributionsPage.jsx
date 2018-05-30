@@ -70,6 +70,7 @@ function RegularContributionsPage(props: PropTypes) {
           <Secure />
         </InfoSection>
         <InfoSection heading="Your details" headingContent={<Signout />} className="regular-contrib__your-details">
+
           <DisplayName />
           <FormFields />
         </InfoSection>
