@@ -45,7 +45,9 @@ export function set(name: string, value: string, daysToLive: ?number, domain: ?s
     expires.setDate(1);
   }
 
-  const cookieDomain = domain || getDomainAttribute();
+  const cookieDomain = domain
+    ? `domain=${domain};`
+    : getDomainAttribute();
 
   document.cookie = `${name}=${value}; path=/; secure; expires=${expires.toUTCString()};${cookieDomain}`;
 
