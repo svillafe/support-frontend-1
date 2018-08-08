@@ -52,8 +52,8 @@ GET  /contribute/recurring/pending                  controllers.RegularContribut
 POST  /contribute/send-marketing                     controllers.IdentityController.submitMarketing
 
 
-GET  /contribute/one-off                            controllers.OneOffContributions.displayForm()
-GET  /contribute/one-off/thankyou                   controllers.OneOffContributions.displayForm()
+GET  /contribute/one-off                            controllers.OneOffContributions.displayForm(dropContributionCookie: Boolean ?= false)
+GET  /contribute/one-off/thankyou                   controllers.OneOffContributions.displayForm(dropContributionCookie: Boolean ?= true)
 GET  /contribute/one-off/autofill                   controllers.OneOffContributions.autofill
 
 # ----- Subscriptions ----- #

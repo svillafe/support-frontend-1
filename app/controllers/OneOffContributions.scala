@@ -54,7 +54,7 @@ class OneOffContributions(
       idUser = idUser
     )
 
-  def displayForm(): Action[AnyContent] = maybeAuthenticatedAction().async { implicit request =>
+  def displayForm(dropContributionCookie: Boolean): Action[AnyContent] = maybeAuthenticatedAction().async { implicit request =>
     request.user.fold {
       Future.successful(Ok(formHtml(None)))
     } { minimalUser =>

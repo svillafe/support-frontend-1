@@ -34,7 +34,7 @@ export function get(name: string): ?string {
 }
 
 // Sets a cookie, modified from dotcom (https://github.com/guardian/frontend).
-export function set(name: string, value: string, daysToLive: ?number): void {
+export function set(name: string, value: string, daysToLive: ?number, domain: ?string): void {
 
   const expires = new Date();
 
@@ -45,6 +45,8 @@ export function set(name: string, value: string, daysToLive: ?number): void {
     expires.setDate(1);
   }
 
-  document.cookie = `${name}=${value}; path=/; secure; expires=${expires.toUTCString()};${getDomainAttribute()}`;
+  const cookieDomain = domain || getDomainAttribute();
+
+  document.cookie = `${name}=${value}; path=/; secure; expires=${expires.toUTCString()};${cookieDomain}`;
 
 }
