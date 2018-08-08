@@ -13,8 +13,7 @@ import { init as pageInit } from 'helpers/page/page';
 import { renderPage } from 'helpers/render';
 import { routes } from 'helpers/routes';
 import { getAmount } from 'helpers/checkouts';
-import * as cookie from 'helpers/cookie';
-import getBaseDomain from 'helpers/url'
+import { set as setCookie } from 'helpers/cookie';
 
 import ContributionsThankYouPage from 'components/contributionsThankYou/contributionsThankYouPage';
 
@@ -33,7 +32,7 @@ const ONE_OFF_CONTRIBUTION_COOKIE = "gu.contributions.contrib-timestamp";
 
 
 
-const currentTime = new Date().getTime() / 1000;
+const currentTime = new Date();
 
 user.init(store.dispatch);
 
@@ -55,11 +54,9 @@ const router = (
           exact
           path={routes.oneOffContribThankyou}
           render={() => {
-              cookie.set(
+              setCookie(
                 ONE_OFF_CONTRIBUTION_COOKIE,
-                currentTime,
-                null,
-                "hello"
+                currentTime
               );
               return (<ContributionsThankYouPage contributionType="ONE_OFF" directDebit={null}/>)
             }
