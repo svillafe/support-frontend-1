@@ -2,6 +2,9 @@
 
 // ----- Imports ----- //
 
+import { connect } from 'react-redux';
+import type { Dispatch } from 'redux';
+
 import * as React from 'react';
 import CtaLink from 'components/ctaLink/ctaLink';
 import CheckboxInput from 'components/checkboxInput/checkboxInput';
@@ -9,7 +12,10 @@ import ErrorMessage from 'components/errorMessage/errorMessage';
 import DotcomCta from 'components/dotcomCta/dotcomCta';
 import PageSection from 'components/pageSection/pageSection';
 
+import { setGnmMarketing, type Action } from 'helpers/user/userActions';
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
+
+import {sendMarketingPreferencesToIdentity} from "./helpers";
 
 
 // ----- Types ----- //
@@ -52,6 +58,33 @@ const MarketingConsent = (props: PropTypes): React.Node => {
 
   return content;
 };
+
+function mapDispatchToProps(dispatch: Dispatch<Action>) {
+  return {
+    onClick: (marketingPreferencesOptIn: boolean, email: string, csrf: CsrfState, context: string) => {
+      sendMarketingPreferencesToIdentity(
+        marketingPreferencesOptIn,
+        email,
+        dispatch,
+        csrf,
+        context,
+      );
+    },
+    marketingPreferenceUpdate: (preference: boolean) => {
+      dispatch(setGnmMarketing(preference));
+    },
+  };
+}
+
+function mapStateToProps(state) {
+  return {
+    email: state.page.user.email,
+    marketingPreferencesOptIn: state.page.user.gnmMarketing,
+    consentApiError: state.page.marketingConsent.error,
+    confirmOptIn: state.page.marketingConsent.confirmOptIn,
+    csrf: state.page.csrf,
+  };
+}
 
 
 // ----- Auxiliary components ----- //
@@ -112,4 +145,4 @@ function MarketingConfirmationMessage(props: {message: string}) {
 
 // ----- Exports ----- //
 
-export default MarketingConsent;
+export default connect(mapStateToProps, mapDispatchToProps)(MarketingConsent);

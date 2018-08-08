@@ -10,10 +10,10 @@ import Footer from 'components/footer/footer';
 import CirclesIntroduction from 'components/introduction/circlesIntroduction';
 import QuestionsContact from 'components/questionsContact/questionsContact';
 import SpreadTheWord from 'components/spreadTheWord/spreadTheWord';
+import MarketingConsent from 'components/marketingConsent/marketingConsent';
 import { type Contrib } from 'helpers/contributions';
 
 import EmailConfirmation from './emailConfirmation';
-import MarketingConsentContainer from './marketingConsentContainer';
 import DirectDebitDetails, { type PropTypes as DirectDebit } from './directDebitDetails';
 
 
@@ -40,7 +40,7 @@ export default function ContributionsThankYouPage(props: PropTypes) {
       />
       <div className="multiline-divider" />
       <BodyCopy {...props} />
-      <MarketingConsentContainer
+      <MarketingConsent
         context={'CONTRIBUTIONS_THANK_YOU'}
       />
       <QuestionsContact />
