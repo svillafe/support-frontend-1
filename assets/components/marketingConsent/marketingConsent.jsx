@@ -15,7 +15,7 @@ import PageSection from 'components/pageSection/pageSection';
 import { setGnmMarketing, type Action } from 'helpers/user/userActions';
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
 
-import {sendMarketingPreferencesToIdentity} from "./helpers";
+import { sendMarketingPreferencesToIdentity } from './helpers';
 
 
 // ----- Types ----- //
