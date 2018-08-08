@@ -22,6 +22,7 @@ type PropTypes = {
   marketingPreferenceUpdate: (preference: boolean) => void,
   email?: ?string,
   csrf: CsrfState,
+  context: string,
 };
 
 // ----- Component ----- //
@@ -41,6 +42,7 @@ const MarketingConsent = (props: PropTypes): React.Node => {
         consentApiError={props.consentApiError}
         onClick={props.onClick}
         csrf={props.csrf}
+        context={props.context}
       />
     );
   } else {
@@ -60,7 +62,8 @@ function ChooseMarketingPreference(props: {
     csrf: CsrfState,
     marketingPreferenceUpdate: (preference: boolean) => void,
     consentApiError: boolean,
-    onClick: (boolean, ?string, CsrfState) => void,
+    onClick: (boolean, ?string, CsrfState, string) => void,
+    context: string,
   }) {
 
   return (
@@ -81,7 +84,7 @@ function ChooseMarketingPreference(props: {
       />
       <CtaLink
         onClick={
-          () => props.onClick(props.marketingPreferencesOptIn, props.email, props.csrf)
+          () => props.onClick(props.marketingPreferencesOptIn, props.email, props.csrf, props.context)
         }
         text="Next"
         accessibilityHint="Go to the guardian dot com front page"

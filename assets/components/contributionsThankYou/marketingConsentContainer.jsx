@@ -6,23 +6,22 @@ import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
 
 import { setGnmMarketing, type Action } from 'helpers/user/userActions';
-import { sendMarketingPreferencesToIdentity } from 'components/marketingConsent/helpers';
+import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
 import MarketingConsent from 'components/marketingConsent/marketingConsent';
 
-import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
-
+import { sendMarketingPreferencesToIdentity } from '../marketingConsent/helpers';
 
 // ----- Component ----- //
 
 function mapDispatchToProps(dispatch: Dispatch<Action>) {
   return {
-    onClick: (marketingPreferencesOptIn: boolean, email: string, csrf: CsrfState) => {
+    onClick: (marketingPreferencesOptIn: boolean, email: string, csrf: CsrfState, context: string) => {
       sendMarketingPreferencesToIdentity(
         marketingPreferencesOptIn,
         email,
         dispatch,
         csrf,
-        'CONTRIBUTIONS_THANK_YOU',
+        context,
       );
     },
     marketingPreferenceUpdate: (preference: boolean) => {

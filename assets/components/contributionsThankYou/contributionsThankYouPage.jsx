@@ -40,7 +40,9 @@ export default function ContributionsThankYouPage(props: PropTypes) {
       />
       <div className="multiline-divider" />
       <BodyCopy {...props} />
-      <MarketingConsentContainer />
+      <MarketingConsentContainer
+        context={'CONTRIBUTIONS_THANK_YOU'}
+      />
       <QuestionsContact />
       <SpreadTheWord />
     </Page>
