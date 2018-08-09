@@ -42,6 +42,8 @@ export default function ContributionsThankYouPage(props: PropTypes) {
       <BodyCopy {...props} />
       <MarketingConsent
         context="CONTRIBUTIONS_THANK_YOU"
+        checkboxLabelTitle="Subscriptions, membership and supporting The&nbsp;Guardian"
+        checkboxLabelCopy="Get related news and offers - whether you are a subscriber, member, supporter or would like to become one."
       />
       <QuestionsContact />
       <SpreadTheWord />

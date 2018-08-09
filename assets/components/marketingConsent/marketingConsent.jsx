@@ -29,6 +29,8 @@ type PropTypes = {
   email?: ?string,
   csrf: CsrfState,
   context: string,
+  checkboxLabelTitle: string,
+  checkboxLabelCopy: string,
 };
 
 // ----- Component ----- //
@@ -49,6 +51,8 @@ const MarketingConsent = (props: PropTypes): React.Node => {
         onClick={props.onClick}
         csrf={props.csrf}
         context={props.context}
+        checkboxLabelTitle={props.checkboxLabelTitle}
+        checkboxLabelCopy={props.checkboxLabelCopy}
       />
     );
   } else {
@@ -97,6 +101,8 @@ function ChooseMarketingPreference(props: {
     consentApiError: boolean,
     onClick: (boolean, ?string, CsrfState, string) => void,
     context: string,
+    checkboxLabelTitle: string,
+    checkboxLabelCopy: string,
   }) {
 
   return (
@@ -108,8 +114,8 @@ function ChooseMarketingPreference(props: {
         id="gnm-marketing-preference"
         checked={props.marketingPreferencesOptIn}
         onChange={props.marketingPreferenceUpdate}
-        labelTitle="Subscriptions, membership and supporting The&nbsp;Guardian"
-        labelCopy="Get related news and offers - whether you are a subscriber, member, supporter or would like to become one."
+        labelTitle={props.checkboxLabelTitle}
+        labelCopy={props.checkboxLabelCopy}
       />
       <ErrorMessage
         showError={props.consentApiError}
@@ -141,6 +147,14 @@ function MarketingConfirmationMessage(props: {message: string}) {
     </div>
   );
 }
+
+
+// ----- Default Props ----- //
+
+MarketingConsent.defaultProps = {
+  checkboxLabelTitle: 'Subscriptions, membership and contributions',
+  checkboxLabelCopy: 'News and offers from The Guardian, The Observer and Guardian Weekly, on the ways to read and support our journalism. Already a member, subscriber or contributor? Opt in here to receive your regular emails and updates.',
+};
 
 
 // ----- Exports ----- //
