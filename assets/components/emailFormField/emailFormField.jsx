@@ -50,7 +50,7 @@ const EmailFormField = (props: PropTypes) => {
       <ErrorMessage
         showError={showEmailError}
         message="Please enter a valid email address."
-      />;
+      />
     </div>
   );
 
