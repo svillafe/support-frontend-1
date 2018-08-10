@@ -17,6 +17,7 @@ import LegalSectionContainer from 'components/legal/legalSection/legalSectionCon
 import { type Contrib as ContributionType } from 'helpers/contributions';
 import { type IsoCurrency } from 'helpers/internationalisation/currency';
 import { type IsoCountry } from 'helpers/internationalisation/country';
+import { Stage } from "./contributionsCheckoutReducer";
 
 
 // ----- Types ----- //
@@ -31,6 +32,8 @@ type PropTypes = {
   isSignedIn: boolean,
   form: Node,
   payment: Node,
+  stage: Stage,
+  setStage: () => void,
 };
 
 
@@ -54,9 +57,36 @@ function getTitle(
 }
 
 
+
 // ----- Component ----- //
 
-export default function ContributionsCheckout(props: PropTypes) {
+function ContributionsCheckout(props: PropTypes) {
+
+  const CheckoutStage = () => {
+    switch (props.stage) {
+
+      case 'payment':
+        return (
+          <PageSection heading={paymentSectionHeading} modifierClass="payment-methods">
+            {props.payment}
+          </PageSection>
+        );
+
+      case 'checkout':
+      default:
+        return (
+          <YourDetails
+            name={props.name}
+            isSignedIn={props.isSignedIn}
+            setStage={props.setStage}
+          >
+            {props.form}
+          </YourDetails>
+        );
+
+
+    }
+  };
 
   const paymentSectionHeading = props.inlineCardPaymentVariant === 'inline' ?
     'Payment' :
@@ -78,15 +108,11 @@ export default function ContributionsCheckout(props: PropTypes) {
           amount={props.amount}
           currencyId={props.currencyId}
         />
-        <YourDetails name={props.name} isSignedIn={props.isSignedIn}>
-          {props.form}
-        </YourDetails>
-        <PageSection heading={paymentSectionHeading} modifierClass="payment-methods">
-          {props.payment}
-        </PageSection>
+       <CheckoutStage />
         <LegalSectionContainer />
       </Page>
     </div>
   );
-
 }
+
+export default ContributionsCheckout;

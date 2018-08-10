@@ -18,6 +18,7 @@ type PropTypes = {
   required: boolean,
   modifierClasses: Array<?string>,
   onBlur: () => void,
+  type: ?string,
 };
 
 
@@ -32,7 +33,7 @@ export default function TextInput(props: PropTypes) {
       </label>
       <input
         className={classNameWithModifiers('component-text-input__input', props.modifierClasses)}
-        type="text"
+        type={props.type}
         id={props.id}
         onChange={event => props.onChange(event.target.value || '')}
         onBlur={props.onBlur}
@@ -52,5 +53,6 @@ TextInput.defaultProps = {
   placeholder: '',
   required: false,
   modifierClasses: [],
+  type: 'text',
   onBlur: () => undefined,
 };

@@ -28,6 +28,7 @@ function mapStateToProps(state: State) {
       <OneoffContributionsPayment />,
     name: state.page.user.displayName,
     isSignedIn: state.page.user.isSignedIn,
+    stage: state.page.stage,
   };
 
 }

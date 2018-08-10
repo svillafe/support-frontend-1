@@ -103,6 +103,15 @@
     }
   }
 
+  .component-cta-link--continue {
+    background-color: gu-colour(news-garnett-highlight);
+    color: #000000;
+    margin-top: $gu-v-spacing;
+
+    @include mq($from: phablet) {
+      width: 304px;
+    }
+  }
 
   .component-paypal-button-checkout__disabled-pop-up-button {
     margin-bottom: $gu-v-spacing;
@@ -147,3 +156,4 @@
   margin-top: -5px;
   font-family: $gu-sans-web;
 }
+

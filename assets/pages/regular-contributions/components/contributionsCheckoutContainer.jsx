@@ -10,9 +10,12 @@ import ContributionsCheckout from 'components/contributionsCheckout/contribution
 import { type PageState as State } from '../regularContributionsReducer';
 import RegularContributionsPayment from './regularContributionsPayment';
 import RegularInlineContributionsPayment from './regularInlineContributionsPayment';
+import {Dispatch} from "redux";
+import { contributionsCheckoutActions } from 'components/contributionsCheckout/contributionsCheckoutActions'
 
 
 // ----- State Maps ----- //
+
 
 function mapStateToProps(state: State) {
 
@@ -28,11 +31,20 @@ function mapStateToProps(state: State) {
       <RegularContributionsPayment />,
     name: state.page.user.displayName,
     isSignedIn: state.page.user.isSignedIn,
+    stage: state.page.checkoutReducer.stage,
   };
 
+}
+
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return ({
+    setStage: () => {
+      dispatch(contributionsCheckoutActions().setStage('payment'));
+    },
+  });
 }
 
 
 // ----- Exports ----- //
 
-export default connect(mapStateToProps)(ContributionsCheckout);
+export default connect(mapStateToProps, mapDispatchToProps)(ContributionsCheckout);
