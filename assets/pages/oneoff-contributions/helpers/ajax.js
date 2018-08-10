@@ -56,15 +56,15 @@ function requestData(
 ) {
   const { user } = getState().page;
 
-  if (user.fullName !== null && user.fullName !== undefined &&
-    user.email !== null && user.email !== undefined) {
+  if (user.fullName.value !== null && user.fullName.value !== undefined &&
+    user.email.value !== null && user.email.value !== undefined) {
 
     const oneOffContribFields: PaymentApiStripeExecutePaymentBody = {
       paymentData: {
         currency,
         amount,
         token: paymentToken,
-        email: user.email,
+        email: user.email.value,
       },
       acquisitionData: derivePaymentApiAcquisitionData(referrerAcquisitionData, abParticipations),
     };
