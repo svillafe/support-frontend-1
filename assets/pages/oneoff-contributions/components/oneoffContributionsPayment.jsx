@@ -47,9 +47,9 @@ function mapStateToProps(state) {
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
-    email: state.page.user.email,
+    email: state.page.user.email.value,
     error: state.page.oneoffContrib.error,
-    areAnyRequiredFieldsEmpty: !state.page.user.email || !state.page.user.fullName,
+    areAnyRequiredFieldsEmpty: !state.page.user.email.value || !state.page.user.fullName.value,
     amount: state.page.oneoffContrib.amount,
     referrerAcquisitionData: state.common.referrerAcquisitionData,
     abParticipations: state.common.abParticipations,

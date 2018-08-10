@@ -11,6 +11,7 @@ import CtaLink from 'components/ctaLink/ctaLink';
 import { setStage } from  'components/contributionsCheckout/contributionsCheckoutActions';
 import {Dispatch} from "redux";
 import {contributionsCheckoutReducerFor} from "../contributionsCheckout/contributionsCheckoutReducer";
+import {setEmailShouldValidate, setLastNameShouldValidate} from "../../helpers/user/userActions";
 
 
 // ----- Types ----- //
@@ -20,18 +21,25 @@ type PropTypes = {
   isSignedIn: boolean,
   children: Node,
   setStage:  () => void,
+  setFirstNameShouldValidate: () => void,
+  setLastNameShouldValidate: () => void,
+  setEmailShouldValidate: () => void,
 };
 
 
 
 
-function submitYourDetailsForm(setStage: () => void) {
+function submitYourDetailsForm(props: PropTypes) {
   const formElements = [... document.getElementsByClassName('regular-contrib__name-form')[0].getElementsByTagName('input')];
 
   const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid);
 
   if(formIsValid) {
-    setStage();
+    props.setStage();
+  } else {
+    props.setFirstNameShouldValidate();
+    props.setLastNameShouldValidate();
+    props.setEmailShouldValidate();
   }
 }
 
@@ -45,7 +53,7 @@ function YourDetails(props: PropTypes) {
         text={`Continue`}
         accessibilityHint={`Continue`}
         id="qa-contribute-button"
-        onClick={() => submitYourDetailsForm(props.setStage) }
+        onClick={() => submitYourDetailsForm(props) }
         modifierClasses={['continue']}
       />
     )

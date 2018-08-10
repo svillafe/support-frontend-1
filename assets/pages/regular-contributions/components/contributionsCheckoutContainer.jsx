@@ -12,8 +12,11 @@ import RegularContributionsPayment from './regularContributionsPayment';
 import RegularInlineContributionsPayment from './regularInlineContributionsPayment';
 import {Dispatch} from "redux";
 import { contributionsCheckoutActions } from 'components/contributionsCheckout/contributionsCheckoutActions'
-
-
+import {
+  setFirstNameShouldValidate,
+  setLastNameShouldValidate,
+  setEmailShouldValidate,
+} from 'helpers/user/userActions'
 // ----- State Maps ----- //
 
 
@@ -40,6 +43,15 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
   return ({
     setStage: () => {
       dispatch(contributionsCheckoutActions().setStage('payment'));
+    },
+    setEmailShouldValidate: () => {
+      dispatch(setEmailShouldValidate());
+    },
+    setFirstNameShouldValidate: () => {
+      dispatch(setFirstNameShouldValidate());
+    },
+    setLastNameShouldValidate: () => {
+      dispatch(setLastNameShouldValidate());
     },
   });
 }

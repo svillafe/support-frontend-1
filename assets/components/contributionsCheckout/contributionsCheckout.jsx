@@ -34,6 +34,9 @@ type PropTypes = {
   payment: Node,
   stage: Stage,
   setStage: () => void,
+  setFirstNameShouldValidate: () => void,
+  setLastNameShouldValidate: () => void,
+  setEmailShouldValidate: () => void,
 };
 
 
@@ -79,6 +82,9 @@ function ContributionsCheckout(props: PropTypes) {
             name={props.name}
             isSignedIn={props.isSignedIn}
             setStage={props.setStage}
+            setFirstNameShouldValidate={props.setFirstNameShouldValidate}
+            setLastNameShouldValidate={props.setLastNameShouldValidate}
+            setEmailShouldValidate={props.setEmailShouldValidate}
           >
             {props.form}
           </YourDetails>
@@ -108,7 +114,16 @@ function ContributionsCheckout(props: PropTypes) {
           amount={props.amount}
           currencyId={props.currencyId}
         />
-       <CheckoutStage />
+        <YourDetails
+          name={props.name}
+          isSignedIn={props.isSignedIn}
+          setStage={props.setStage}
+          setFirstNameShouldValidate={props.setFirstNameShouldValidate}
+          setLastNameShouldValidate={props.setLastNameShouldValidate}
+          setEmailShouldValidate={props.setEmailShouldValidate}
+        >
+          {props.form}
+        </YourDetails>
         <LegalSectionContainer />
       </Page>
     </div>

@@ -11,6 +11,8 @@ import SelectInput from 'components/selectInput/selectInput';
 import {
   setFirstName,
   setLastName,
+  setFirstNameShouldValidate,
+  setLastNameShouldValidate,
   setStateField,
   type Action as UserAction,
 } from 'helpers/user/userActions';
@@ -23,16 +25,21 @@ import type { IsoCountry, UsState, CaState } from 'helpers/internationalisation/
 import type { SelectOption } from 'components/selectInput/selectInput';
 import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 import EmailFormFieldContainer from './emailFormFieldContainer';
+import { emptyInputField } from 'helpers/utilities';
+import ErrorMessage from "../../../components/errorMessage/errorMessage";
+import type { UserDetail } from 'helpers/user/userReducer'
 
 // ----- Types ----- //
 
 type PropTypes = {
   firstNameUpdate: (name: string) => void,
   lastNameUpdate: (name: string) => void,
+  setFirstNameShouldValidate: () => void,
+  setLastNameShouldValidate: () => void,
   stateUpdate: (value: UsState | CaState) => void,
   countryUpdate: (value: string) => void,
-  firstName: string,
-  lastName: string,
+  firstName: UserDetail,
+  lastName: UserDetail,
   countryGroup: CountryGroupId,
   country: IsoCountry,
 };
@@ -42,7 +49,7 @@ type PropTypes = {
 function mapStateToProps(state) {
 
   return {
-    firstName: state.page.user.firstName,
+    firstName:  state.page.user.firstName,
     lastName: state.page.user.lastName,
     countryGroup: state.common.internationalisation.countryGroupId,
     country: state.common.internationalisation.countryId,
@@ -58,6 +65,12 @@ function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction>) {
     },
     lastNameUpdate: (name: string) => {
       dispatch(setLastName(name));
+    },
+    setFirstNameShouldValidate: () => {
+      dispatch(setFirstNameShouldValidate());
+    },
+    setLastNameShouldValidate: () => {
+      dispatch(setLastNameShouldValidate());
     },
     stateUpdate: (value: UsState | CaState) => {
       dispatch(setStateField(value));
@@ -127,6 +140,13 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
+  const showFirstNameError = emptyInputField(props.firstName.value) &&  props.firstName.shouldValidate;
+  const showLastNameError = emptyInputField(props.lastName.value) &&  props.lastName.shouldValidate;
+  let firstNameModifier = ['first-name'];
+  if (showFirstNameError) firstNameModifier.push('error');
+  let lastNameModifier = ['last-name'];
+  if (showLastNameError) lastNameModifier.push('error');
+
   return (
     <form className="regular-contrib__name-form">
       <EmailFormFieldContainer />
@@ -134,19 +154,29 @@ function NameForm(props: PropTypes) {
         id="first-name"
         labelText="First name"
         placeholder="First name"
-        value={props.firstName}
+        value={props.firstName.value}
         onChange={props.firstNameUpdate}
-        modifierClasses={['first-name']}
+        onBlur={props.setFirstNameShouldValidate}
+        modifierClasses={firstNameModifier}
         required
+      />
+      <ErrorMessage
+        showError={showFirstNameError}
+        message="Please enter a first name."
       />
       <TextInput
         id="last-name"
         labelText="Last name"
         placeholder="Last name"
-        value={props.lastName}
+        value={props.lastName.value}
         onChange={props.lastNameUpdate}
-        modifierClasses={['last-name']}
+        onBlur={props.setLastNameShouldValidate}
+        modifierClasses={lastNameModifier}
         required
+      />
+      <ErrorMessage
+        showError={showLastNameError}
+        message="Please enter a last name."
       />
       {stateDropdown(props.countryGroup, props.stateUpdate)}
       {countriesDropdown(props.countryGroup, props.countryUpdate, props.country)}

@@ -31,7 +31,9 @@ export type State = {
   payPalHasLoaded: boolean,
   statusUri: ?string,
   pollCount: number,
-  emailHasBeenBlurred: boolean,
+  shouldValidate: boolean,
+  firstNameHasBeenBlurred: boolean,
+  lastNameHasBeenBlurred: boolean,
 };
 
 export type CombinedState = {

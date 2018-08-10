@@ -10,7 +10,12 @@ import ContributionsCheckout from 'components/contributionsCheckout/contribution
 import { type PageState as State } from '../oneOffContributionsReducer';
 import OneoffContributionsPayment from './oneoffContributionsPayment';
 import OneoffInlineContributionsPayment from './oneoffInlineContributionsPayment';
-
+import {Dispatch} from "redux";
+import {
+  setFirstNameShouldValidate,
+  setLastNameShouldValidate,
+  setEmailShouldValidate,
+} from 'helpers/user/userActions'
 
 // ----- State Maps ----- //
 
@@ -32,6 +37,21 @@ function mapStateToProps(state: State) {
   };
 
 }
+
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return ({
+    setEmailShouldValidate: () => {
+      dispatch(setEmailShouldValidate());
+    },
+    setFirstNameShouldValidate: () => {
+      dispatch(setFirstNameShouldValidate());
+    },
+    setLastNameShouldValidate: () => {
+      dispatch(setLastNameShouldValidate());
+    },
+  });
+}
+
 
 
 // ----- Exports ----- //
