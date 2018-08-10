@@ -25,6 +25,7 @@ import { setPayPalHasLoaded } from '../regularContributionsActions';
 import { postCheckout } from '../helpers/ajax';
 
 
+
 // ----- Types ----- //
 
 export type PaymentStatus = 'NotStarted' | 'Pending' | 'PollingTimedOut' | 'Failed' | 'Success';
@@ -140,15 +141,22 @@ function RegularContributionsPayment(props: PropTypes, context) {
     disable={props.disable}
   />);
 
-  return (
-    <section className="regular-contribution-payment">
-      { props.paymentStatus === 'Success' ? <Redirect to={{ pathname: routes.recurringContribThankyou }} /> : null }
-      { props.paymentStatus === 'PollingTimedOut' ? <Redirect to={{ pathname: routes.recurringContribPending }} /> : null }
+  const PaymentButtons = () => {
+    return (<section className="regular-contribution-payment">
+      {props.paymentStatus === 'Success' ? <Redirect to={{pathname: routes.recurringContribThankyou}}/> : null}
+      {props.paymentStatus === 'PollingTimedOut' ? <Redirect to={{pathname: routes.recurringContribPending}}/> : null}
       {getStatusMessage(props.paymentStatus, props.error)}
       {directDebitButton}
       {stripeButton}
       {payPalButton}
-    </section>
+    </section>)
+  };
+
+
+
+
+  return (
+      <PaymentButtons />
   );
 }
 

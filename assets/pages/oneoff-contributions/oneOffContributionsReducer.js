@@ -60,6 +60,9 @@ function createOneOffContribReducer(amount: number) {
       case 'SET_EMAIL_HAS_BEEN_BLURRED':
         return Object.assign({}, state, { emailHasBeenBlurred: true });
 
+      case 'SET_STAGE':
+        return { ...state, stage: action.stage };
+
       default:
         return state;
 

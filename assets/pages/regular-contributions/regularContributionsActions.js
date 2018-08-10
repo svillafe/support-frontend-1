@@ -13,7 +13,9 @@ export type Action =
   | { type: 'CHECKOUT_ERROR', message: string }
   | { type: 'SET_PAYPAL_HAS_LOADED' }
   | { type: 'SET_EMAIL_HAS_BEEN_BLURRED' }
-  | { type: 'CREATING_CONTRIBUTOR' };
+  | { type: 'CREATING_CONTRIBUTOR' }
+  | { type: 'SET_STAGE', stage: Stage };
+
 
 
 // ----- Actions ----- //
@@ -42,6 +44,10 @@ function setEmailHasBeenBlurred(): Action {
 
 function creatingContributor(): Action {
   return { type: 'CREATING_CONTRIBUTOR' };
+}
+
+function setCheckoutStage(stage: Stage): Action {
+  return { type: 'SET_STAGE', stage };
 }
 
 // ----- Exports ----- //

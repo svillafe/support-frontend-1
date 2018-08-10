@@ -16,3 +16,7 @@
 	font-size: 14px;
   color: gu-colour(garnett-neutral-1);
 }
+
+input:invalid {
+	border: 2px dashed red;
+}
