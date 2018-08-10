@@ -62,6 +62,10 @@
     }
   }
 
+  .component-text-input__input:invalid {
+    border: 2px solid gu-colour(error);
+  }
+
   .component-text-input--email {
     margin-top: $gu-v-spacing;
   }
@@ -75,7 +79,6 @@
       width: 304px;
     }
   }
-
 
   .component-paypal-contribution-button {
     height: $cta-height;

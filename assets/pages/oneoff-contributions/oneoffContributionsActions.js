@@ -6,7 +6,8 @@ export type Action =
     | { type: 'CHECKOUT_ERROR', message: ?string }
     | { type: 'SET_EMAIL_HAS_BEEN_BLURRED' | 'CHECKOUT_SUCCESS' };
 
-// ----- Actions ----- //
+
+// ----- Action Creators ----- //
 
 function checkoutError(message: ?string): Action {
   return { type: 'CHECKOUT_ERROR', message };

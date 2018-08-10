@@ -20,13 +20,6 @@ type PropTypes = {
 // ----- Component ----- //
 
 
-const EmailError = (props: {showEmailError: boolean}) => {
-  if (!props.showEmailError) {
-    return null;
-  }
-  return <ErrorMessage message="Please enter a valid email address." />;
-};
-
 const EmailFormField = (props: PropTypes) => {
 
   const showEmailError = props.emailHasBeenBlurred && !validateEmailAddress(props.email);
@@ -51,9 +44,13 @@ const EmailFormField = (props: PropTypes) => {
         onChange={props.emailUpdate}
         onBlur={props.setEmailHasBeenBlurred}
         modifierClasses={modifierClass}
+        type="email"
         required
       />
-      <EmailError showEmailError={showEmailError} />
+      <ErrorMessage
+        showError={showEmailError}
+        message="Please enter a valid email address."
+      />;
     </div>
   );
 

@@ -18,6 +18,7 @@ function mapStateToProps(state: State) {
     country: state.common.internationalisation.countryId,
     name: state.page.user.displayName,
     isSignedIn: state.page.user.isSignedIn,
+    stage: state.page.stage,
   };
 
 }

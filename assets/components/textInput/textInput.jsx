@@ -36,6 +36,7 @@ type PropTypes = {
   pattern?: string,
   modifierClasses: Array<?string>,
   onBlur: () => void,
+  type: ?string,
 };
 
 
@@ -77,5 +78,6 @@ TextInput.defaultProps = {
   autocapitalize: 'off',
   pattern: '',
   modifierClasses: [],
+  type: 'text',
   onBlur: () => undefined,
 };
