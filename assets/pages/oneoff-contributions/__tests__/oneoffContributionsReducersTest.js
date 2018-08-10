@@ -47,7 +47,7 @@ describe('One-off Reducer', () => {
 
     const newState = reducer(undefined, action);
 
-    expect(newState.oneoffContrib.emailHasBeenBlurred).toEqual(true);
+    expect(newState.oneoffContrib.okToShowEmailError).toEqual(true);
   });
 
 });

@@ -168,9 +168,9 @@ function mapStateToProps(state) {
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
     email: state.page.user.email,
     disable:
-      emptyInputField(state.page.user.firstName)
-      || emptyInputField(state.page.user.lastName)
-      || !validateEmailAddress(state.page.user.email),
+      emptyInputField(state.page.user.firstName.value)
+      || emptyInputField(state.page.user.lastName.value)
+      || !validateEmailAddress(state.page.user.email.value),
     error: state.page.regularContrib.error,
     paymentStatus: state.page.regularContrib.paymentStatus,
     amount: state.page.regularContrib.amount,

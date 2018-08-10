@@ -64,3 +64,19 @@ export function setPostDeploymentTestUser(postDeploymentTestUser: boolean): Acti
 export function setGnmMarketing(preference: boolean): Action {
   return { type: 'SET_GNM_MARKETING', preference };
 }
+
+export function setEmailShouldValidate(): Action {
+  return { type: 'SET_EMAIL_SHOULD_VALIDATE' };
+}
+
+export function setFirstNameShouldValidate(): Action {
+  return { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' };
+}
+
+export function setLastNameShouldValidate(): Action {
+  return { type: 'SET_LAST_NAME_SHOULD_VALIDATE' };
+}
+
+export function setFullNameNameShouldValidate(): Action {
+  return { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
+}

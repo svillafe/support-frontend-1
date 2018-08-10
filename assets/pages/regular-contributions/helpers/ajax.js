@@ -68,9 +68,9 @@ type RegularContribFields = {|
 // ----- Functions ----- //
 
 const isUserValid = (user: UserState) =>
-  user.firstName !== null && user.firstName !== undefined &&
-  user.lastName !== null && user.lastName !== undefined &&
-  user.email !== null && user.email !== undefined;
+  user.firstName.value !== null && user.firstName.value !== undefined &&
+  user.lastName.value !== null && user.lastName.value !== undefined &&
+  user.email.value !== null && user.email.value !== undefined;
 
 const paymentMethodToPaymentFieldMap = {
   DirectDebit: 'directDebitData',
@@ -162,8 +162,8 @@ function requestData(
   }
 
   const regularContribFields: RegularContribFields = {
-    firstName: user.firstName,
-    lastName: user.lastName,
+    firstName: user.firstName.value,
+    lastName: user.lastName.value,
     country,
     contribution: {
       amount,
@@ -174,7 +174,7 @@ function requestData(
     ophanIds,
     referrerAcquisitionData,
     supportAbTests,
-    email: user.email,
+    email: user.email.value,
   };
 
   if (user.stateField) {

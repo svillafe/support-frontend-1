@@ -51,11 +51,11 @@ const init = (dispatch: Function) => {
 
   if (windowHasUser) {
     dispatch(setId(window.guardian.user.id));
-    dispatch(setEmail(window.guardian.user.email));
+    dispatch(setEmail(window.guardian.user.email.value));
     dispatch(setDisplayName(window.guardian.user.displayName));
-    dispatch(setFirstName(window.guardian.user.firstName));
-    dispatch(setLastName(window.guardian.user.lastName));
-    dispatch(setFullName(`${window.guardian.user.firstName} ${window.guardian.user.lastName}`));
+    dispatch(setFirstName(window.guardian.user.firstName.value));
+    dispatch(setLastName(window.guardian.user.lastName.value));
+    dispatch(setFullName(`${window.guardian.user.firstName.value} ${window.guardian.user.lastName.value}`));
     dispatch(setIsSignedIn(true));
   } else if (userAppearsLoggedIn) {
     fetch(routes.oneOffContribAutofill, { credentials: 'include' }).then((response) => {

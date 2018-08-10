@@ -38,10 +38,6 @@ function setPayPalHasLoaded(): Action {
   return { type: 'SET_PAYPAL_HAS_LOADED' };
 }
 
-function setEmailHasBeenBlurred(): Action {
-  return { type: 'SET_EMAIL_HAS_BEEN_BLURRED' };
-}
-
 function creatingContributor(): Action {
   return { type: 'CREATING_CONTRIBUTOR' };
 }
@@ -58,5 +54,4 @@ export {
   checkoutError,
   setPayPalHasLoaded,
   creatingContributor,
-  setEmailHasBeenBlurred,
 };

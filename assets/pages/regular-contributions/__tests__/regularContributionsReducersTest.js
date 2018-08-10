@@ -59,6 +59,6 @@ describe('Regular contributions Reducer', () => {
     };
 
     const newState = reducer(undefined, action);
-    expect(newState.regularContrib.emailHasBeenBlurred).toEqual(true);
+    expect(newState.regularContrib.okToShowEmailError).toEqual(true);
   });
 });
