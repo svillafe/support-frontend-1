@@ -15,6 +15,7 @@ import {
   openDialogBox,
 } from 'helpers/paymentIntegrations/stripeCheckout';
 import { classNameWithModifiers } from 'helpers/utilities';
+import {setEmailShouldValidate} from "../../../helpers/user/userActions";
 
 // ---- Types ----- //
 
@@ -27,9 +28,10 @@ type PropTypes = {|
   email: string,
   isTestUser: boolean,
   isPostDeploymentTestUser: boolean,
-  canOpen: () => boolean,
   switchStatus: Status,
-  disable: boolean
+  disable: boolean,
+  setEmailShouldValidate?: () => void,
+  setFullNameShouldValidate?: () => void,
 |};
 /* eslint-enable react/no-unused-prop-types */
 
@@ -61,14 +63,23 @@ function Button(props: PropTypes) {
   }
 
   const onClick = () => {
+    const formElements = [... document.getElementsByClassName('oneoff-contrib__name-form')[0].getElementsByTagName('input')];
+    console.log(formElements.length)
+    const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid, true);
+
+    console.log("form is valid: " + formIsValid);
+
+
     // Don't open Stripe Checkout for automated tests, call the backend immediately
     if (props.isPostDeploymentTestUser) {
       const testTokenId = 'tok_visa';
       props.callback(testTokenId);
-    } else if (props.canOpen && props.canOpen()) {
+    } else if (formIsValid) {
       storage.setSession('paymentMethod', 'Stripe');
       openDialogBox(props.amount, props.email);
     }
+    props.setEmailShouldValidate();
+    props.setFullNameShouldValidate();
   };
 
   const baseClass = 'component-stripe-pop-up-button';
@@ -93,9 +104,10 @@ function Button(props: PropTypes) {
 // ----- Default Props ----- //
 
 StripePopUpButton.defaultProps = {
-  canOpen: () => true,
   closeHandler: () => {},
   switchStatus: 'On',
+  setEmailShouldValidate: () => undefined,
+  setFullNameShouldValidate: () => undefined,
 };
 
 

@@ -73,6 +73,8 @@ function deserialiseJsonObject(serialised: string): ?Object {
 
 }
 
+
+
 function validateEmailAddress(email: string): boolean {
   // Copied from
   // https://github.com/playframework/playframework/blob/38abd1ca6d17237950c82b1483057c5c39929cb4/framework/src/play/
