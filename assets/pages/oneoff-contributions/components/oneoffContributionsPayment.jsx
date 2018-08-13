@@ -17,7 +17,10 @@ import type { ReferrerAcquisitionData } from 'helpers/tracking/acquisitions';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { IsoCurrency } from 'helpers/internationalisation/currency';
 import type { Status } from 'helpers/switch';
-
+import {
+  setFullNameShouldValidate,
+  setEmailShouldValidate,
+} from 'helpers/user/userActions'
 import { checkoutError, type Action } from '../oneoffContributionsActions';
 import postCheckout from '../helpers/ajax';
 
@@ -28,7 +31,6 @@ type PropTypes = {|
   dispatch: Function,
   email: string,
   error: ?string,
-  areAnyRequiredFieldsEmpty: boolean,
   amount: number,
   referrerAcquisitionData: ReferrerAcquisitionData,
   checkoutError: (?string) => void,
@@ -38,6 +40,8 @@ type PropTypes = {|
   isPostDeploymentTestUser: boolean,
   stripeSwitchStatus: Status,
   paymentComplete: boolean,
+  setEmailShouldValidate: () => void,
+  setFullNameShouldValidate: () => void,
 |};
 
 
@@ -49,7 +53,6 @@ function mapStateToProps(state) {
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
     email: state.page.user.email.value,
     error: state.page.oneoffContrib.error,
-    areAnyRequiredFieldsEmpty: !state.page.user.email.value || !state.page.user.fullName.value,
     amount: state.page.oneoffContrib.amount,
     referrerAcquisitionData: state.common.referrerAcquisitionData,
     abParticipations: state.common.abParticipations,
@@ -65,37 +68,13 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
     checkoutError: (message: ?string) => {
       dispatch(checkoutError(message));
     },
+    setEmailShouldValidate: () => {
+      dispatch(setEmailShouldValidate());
+    },
+    setFullNameShouldValidate: () => {
+      dispatch(setFullNameShouldValidate());
+    },
   };
-}
-
-// ----- Functions ----- //
-
-// If the form is valid, calls the given callback, otherwise sets an error.
-function formValidation(
-  areAnyRequiredFieldsEmpty: boolean,
-  validEmail: boolean,
-  error: ?string => void,
-): Function {
-
-  return (): boolean => {
-
-    if (!areAnyRequiredFieldsEmpty && validEmail) {
-      if (error) {
-        error(null);
-      }
-      return true;
-    }
-
-    if (error) {
-      if (areAnyRequiredFieldsEmpty) {
-        error('Please fill in all the fields above.');
-      } else {
-        error('Please fill in a valid email address.');
-      }
-    }
-    return false;
-  };
-
 }
 
 
@@ -124,17 +103,14 @@ function OneoffContributionsPayment(props: PropTypes, context) {
           props.referrerAcquisitionData,
           context.store.getState,
         )}
-        canOpen={formValidation(
-          props.areAnyRequiredFieldsEmpty,
-          validateEmailAddress(props.email),
-          props.checkoutError,
-        )}
         currencyId={props.currencyId}
         isTestUser={props.isTestUser}
         isPostDeploymentTestUser={props.isPostDeploymentTestUser}
         amount={props.amount}
         switchStatus={props.stripeSwitchStatus}
         disable={false}
+        setEmailShouldValidate={props.setEmailShouldValidate}
+        setFullNameShouldValidate={props.setFullNameShouldValidate}
       />
     </section>
   );

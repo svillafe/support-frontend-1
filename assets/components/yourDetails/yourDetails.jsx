@@ -24,6 +24,7 @@ type PropTypes = {
   setFirstNameShouldValidate: () => void,
   setLastNameShouldValidate: () => void,
   setEmailShouldValidate: () => void,
+  showNextButton: boolean,
 };
 
 
@@ -32,7 +33,7 @@ type PropTypes = {
 function submitYourDetailsForm(props: PropTypes) {
   const formElements = [... document.getElementsByClassName('regular-contrib__name-form')[0].getElementsByTagName('input')];
 
-  const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid);
+  const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid, true);
 
   if(formIsValid) {
     props.setStage();
@@ -48,13 +49,14 @@ function submitYourDetailsForm(props: PropTypes) {
 function YourDetails(props: PropTypes) {
 
   const NextButton = () => {
+    if (!props.showNextButton) return null;
     return (
       <CtaLink
-        text={`Continue`}
-        accessibilityHint={`Continue`}
+        text={`Next`}
+        accessibilityHint={`Next`}
         id="qa-contribute-button"
         onClick={() => submitYourDetailsForm(props) }
-        modifierClasses={['continue']}
+        modifierClasses={['next']}
       />
     )
   };

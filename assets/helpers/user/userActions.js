@@ -77,6 +77,6 @@ export function setLastNameShouldValidate(): Action {
   return { type: 'SET_LAST_NAME_SHOULD_VALIDATE' };
 }
 
-export function setFullNameNameShouldValidate(): Action {
+export function setFullNameShouldValidate(): Action {
   return { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
 }
