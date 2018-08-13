@@ -4,18 +4,18 @@ import com.gu.i18n.{Country, CountryGroup, Currency}
 import com.gu.support.workers.model._
 import io.circe.{Decoder, Encoder, Json}
 import com.gu.acquisition.model.{OphanIds, ReferrerAcquisitionData}
-import com.gu.support.workers.model.monthlyContributions.Contribution
-import com.gu.support.workers.model.monthlyContributions.state.{CompletedState, CreatePaymentMethodState, FailureHandlerState}
+import com.gu.support.workers.model.Contribution
+import com.gu.support.workers.model.states.{CreatePaymentMethodState, FailureHandlerState}
 import io.circe.generic.decoding.DerivedDecoder
 import io.circe.generic.encoding.DerivedObjectEncoder
 import io.circe.generic.semiauto._
 import cats.syntax.functor._
 import shapeless.Lazy
-import com.gu.support.workers.model.monthlyContributions.Status
+import com.gu.support.workers.model.Status
 import ophan.thrift.event.{AbTest, AcquisitionSource}
 import com.gu.fezziwig.CirceScroogeMacros.{decodeThriftEnum, decodeThriftStruct, encodeThriftEnum, encodeThriftStruct}
 import ophan.thrift.componentEvent.ComponentType
-import switchboard.{PaymentMethodsSwitch, SwitchState, Switches}
+import switchboard.{PaymentMethodsSwitch, ExperimentSwitch, Group, Segment, SwitchState, Switches}
 import services.{PaymentApiError, PayPalError}
 
 object CirceDecoders {
@@ -59,6 +59,23 @@ object CirceDecoders {
     ).reduce(_ or _)
   }
 
+  implicit val contributionCodec: Codec[Contribution] = deriveCodec
+  implicit val digitalPackCodec: Codec[DigitalPack] = deriveCodec
+
+  implicit val encodeProductType: Encoder[ProductType] = new Encoder[ProductType] {
+    override final def apply(productType: ProductType): Json = productType match {
+      case contribution: Contribution => Encoder[Contribution].apply(contribution)
+      case digitalPack: DigitalPack => Encoder[DigitalPack].apply(digitalPack)
+    }
+  }
+
+  implicit val decodeProductType: Decoder[ProductType] = {
+    List[Decoder[ProductType]](
+      Decoder[Contribution].widen,
+      Decoder[DigitalPack].widen
+    ).reduce(_ or _)
+  }
+
   implicit val decodePeriod: Decoder[BillingPeriod] =
     Decoder.decodeString.emap(code => BillingPeriod.fromString(code).toRight(s"Unrecognised period code '$code'"))
   implicit val encodePeriod: Encoder[BillingPeriod] = Encoder.encodeString.contramap[BillingPeriod](_.toString)
@@ -78,13 +95,14 @@ object CirceDecoders {
   implicit val referrerAcquisitionDataCodec: Codec[ReferrerAcquisitionData] = deriveCodec
 
   implicit val userCodec: Codec[User] = deriveCodec
-  implicit val contributionCodec: Codec[Contribution] = deriveCodec
   implicit val createPaymentMethodStateCodec: Codec[CreatePaymentMethodState] = deriveCodec
   implicit val failureHandlerStateCodec: Codec[FailureHandlerState] = deriveCodec
-  implicit val completedStateCodec: Codec[CompletedState] = deriveCodec
-  implicit val switchStateEncode: Encoder[SwitchState] = Encoder.encodeString.contramap[SwitchState](s => s"'${s.toString}'")
+  implicit val switchStateEncode: Encoder[SwitchState] = Encoder.encodeString.contramap[SwitchState](_.toString)
   implicit val switchStateDecode: Decoder[SwitchState] = deriveDecoder
   implicit val paymentMethodsSwitchCodec: Codec[PaymentMethodsSwitch] = deriveCodec
+  implicit val segmentEncoder: Encoder[Segment] = Encoder.encodeString.contramap[Segment](_.toString)
+  implicit val segmentDecoder: Decoder[Segment] = deriveDecoder
+  implicit val experimentSwitchCodec: Codec[ExperimentSwitch] = deriveCodec
   implicit val switchesCodec: Codec[Switches] = deriveCodec
 
   private implicit val paypalApiErrorDecoder: Decoder[PayPalError] = deriveDecoder
