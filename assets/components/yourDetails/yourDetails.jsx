@@ -7,12 +7,6 @@ import React, { type Node } from 'react';
 import PageSection from 'components/pageSection/pageSection';
 import Signout from 'components/signout/signout';
 import DisplayName from 'components/displayName/displayName';
-import CtaLink from 'components/ctaLink/ctaLink';
-import { setStage } from  'components/contributionsCheckout/contributionsCheckoutActions';
-import {Dispatch} from "redux";
-import {contributionsCheckoutReducerFor} from "../contributionsCheckout/contributionsCheckoutReducer";
-import {setEmailShouldValidate, setLastNameShouldValidate} from "../../helpers/user/userActions";
-
 
 // ----- Types ----- //
 
@@ -20,46 +14,11 @@ type PropTypes = {
   name: string,
   isSignedIn: boolean,
   children: Node,
-  setStage:  () => void,
-  setFirstNameShouldValidate: () => void,
-  setLastNameShouldValidate: () => void,
-  setEmailShouldValidate: () => void,
-  showNextButton: boolean,
 };
-
-
-
-
-function submitYourDetailsForm(props: PropTypes) {
-  const formElements = [... document.getElementsByClassName('regular-contrib__name-form')[0].getElementsByTagName('input')];
-
-  const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid, true);
-
-  if(formIsValid) {
-    props.setStage();
-  } else {
-    props.setFirstNameShouldValidate();
-    props.setLastNameShouldValidate();
-    props.setEmailShouldValidate();
-  }
-}
 
 // ----- Component ----- //
 
 function YourDetails(props: PropTypes) {
-
-  const NextButton = () => {
-    if (!props.showNextButton) return null;
-    return (
-      <CtaLink
-        text={`Next`}
-        accessibilityHint={`Next`}
-        id="qa-contribute-button"
-        onClick={() => submitYourDetailsForm(props) }
-        modifierClasses={['next']}
-      />
-    )
-  };
 
   return (
     <div className="component-your-details">
@@ -69,7 +28,6 @@ function YourDetails(props: PropTypes) {
         <p className="component-your-details__info">
           <small>All fields are required.</small>
         </p>
-        <NextButton />
       </PageSection>
     </div>
   );

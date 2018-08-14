@@ -11,7 +11,6 @@ import { userReducer as user } from 'helpers/user/userReducer';
 import { directDebitReducer as directDebit } from 'components/directDebit/directDebitReducer';
 import { marketingConsentReducerFor } from 'components/marketingConsent/marketingConsentReducer';
 import { stripeInlineFormReducerFor } from 'components/stripeInlineForm/stripeInlineFormReducer';
-import { contributionsCheckoutReducerFor } from 'components/contributionsCheckout/contributionsCheckoutReducer';
 import csrf from 'helpers/csrf/csrfReducer';
 import type { CommonState } from 'helpers/page/page';
 import type { PaymentMethod } from 'helpers/checkouts';
@@ -20,7 +19,6 @@ import type { State as MarketingConsentState } from 'components/marketingConsent
 
 import type { Action } from './regularContributionsActions';
 import type { PaymentStatus } from './components/regularContributionsPayment';
-
 
 // ----- Types ----- //
 
@@ -33,9 +31,6 @@ export type State = {
   payPalHasLoaded: boolean,
   statusUri: ?string,
   pollCount: number,
-  shouldValidate: boolean,
-  firstNameHasBeenBlurred: boolean,
-  lastNameHasBeenBlurred: boolean,
 };
 
 export type CombinedState = {
@@ -69,7 +64,6 @@ function createRegularContribReducer(
     payPalHasLoaded: false,
     statusUri: null,
     pollCount: 0,
-    emailHasBeenBlurred: false,
   };
 
   return function regularContrib(state: State = initialState, action: Action): State {
@@ -89,9 +83,6 @@ function createRegularContribReducer(
 
       case 'SET_PAYPAL_HAS_LOADED':
         return Object.assign({}, state, { payPalHasLoaded: true });
-
-      case 'SET_EMAIL_HAS_BEEN_BLURRED':
-        return Object.assign({}, state, { emailHasBeenBlurred: true });
 
       default:
         return state;
@@ -114,5 +105,6 @@ export default function createRootRegularContributionsReducer(
     user,
     csrf,
     directDebit,
+    stripeInlineForm: stripeInlineFormReducerFor('regularContributions'),
   });
 }

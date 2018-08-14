@@ -5,14 +5,14 @@
 import React from 'react';
 import TextInput from 'components/textInput/textInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { validateEmailAddress } from 'helpers/utilities';
-import type { UserDetail } from 'helpers/user/userReducer'
+import { validateEmailAddress, emailRegexPattern } from 'helpers/utilities';
+import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 
 // ----- Types ----- //
 
 type PropTypes = {
   emailUpdate: (email: string) => void,
-  email: UserDetail,
+  email: UserFormFieldAttribute,
   isSignedIn: boolean,
   setEmailShouldValidate: () => void,
 };
@@ -33,14 +33,6 @@ const EmailFormField = (props: PropTypes) => {
   if (showEmailError) {
     modifierClass.push('error');
   }
-
-  // Copied from
-  // https://github.com/playframework/playframework/blob/38abd1ca6d17237950c82b1483057c5c39929cb4/framework/src/play/
-  // src/main/scala/play/api/data/validation/Validation.scala#L80
-  // but with minor modification (last * becomes +) to enforce at least one dot in domain.  This is
-  // for compatibility with Stripe
-  const emailRegexPattern =  "[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$";
-
 
   return (
     <div className="component-email-form-field">

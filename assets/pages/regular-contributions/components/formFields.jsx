@@ -27,7 +27,7 @@ import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 import EmailFormFieldContainer from './emailFormFieldContainer';
 import { emptyInputField } from 'helpers/utilities';
 import ErrorMessage from "../../../components/errorMessage/errorMessage";
-import type { UserDetail } from 'helpers/user/userReducer'
+import type { UserFormFieldAttribute } from 'helpers/user/userReducer'
 
 // ----- Types ----- //
 
@@ -38,8 +38,8 @@ type PropTypes = {
   setLastNameShouldValidate: () => void,
   stateUpdate: (value: UsState | CaState) => void,
   countryUpdate: (value: string) => void,
-  firstName: UserDetail,
-  lastName: UserDetail,
+  firstName: UserFormFieldAttribute,
+  lastName: UserFormFieldAttribute,
   countryGroup: CountryGroupId,
   country: IsoCountry,
 };

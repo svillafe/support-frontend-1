@@ -10,9 +10,6 @@ import { Redirect } from 'react-router';
 import { routes } from 'helpers/routes';
 import StripePopUpButton from 'components/paymentButtons/stripePopUpButton/stripePopUpButton';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-
-import { validateEmailAddress } from 'helpers/utilities';
-
 import type { ReferrerAcquisitionData } from 'helpers/tracking/acquisitions';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { IsoCurrency } from 'helpers/internationalisation/currency';
@@ -109,8 +106,8 @@ function OneoffContributionsPayment(props: PropTypes, context) {
         amount={props.amount}
         switchStatus={props.stripeSwitchStatus}
         disable={false}
-        setEmailShouldValidate={props.setEmailShouldValidate}
-        setFullNameShouldValidate={props.setFullNameShouldValidate}
+        setShouldValidateFunctions={[props.setFullNameShouldValidate, props.setEmailShouldValidate]}
+        formClassName={'oneoff-contrib__name-form'}
       />
     </section>
   );
