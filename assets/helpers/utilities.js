@@ -73,6 +73,8 @@ function deserialiseJsonObject(serialised: string): ?Object {
 
 }
 
+const emailRegexPattern =  "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$";
+
 
 
 function validateEmailAddress(email: string): boolean {
@@ -81,7 +83,7 @@ function validateEmailAddress(email: string): boolean {
   // src/main/scala/play/api/data/validation/Validation.scala#L80
   // but with minor modification (last * becomes +) to enforce at least one dot in domain.  This is
   // for compatibility with Stripe
-  const emailValidationRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+  const emailValidationRegex = new RegExp(emailRegexPattern);
 
   return emailValidationRegex.test(email);
 }
@@ -101,5 +103,6 @@ export {
   parseBoolean,
   deserialiseJsonObject,
   validateEmailAddress,
+  emailRegexPattern,
   emptyInputField,
 };

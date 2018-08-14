@@ -5,18 +5,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
-import type { UserDetail } from 'helpers/user/userReducer'
+import type { UserFormFieldAttribute } from 'helpers/user/userReducer'
 import ErrorMessage from 'components/errorMessage/errorMessage';
 
 import TextInput from 'components/textInput/textInput';
-import { setFullName, type Action } from 'helpers/user/userActions';
-
+import { setFullName, setFullNameShouldValidate, type Action } from 'helpers/user/userActions';
 
 // ----- Types ----- //
 
 type PropTypes = {
   nameUpdate: (name: string) => void,
-  name: UserDetail,
+  name: UserFormFieldAttribute,
+  setFullNameShouldValidate: () => void,
 };
 
 
@@ -24,6 +24,11 @@ type PropTypes = {
 
 const NameFormField = (props: PropTypes) => {
   const showError = props.name.shouldValidate && !props.name.value;
+  const modifierClass = ['name'];
+  if (showError) {
+    modifierClass.push('error');
+  }
+
   return (<div>
     <TextInput
       id="name"
@@ -31,7 +36,8 @@ const NameFormField = (props: PropTypes) => {
       labelText="Full name"
       value={props.name.value}
       onChange={props.nameUpdate}
-      modifierClasses={['name']}
+      onBlur={props.setFullNameShouldValidate}
+      modifierClasses={modifierClass}
       required
     />
     <ErrorMessage
@@ -39,7 +45,7 @@ const NameFormField = (props: PropTypes) => {
       message="Please enter your name."
     />
   </div>);
-}
+};
 
 
 // ----- Map State/Props ----- //
@@ -59,6 +65,9 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
   return {
     nameUpdate: (name: string) => {
       dispatch(setFullName(name));
+    },
+    setFullNameShouldValidate: () => {
+      dispatch(setFullNameShouldValidate());
     },
   };
 
