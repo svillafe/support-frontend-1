@@ -15,7 +15,11 @@ export type Action =
   | { type: 'SET_TEST_USER', testUser: boolean }
   | { type: 'SET_POST_DEPLOYMENT_TEST_USER', postDeploymentTestUser: boolean }
   | { type: 'SET_GNM_MARKETING', preference: boolean }
-  | { type: 'SET_IS_SIGNED_IN', isSignedIn: boolean };
+  | { type: 'SET_IS_SIGNED_IN', isSignedIn: boolean }
+  | { type: 'SET_EMAIL_SHOULD_VALIDATE' }
+  | { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' }
+  | { type: 'SET_LAST_NAME_SHOULD_VALIDATE' }
+  | { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
 
 
 // ----- Actions Creators ----- //

@@ -3,7 +3,8 @@
 // ----- Types ----- //
 
 export type Action =
-    | { type: 'CHECKOUT_ERROR', message: ?string };
+    | { type: 'CHECKOUT_ERROR', message: ?string }
+    | { type: 'CHECKOUT_SUCCESS' };
 
 
 // ----- Action Creators ----- //

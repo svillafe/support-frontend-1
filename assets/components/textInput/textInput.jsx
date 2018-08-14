@@ -18,7 +18,7 @@ type PropTypes = {
   required: boolean,
   modifierClasses: Array<?string>,
   onBlur: () => void,
-  pattern?: () => void,
+  pattern?: string,
   type: ?string,
 };
 
