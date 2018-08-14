@@ -17,8 +17,8 @@ import type { Status } from 'helpers/switch';
 import {
   setFullNameShouldValidate,
   setEmailShouldValidate,
-} from 'helpers/user/userActions'
-import { checkoutError, type Action } from '../oneoffContributionsActions';
+  type Action,
+} from 'helpers/user/userActions';
 import postCheckout from '../helpers/ajax';
 
 
@@ -30,7 +30,6 @@ type PropTypes = {|
   error: ?string,
   amount: number,
   referrerAcquisitionData: ReferrerAcquisitionData,
-  checkoutError: (?string) => void,
   abParticipations: Participations,
   currencyId: IsoCurrency,
   isTestUser: boolean,
@@ -62,15 +61,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<Action>) {
   return {
     dispatch,
-    checkoutError: (message: ?string) => {
-      dispatch(checkoutError(message));
-    },
-    setEmailShouldValidate: () => {
-      dispatch(setEmailShouldValidate());
-    },
-    setFullNameShouldValidate: () => {
-      dispatch(setFullNameShouldValidate());
-    },
+    setEmailShouldValidate: () => dispatch(setEmailShouldValidate()),
+    setFullNameShouldValidate: () => dispatch(setFullNameShouldValidate()),
   };
 }
 

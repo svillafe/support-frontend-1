@@ -36,7 +36,7 @@ type PropTypes = {
   pattern?: string,
   modifierClasses: Array<?string>,
   onBlur: () => void,
-  pattern?: () => void,
+  pattern?: string,
   type: ?string,
 };
 

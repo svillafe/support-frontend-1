@@ -6,7 +6,7 @@ import type { Action } from './userActions';
 
 // ----- Types ----- //
 export type UserFormFieldAttribute = {
-  value: ?string,
+  value: string,
   shouldValidate: boolean,
 }
 
@@ -19,7 +19,7 @@ export type User = {
   lastName: UserFormFieldAttribute,
   isTestUser: ?boolean,
   isPostDeploymentTestUser: boolean,
-  fullName?: UserFormFieldAttribute,
+  fullName: UserFormFieldAttribute,
   stateField?: string,
   gnmMarketing: boolean,
   isSignedIn: boolean,

@@ -29,7 +29,7 @@ type PropTypes = {|
   isPostDeploymentTestUser: boolean,
   switchStatus: Status,
   disable: boolean,
-  setShouldValidateFunctions?: Array<() => void>,
+  setShouldValidateFunctions: Array<() => void>,
   formClassName: string,
 |};
 /* eslint-enable react/no-unused-prop-types */
@@ -62,7 +62,7 @@ function Button(props: PropTypes) {
   }
 
   const onClick = () => {
-    const formElements = [... document.getElementsByClassName(props.formClassName)[0].getElementsByTagName('input')];
+    const formElements = [...document.getElementsByClassName(props.formClassName)[0].getElementsByTagName('input')];
     const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid, true);
 
     // Don't open Stripe Checkout for automated tests, call the backend immediately
