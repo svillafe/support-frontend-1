@@ -33,7 +33,7 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
 
 function mapStateToProps(state: OneOffPageState) {
   return {
-    email: state.page.user.email,
+    email: state.page.user.email.value,
     marketingPreferencesOptIn: state.page.user.gnmMarketing,
     consentApiError: state.page.marketingConsent.error,
     confirmOptIn: state.page.marketingConsent.confirmOptIn,
