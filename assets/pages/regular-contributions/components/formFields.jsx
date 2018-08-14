@@ -24,10 +24,11 @@ import { countryGroups } from 'helpers/internationalisation/countryGroup';
 import type { IsoCountry, UsState, CaState } from 'helpers/internationalisation/country';
 import type { SelectOption } from 'components/selectInput/selectInput';
 import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
-import EmailFormFieldContainer from './emailFormFieldContainer';
 import { emptyInputField } from 'helpers/utilities';
-import ErrorMessage from "../../../components/errorMessage/errorMessage";
-import type { UserFormFieldAttribute } from 'helpers/user/userReducer'
+import ErrorMessage from 'components/errorMessage/errorMessage';
+import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
+import EmailFormFieldContainer from './emailFormFieldContainer';
+
 
 // ----- Types ----- //
 
@@ -49,7 +50,7 @@ type PropTypes = {
 function mapStateToProps(state) {
 
   return {
-    firstName:  state.page.user.firstName,
+    firstName: state.page.user.firstName,
     lastName: state.page.user.lastName,
     countryGroup: state.common.internationalisation.countryGroupId,
     country: state.common.internationalisation.countryId,
@@ -140,12 +141,14 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
-  const showFirstNameError = emptyInputField(props.firstName.value) &&  props.firstName.shouldValidate;
-  const showLastNameError = emptyInputField(props.lastName.value) &&  props.lastName.shouldValidate;
-  let firstNameModifier = ['first-name'];
-  if (showFirstNameError) firstNameModifier.push('error');
-  let lastNameModifier = ['last-name'];
-  if (showLastNameError) lastNameModifier.push('error');
+  const showFirstNameError = emptyInputField(props.firstName.value) && props.firstName.shouldValidate;
+  const showLastNameError = emptyInputField(props.lastName.value) && props.lastName.shouldValidate;
+  const firstNameModifier = showFirstNameError
+    ? ['first-name', 'error']
+    : ['first-name'];
+  const lastNameModifier = showLastNameError
+    ? ['last-name', 'error']
+    : ['last-name'];
 
   return (
     <form className="regular-contrib__name-form">

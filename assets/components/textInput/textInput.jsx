@@ -56,6 +56,6 @@ TextInput.defaultProps = {
   required: false,
   modifierClasses: [],
   type: 'text',
-  pattern: ".*",
+  pattern: '.*',
   onBlur: () => undefined,
 };

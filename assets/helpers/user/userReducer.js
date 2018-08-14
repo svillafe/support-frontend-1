@@ -66,34 +66,34 @@ function userReducer(
       return Object.assign({}, state, { id: action.id });
 
     case 'SET_DISPLAY_NAME':
-      return { ...state, displayName: action.name};
+      return { ...state, displayName: action.name };
 
     case 'SET_FIRST_NAME':
-      return { ...state, firstName: { value: action.name, shouldValidate: state.firstName.shouldValidate} };
+      return { ...state, firstName: { value: action.name, shouldValidate: state.firstName.shouldValidate } };
 
     case 'SET_LAST_NAME':
-      return { ...state, lastName: { value: action.name, shouldValidate: state.lastName.shouldValidate} };
+      return { ...state, lastName: { value: action.name, shouldValidate: state.lastName.shouldValidate } };
 
     case 'SET_FULL_NAME':
-      return { ...state, fullName: { value: action.name, shouldValidate: state.fullName.shouldValidate} };
+      return { ...state, fullName: { value: action.name, shouldValidate: state.fullName.shouldValidate } };
 
     case 'SET_TEST_USER':
-      return { ...state, isTestUser: action.testUser};
+      return { ...state, isTestUser: action.testUser };
 
     case 'SET_POST_DEPLOYMENT_TEST_USER':
-      return { ...state, isPostDeploymentTestUser: action.postDeploymentTestUser};
+      return { ...state, isPostDeploymentTestUser: action.postDeploymentTestUser };
 
     case 'SET_EMAIL':
-      return { ...state, email: { value: action.email, shouldValidate: state.email.shouldValidate} };
+      return { ...state, email: { value: action.email, shouldValidate: state.email.shouldValidate } };
 
     case 'SET_STATEFIELD':
-      return { ...state, stateField: action.stateField};
+      return { ...state, stateField: action.stateField };
 
     case 'SET_GNM_MARKETING':
-      return { ...state, gnmMarketing: action.preference};
+      return { ...state, gnmMarketing: action.preference };
 
     case 'SET_IS_SIGNED_IN':
-      return { ...state, isSignedIn: action.isSignedIn};
+      return { ...state, isSignedIn: action.isSignedIn };
 
     case 'SET_FIRST_NAME_SHOULD_VALIDATE':
       return { ...state, firstName: { value: state.firstName.value, shouldValidate: true } };

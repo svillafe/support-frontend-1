@@ -31,7 +31,6 @@ function YourDetails(props: PropTypes) {
       </PageSection>
     </div>
   );
-
 }
 
-export default YourDetails
+export default YourDetails;
