@@ -52,6 +52,15 @@ const StripePopUpButton = (props: PropTypes) => (
   />
 );
 
+function formIsValid(formClassName: string) {
+  const form = document.getElementsByClassName(formClassName);
+  let isValid = true;
+  if (form && form.length > 0) {
+    const formElements = [...form[0].getElementsByTagName('input')];
+    isValid = formElements && formElements.reduce((acc, el) => acc && el.validity.valid, true);
+  }
+  return isValid;
+}
 
 // ----- Auxiliary Components ----- //
 
@@ -62,14 +71,11 @@ function Button(props: PropTypes) {
   }
 
   const onClick = () => {
-    const formElements = [...document.getElementsByClassName(props.formClassName)[0].getElementsByTagName('input')];
-    const formIsValid = formElements.reduce((acc, el) => acc && el.validity.valid, true);
-
     // Don't open Stripe Checkout for automated tests, call the backend immediately
     if (props.isPostDeploymentTestUser) {
       const testTokenId = 'tok_visa';
       props.callback(testTokenId);
-    } else if (formIsValid) {
+    } else if (formIsValid(props.formClassName)) {
       storage.setSession('paymentMethod', 'Stripe');
       openDialogBox(props.amount, props.email);
     }

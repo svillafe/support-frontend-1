@@ -24,6 +24,7 @@ import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
 import { setPayPalHasLoaded } from '../regularContributionsActions';
 import { postCheckout } from '../helpers/ajax';
 
+
 // ----- Types ----- //
 
 export type PaymentStatus = 'NotStarted' | 'Pending' | 'PollingTimedOut' | 'Failed' | 'Success';
@@ -142,8 +143,8 @@ function RegularContributionsPayment(props: PropTypes, context) {
 
   return (
     <section className="regular-contribution-payment">
-      { props.paymentStatus === 'Success' ? <Redirect to={{ pathname: routes.recurringContribThankyou }} /> : null}
-      { props.paymentStatus === 'PollingTimedOut' ? <Redirect to={{ pathname: routes.recurringContribPending }} /> : null}
+      { props.paymentStatus === 'Success' ? <Redirect to={{ pathname: routes.recurringContribThankyou }} /> : null }
+      { props.paymentStatus === 'PollingTimedOut' ? <Redirect to={{ pathname: routes.recurringContribPending }} /> : null }
       {getStatusMessage(props.paymentStatus, props.error)}
       {directDebitButton}
       {stripeButton}
@@ -158,7 +159,7 @@ function mapStateToProps(state) {
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
-    email: state.page.user.email,
+    email: state.page.user.email.value,
     disable:
       emptyInputField(state.page.user.firstName.value)
       || emptyInputField(state.page.user.lastName.value)

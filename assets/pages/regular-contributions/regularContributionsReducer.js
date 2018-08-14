@@ -20,6 +20,7 @@ import type { State as MarketingConsentState } from 'components/marketingConsent
 import type { Action } from './regularContributionsActions';
 import type { PaymentStatus } from './components/regularContributionsPayment';
 
+
 // ----- Types ----- //
 
 export type State = {

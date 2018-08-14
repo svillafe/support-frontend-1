@@ -56,9 +56,6 @@ function createOneOffContribReducer(amount: number) {
       case 'CHECKOUT_SUCCESS':
         return Object.assign({}, state, { paymentComplete: true });
 
-      case 'SET_STAGE':
-        return { ...state, stage: action.stage };
-
       default:
         return state;
 
