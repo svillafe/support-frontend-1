@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 
-import { setEmail, setEmailShouldValidate} from 'helpers/user/userActions';
+import { setEmail, setEmailShouldValidate } from 'helpers/user/userActions';
 import EmailFormField from 'components/emailFormField/emailFormField';
 
 // ----- State/Action Maps ----- //

@@ -99,7 +99,7 @@ function OneoffContributionsPayment(props: PropTypes, context) {
         switchStatus={props.stripeSwitchStatus}
         disable={false}
         setShouldValidateFunctions={[props.setFullNameShouldValidate, props.setEmailShouldValidate]}
-        formClassName={'oneoff-contrib__name-form'}
+        formClassName="oneoff-contrib__name-form"
       />
     </section>
   );

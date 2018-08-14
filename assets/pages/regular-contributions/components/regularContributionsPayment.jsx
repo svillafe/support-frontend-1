@@ -117,7 +117,7 @@ function RegularContributionsPayment(props: PropTypes, context) {
     amount={props.amount}
     switchStatus={props.stripeSwitchStatus}
     disable={props.disable}
-    formClassName={'regular-contrib__name-form'}
+    formClassName="regular-contrib__name-form"
   />);
 
   const payPalButton = (<PayPalExpressButton
