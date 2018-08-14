@@ -43,6 +43,10 @@ const initialState: User = {
     value: '',
     shouldValidate: false,
   },
+  fullName: {
+    value: '',
+    shouldValidate: false,
+  },
   isTestUser: null,
   isPostDeploymentTestUser: false,
   gnmMarketing: false,
