@@ -20,6 +20,7 @@ import type { Contrib } from 'helpers/contributions';
 import type { IsoCountry } from 'helpers/internationalisation/country';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
+import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import { setPayPalHasLoaded } from '../regularContributionsActions';
 import { postCheckout } from '../helpers/ajax';
 
@@ -30,7 +31,7 @@ export type PaymentStatus = 'NotStarted' | 'Pending' | 'PollingTimedOut' | 'Fail
 
 type PropTypes = {|
   dispatch: Dispatch<*>,
-  email: string,
+  email: UserFormFieldAttribute,
   disable: boolean,
   error: ?string,
   isTestUser: boolean,
@@ -117,6 +118,7 @@ function RegularContributionsPayment(props: PropTypes, context) {
     switchStatus={props.stripeSwitchStatus}
     disable={props.disable}
     formClassName="regular-contrib__name-form"
+    dispatch={props.dispatch}
   />);
 
   const payPalButton = (<PayPalExpressButton
@@ -155,13 +157,11 @@ function RegularContributionsPayment(props: PropTypes, context) {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
-  const firstName = state.page.user.firstName;
-  const lastName = state.page.user.lastName;
-  const email = state.page.user.email;
+  const { firstName, lastName, email } = state.page.user;
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
-    email: state.page.user.email.value,
+    email,
     disable:
       !firstName.isValid(firstName.value)
       || !lastName.isValid(lastName.value)

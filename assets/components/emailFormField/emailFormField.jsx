@@ -5,16 +5,16 @@
 import React from 'react';
 import TextInput from 'components/textInput/textInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { validateEmailAddress, emailRegexPattern } from 'helpers/utilities';
+import { emailRegexPattern } from 'helpers/utilities';
 import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
+import type { Dispatch } from 'redux';
 
 // ----- Types ----- //
 
 type PropTypes = {
-  emailUpdate: (email: string) => void,
   email: UserFormFieldAttribute,
+  dispatch: Dispatch<*>,
   isSignedIn: boolean,
-  setEmailShouldValidate: () => void,
 };
 
 // ----- Component ----- //
@@ -41,8 +41,8 @@ const EmailFormField = (props: PropTypes) => {
         value={emailValue}
         labelText="Email"
         placeholder="Email"
-        onChange={props.emailUpdate}
-        onBlur={props.setEmailShouldValidate}
+        onChange={props.email.setValue(props.dispatch)}
+        onBlur={props.email.setShouldValidate(props.dispatch)}
         modifierClasses={modifierClass}
         type="email"
         pattern={emailRegexPattern}

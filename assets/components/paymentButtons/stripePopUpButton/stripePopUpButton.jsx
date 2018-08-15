@@ -4,6 +4,7 @@
 
 import React from 'react';
 
+import type { Dispatch } from 'redux';
 import SvgCreditCard from 'components/svgs/creditCard';
 import Switchable from 'components/switchable/switchable';
 import PaymentError from 'components/switchable/errorComponents/paymentError';
@@ -15,6 +16,7 @@ import {
   openDialogBox,
 } from 'helpers/paymentIntegrations/stripeCheckout';
 import { classNameWithModifiers } from 'helpers/utilities';
+import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 
 // ---- Types ----- //
 
@@ -24,13 +26,14 @@ type PropTypes = {|
   callback: (token: string) => Promise<*>,
   closeHandler: () => void,
   currencyId: IsoCurrency,
-  email: string,
+  email: UserFormFieldAttribute,
   isTestUser: boolean,
   isPostDeploymentTestUser: boolean,
   switchStatus: Status,
   disable: boolean,
-  setShouldValidateFunctions: Array<() => void>,
+  formElements: Array<UserFormFieldAttribute>,
   formClassName: string,
+  dispatch: Dispatch<*>
 |};
 /* eslint-enable react/no-unused-prop-types */
 
@@ -52,16 +55,6 @@ const StripePopUpButton = (props: PropTypes) => (
   />
 );
 
-function formIsValid(formClassName: string) {
-  const form = document.getElementsByClassName(formClassName);
-  let isValid = true;
-  if (form && form.length > 0) {
-    const formElements = [...form[0].getElementsByTagName('input')];
-    isValid = formElements && formElements.reduce((acc, el) => acc && el.validity.valid, true);
-  }
-  return isValid;
-}
-
 // ----- Auxiliary Components ----- //
 
 function Button(props: PropTypes) {
@@ -75,11 +68,11 @@ function Button(props: PropTypes) {
     if (props.isPostDeploymentTestUser) {
       const testTokenId = 'tok_visa';
       props.callback(testTokenId);
-    } else if (formIsValid(props.formClassName)) {
+    } else if (props.formElements.every(el => el.isValid(el.value))) {
       storage.setSession('paymentMethod', 'Stripe');
-      openDialogBox(props.amount, props.email);
+      openDialogBox(props.amount, props.email.value);
     }
-    props.setShouldValidateFunctions.forEach(f => f());
+    props.formElements.forEach(f => f.setShouldValidate(props.dispatch)());
   };
 
   const baseClass = 'component-stripe-pop-up-button';
@@ -106,7 +99,7 @@ function Button(props: PropTypes) {
 StripePopUpButton.defaultProps = {
   closeHandler: () => {},
   switchStatus: 'On',
-  setShouldValidateFunctions: [],
+  formElements: [],
 };
 
 
