@@ -1,7 +1,6 @@
 // @flow
 
 // ----- Imports ----- //
-import { emptyInputField, validateEmailAddress } from 'helpers/utilities';
 import {
   setFirstNameShouldValidate,
   setLastNameShouldValidate,
@@ -18,7 +17,7 @@ import {
 export type UserFormFieldAttribute = {
   value: string,
   shouldValidate: boolean,
-  isValid: (string) => boolean,
+  isValid: () => boolean,
   setShouldValidate: (Function) => () => void,
   setValue: (Function) => (string) => void,
 }
@@ -41,12 +40,12 @@ export type User = {
 // We provide a fallback validation function as sometimes the field may not be present
 // but the state will be - for example, if the user is signed in, their email address
 // is stored in the state but there is no email form on the page
-function formElementIsValid(elementId: string, fallbackValidation?: boolean = false) {
+function formElementIsValid(elementId: string) {
   const element = document && document.getElementById(elementId);
   if (element && element instanceof HTMLInputElement) {
     return element.validity.valid;
   }
-  return fallbackValidation;
+  return true;
 }
 
 // ----- Setup ----- //
@@ -56,14 +55,14 @@ const initialState: User = {
   firstName: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('first-name'),
+    isValid: () => formElementIsValid('first-name'),
     setShouldValidate: (dispatch: Function) => () => dispatch(setFirstNameShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setFirstName(value)),
   },
   email: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('email', !emptyInputField(value) && validateEmailAddress(value)),
+    isValid: () => formElementIsValid('email'),
     setShouldValidate: (dispatch: Function) => () => dispatch(setEmailShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setEmail(value)),
   },
@@ -71,14 +70,14 @@ const initialState: User = {
   lastName: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('last-name'),
+    isValid: () => formElementIsValid('last-name'),
     setShouldValidate: (dispatch: Function) => () => dispatch(setLastNameShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setLastName(value)),
   },
   fullName: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('name'),
+    isValid: () => formElementIsValid('name'),
     setShouldValidate: (dispatch: Function) => () => dispatch(setFullNameShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setFullName(value)),
   },

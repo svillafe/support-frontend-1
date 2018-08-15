@@ -78,3 +78,4 @@ const router = (
 );
 
 renderPage(router, 'regular-contributions-page');
+

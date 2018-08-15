@@ -21,6 +21,7 @@ import type { IsoCountry } from 'helpers/internationalisation/country';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
 import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
+import { emptyInputField, validateEmailAddress } from 'helpers/utilities';
 import { setPayPalHasLoaded } from '../regularContributionsActions';
 import { postCheckout } from '../helpers/ajax';
 
@@ -49,6 +50,7 @@ type PropTypes = {|
   directDebitSwitchStatus: Status,
   stripeSwitchStatus: Status,
   payPalSwitchStatus: Status,
+  pageHasLoaded: boolean
 |};
 
 
@@ -79,7 +81,7 @@ function getStatusMessage(
 function RegularContributionsPayment(props: PropTypes, context) {
   let directDebitButton = null;
 
-  if (props.country === 'GB') {
+  if (props.country === 'GB' && true) {
     directDebitButton = (
       <DirectDebitPopUpButton
         callback={postCheckout(
@@ -98,28 +100,32 @@ function RegularContributionsPayment(props: PropTypes, context) {
       />);
   }
 
-  const stripeButton = (<StripePopUpButton
-    email={props.email}
-    callback={postCheckout(
-      props.abParticipations,
-      props.amount,
-      props.csrf,
-      props.currencyId,
-      props.contributionType,
-      props.dispatch,
-      'Stripe',
-      props.referrerAcquisitionData,
-      context.store.getState,
-    )}
-    currencyId={props.currencyId}
-    isTestUser={props.isTestUser}
-    isPostDeploymentTestUser={props.isPostDeploymentTestUser}
-    amount={props.amount}
-    switchStatus={props.stripeSwitchStatus}
-    disable={props.disable}
-    formClassName="regular-contrib__name-form"
-    dispatch={props.dispatch}
-  />);
+  let stripeButton = null;
+
+  if (true) {
+    stripeButton = (<StripePopUpButton
+      email={props.email}
+      callback={postCheckout(
+        props.abParticipations,
+        props.amount,
+        props.csrf,
+        props.currencyId,
+        props.contributionType,
+        props.dispatch,
+        'Stripe',
+        props.referrerAcquisitionData,
+        context.store.getState,
+      )}
+      currencyId={props.currencyId}
+      isTestUser={props.isTestUser}
+      isPostDeploymentTestUser={props.isPostDeploymentTestUser}
+      amount={props.amount}
+      switchStatus={props.stripeSwitchStatus}
+      disable={props.disable}
+      formClassName="regular-contrib__name-form"
+      dispatch={props.dispatch}
+    />);
+  }
 
   const payPalButton = (<PayPalExpressButton
     amount={props.amount}
@@ -157,15 +163,23 @@ function RegularContributionsPayment(props: PropTypes, context) {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
-  const { firstName, lastName, email } = state.page.user;
+  const {
+    firstName,
+    lastName,
+    email,
+    isSignedIn,
+  } = state.page.user;
+  const emailIsValid = isSignedIn
+    ? true
+    : email.isValid();
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
     email,
     disable:
-      !firstName.isValid(firstName.value)
-      || !lastName.isValid(lastName.value)
-      || !email.isValid(email.value),
+      !firstName.isValid()
+      || !lastName.isValid()
+      || !emailIsValid,
     error: state.page.regularContrib.error,
     paymentStatus: state.page.regularContrib.paymentStatus,
     amount: state.page.regularContrib.amount,
