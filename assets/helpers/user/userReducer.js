@@ -73,34 +73,15 @@ function userReducer(
       return { ...state, displayName: action.name };
 
     case 'SET_FIRST_NAME':
-      return {
-        ...state,
-        firstName: {
-          value: action.name,
-          shouldValidate: state.firstName.shouldValidate,
-          isValid: state.firstName.isValid,
-        }
-      };
+      return { ...state, firstName: { ...state.firstName, value: action.name } };
 
     case 'SET_LAST_NAME':
-      return {
-        ...state,
-        lastName: {
-          value: action.name,
-          shouldValidate: state.lastName.shouldValidate,
-          isValid: state.lastName.isValid,
-        }
-      };
+      return { ...state, lastName: { ...state.lastName, value: action.name } };
+
 
     case 'SET_FULL_NAME':
-      return {
-        ...state,
-        fullName: {
-          value: action.name,
-          shouldValidate: state.fullName.shouldValidate,
-          isValid: state.fullName.isValid,
-        }
-      };
+      return { ...state, fullName: { ...state.fullName, value: action.name } };
+
 
     case 'SET_TEST_USER':
       return { ...state, isTestUser: action.testUser };
@@ -109,14 +90,8 @@ function userReducer(
       return { ...state, isPostDeploymentTestUser: action.postDeploymentTestUser };
 
     case 'SET_EMAIL':
-      return {
-        ...state,
-        email: {
-          value: action.email,
-          shouldValidate: state.email.shouldValidate,
-          isValid: state.email.isValid,
-        }
-      };
+      return { ...state, email: { ...state.email, value: action.email } };
+
 
     case 'SET_STATEFIELD':
       return { ...state, stateField: action.stateField };
@@ -128,16 +103,16 @@ function userReducer(
       return { ...state, isSignedIn: action.isSignedIn };
 
     case 'SET_FIRST_NAME_SHOULD_VALIDATE':
-      return { ...state, firstName: { value: state.firstName.value, shouldValidate: true } };
+      return { ...state, firstName: { ...state.firstName, shouldValidate: true } };
 
     case 'SET_LAST_NAME_SHOULD_VALIDATE':
-      return { ...state, lastName: { value: state.lastName.value, shouldValidate: true } };
+      return { ...state, lastName: { ...state.lastName, shouldValidate: true } };
 
     case 'SET_EMAIL_SHOULD_VALIDATE':
-      return { ...state, email: { value: state.email.value, shouldValidate: true } };
+      return { ...state, email: { ...state.email, shouldValidate: true } };
 
     case 'SET_FULL_NAME_SHOULD_VALIDATE':
-      return { ...state, fullName: { value: state.fullName.value, shouldValidate: true } };
+      return { ...state, fullName: { ...state.fullName, shouldValidate: true } };
 
     default:
       return state;
