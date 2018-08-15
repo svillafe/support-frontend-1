@@ -2,12 +2,13 @@
 
 // ----- Imports ----- //
 import type { Action } from './userActions';
-
+import { emptyInputField, validateEmailAddress } from 'helpers/utilities';
 
 // ----- Types ----- //
 export type UserFormFieldAttribute = {
   value: string,
   shouldValidate: boolean,
+  isValid: (string) => boolean,
 }
 
 
@@ -25,7 +26,6 @@ export type User = {
   isSignedIn: boolean,
 };
 
-
 // ----- Setup ----- //
 
 const initialState: User = {
@@ -33,19 +33,23 @@ const initialState: User = {
   email: {
     value: '',
     shouldValidate: false,
+    isValid: (value: string) => !emptyInputField(value) && validateEmailAddress(value),
   },
   displayName: '',
   firstName: {
     value: '',
     shouldValidate: false,
+    isValid: (value: string) => !emptyInputField(value),
   },
   lastName: {
     value: '',
     shouldValidate: false,
+    isValid: (value: string) => !emptyInputField(value),
   },
   fullName: {
     value: '',
     shouldValidate: false,
+    isValid: (value: string) => !emptyInputField(value),
   },
   isTestUser: null,
   isPostDeploymentTestUser: false,
@@ -69,13 +73,34 @@ function userReducer(
       return { ...state, displayName: action.name };
 
     case 'SET_FIRST_NAME':
-      return { ...state, firstName: { value: action.name, shouldValidate: state.firstName.shouldValidate } };
+      return {
+        ...state,
+        firstName: {
+          value: action.name,
+          shouldValidate: state.firstName.shouldValidate,
+          isValid: state.firstName.isValid,
+        }
+      };
 
     case 'SET_LAST_NAME':
-      return { ...state, lastName: { value: action.name, shouldValidate: state.lastName.shouldValidate } };
+      return {
+        ...state,
+        lastName: {
+          value: action.name,
+          shouldValidate: state.lastName.shouldValidate,
+          isValid: state.lastName.isValid,
+        }
+      };
 
     case 'SET_FULL_NAME':
-      return { ...state, fullName: { value: action.name, shouldValidate: state.fullName.shouldValidate } };
+      return {
+        ...state,
+        fullName: {
+          value: action.name,
+          shouldValidate: state.fullName.shouldValidate,
+          isValid: state.fullName.isValid,
+        }
+      };
 
     case 'SET_TEST_USER':
       return { ...state, isTestUser: action.testUser };
@@ -84,7 +109,14 @@ function userReducer(
       return { ...state, isPostDeploymentTestUser: action.postDeploymentTestUser };
 
     case 'SET_EMAIL':
-      return { ...state, email: { value: action.email, shouldValidate: state.email.shouldValidate } };
+      return {
+        ...state,
+        email: {
+          value: action.email,
+          shouldValidate: state.email.shouldValidate,
+          isValid: state.email.isValid,
+        }
+      };
 
     case 'SET_STATEFIELD':
       return { ...state, stateField: action.stateField };

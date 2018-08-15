@@ -11,7 +11,6 @@ import PayPalExpressButton from 'components/paymentButtons/payPalExpressButton/p
 import DirectDebitPopUpButton from 'components/paymentButtons/directDebitPopUpButton/directDebitPopUpButton';
 import ErrorMessage from 'components/errorMessage/errorMessage';
 import ProgressMessage from 'components/progressMessage/progressMessage';
-import { emptyInputField, validateEmailAddress } from 'helpers/utilities';
 import type { Status } from 'helpers/switch';
 import { routes } from 'helpers/routes';
 import type { ReferrerAcquisitionData } from 'helpers/tracking/acquisitions';
@@ -156,14 +155,17 @@ function RegularContributionsPayment(props: PropTypes, context) {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
+  const firstName = state.page.user.firstName;
+  const lastName = state.page.user.lastName;
+  const email = state.page.user.email;
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
     email: state.page.user.email.value,
     disable:
-      emptyInputField(state.page.user.firstName.value)
-      || emptyInputField(state.page.user.lastName.value)
-      || !validateEmailAddress(state.page.user.email.value),
+      firstName.isValid(firstName.value)
+      || lastName.isValid(lastName.value)
+      || email.isValid(email.value),
     error: state.page.regularContrib.error,
     paymentStatus: state.page.regularContrib.paymentStatus,
     amount: state.page.regularContrib.amount,
