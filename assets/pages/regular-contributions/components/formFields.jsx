@@ -9,10 +9,6 @@ import TextInput from 'components/textInput/textInput';
 import SelectInput from 'components/selectInput/selectInput';
 
 import {
-  setFirstName,
-  setLastName,
-  setFirstNameShouldValidate,
-  setLastNameShouldValidate,
   setStateField,
   type Action as UserAction,
 } from 'helpers/user/userActions';
@@ -25,23 +21,20 @@ import type { IsoCountry, UsState, CaState } from 'helpers/internationalisation/
 import type { SelectOption } from 'components/selectInput/selectInput';
 import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
+import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
 import EmailFormFieldContainer from './emailFormFieldContainer';
 
 
 // ----- Types ----- //
 
 type PropTypes = {
-  firstNameUpdate: (name: string) => void,
-  lastNameUpdate: (name: string) => void,
-  setFirstNameShouldValidate: () => void,
-  setLastNameShouldValidate: () => void,
   stateUpdate: (value: UsState | CaState) => void,
   countryUpdate: (value: string) => void,
   firstName: UserFormFieldAttribute,
   lastName: UserFormFieldAttribute,
   countryGroup: CountryGroupId,
   country: IsoCountry,
+  dispatch: Dispatch<UserAction | PageAction>
 };
 
 // ----- Map State/Props ----- //
@@ -60,18 +53,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction>) {
 
   return {
-    firstNameUpdate: (name: string) => {
-      dispatch(setFirstName(name));
-    },
-    lastNameUpdate: (name: string) => {
-      dispatch(setLastName(name));
-    },
-    setFirstNameShouldValidate: () => {
-      dispatch(setFirstNameShouldValidate());
-    },
-    setLastNameShouldValidate: () => {
-      dispatch(setLastNameShouldValidate());
-    },
+    dispatch,
     stateUpdate: (value: UsState | CaState) => {
       dispatch(setStateField(value));
     },
@@ -141,7 +123,7 @@ function countriesDropdown(
 function NameForm(props: PropTypes) {
 
   const showFirstNameError = props.firstName.shouldValidate && !props.firstName.isValid(props.firstName.value);
-  const showLastNameError =  props.lastName.shouldValidate && !props.lastName.isValid(props.lastName.value);
+  const showLastNameError = props.lastName.shouldValidate && !props.lastName.isValid(props.lastName.value);
   const firstNameModifier = showFirstNameError
     ? ['first-name', 'error']
     : ['first-name'];
@@ -151,14 +133,16 @@ function NameForm(props: PropTypes) {
 
   return (
     <form className="regular-contrib__name-form">
-      <EmailFormFieldContainer />
+      <EmailFormFieldContainer
+        dispatch={props.dispatch}
+      />
       <TextInput
         id="first-name"
         labelText="First name"
         placeholder="First name"
         value={props.firstName.value}
-        onChange={props.firstNameUpdate}
-        onBlur={props.setFirstNameShouldValidate}
+        onChange={props.firstName.setValue(props.dispatch)}
+        onBlur={props.firstName.setShouldValidate(props.dispatch)}
         modifierClasses={firstNameModifier}
         required
       />
@@ -171,8 +155,8 @@ function NameForm(props: PropTypes) {
         labelText="Last name"
         placeholder="Last name"
         value={props.lastName.value}
-        onChange={props.lastNameUpdate}
-        onBlur={props.setLastNameShouldValidate}
+        onChange={props.lastName.setValue(props.dispatch)}
+        onBlur={props.lastName.setShouldValidate(props.dispatch)}
         modifierClasses={lastNameModifier}
         required
       />

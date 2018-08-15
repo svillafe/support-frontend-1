@@ -26,7 +26,6 @@ type PropTypes = {
 // ----- Component ----- //
 
 export default function TextInput(props: PropTypes) {
-
   return (
     <div className={classNameWithModifiers('component-text-input', props.modifierClasses)}>
       <label htmlFor={props.id} className="component-text-input__label">

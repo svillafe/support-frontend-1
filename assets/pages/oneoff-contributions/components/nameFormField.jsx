@@ -9,14 +9,12 @@ import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import ErrorMessage from 'components/errorMessage/errorMessage';
 
 import TextInput from 'components/textInput/textInput';
-import { setFullName, setFullNameShouldValidate, type Action } from 'helpers/user/userActions';
 
 // ----- Types ----- //
 
 type PropTypes = {
-  nameUpdate: (name: string) => void,
   name: UserFormFieldAttribute,
-  setFullNameShouldValidate: () => void,
+  dispatch: Dispatch<*>
 };
 
 
@@ -36,8 +34,8 @@ const NameFormField = (props: PropTypes) => {
         placeholder="Full name"
         labelText="Full name"
         value={props.name.value}
-        onChange={props.nameUpdate}
-        onBlur={props.setFullNameShouldValidate}
+        onChange={props.name.setValue(props.dispatch)}
+        onBlur={props.name.setShouldValidate(props.dispatch)}
         modifierClasses={modifierClass}
         required
       />
@@ -62,15 +60,10 @@ function mapStateToProps(state) {
 
 }
 
-function mapDispatchToProps(dispatch: Dispatch<Action>) {
+function mapDispatchToProps(dispatch: Dispatch<*>) {
 
   return {
-    nameUpdate: (name: string) => {
-      dispatch(setFullName(name));
-    },
-    setFullNameShouldValidate: () => {
-      dispatch(setFullNameShouldValidate());
-    },
+    dispatch,
   };
 
 }

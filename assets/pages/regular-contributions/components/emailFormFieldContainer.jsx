@@ -1,9 +1,11 @@
+// @flow
+
 // ----- Imports ----- //
 
 import { connect } from 'react-redux';
 
-import { setEmail, setEmailShouldValidate } from 'helpers/user/userActions';
 import EmailFormField from 'components/emailFormField/emailFormField';
+import { type Dispatch } from 'redux';
 
 // ----- State/Action Maps ----- //
 
@@ -16,10 +18,11 @@ function mapStateToProps(state) {
 
 }
 
-const mapDispatchToProps = {
-  emailUpdate: setEmail,
-  setEmailShouldValidate,
-};
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return {
+    dispatch,
+  };
+}
 
 
 // ----- Exports ----- //

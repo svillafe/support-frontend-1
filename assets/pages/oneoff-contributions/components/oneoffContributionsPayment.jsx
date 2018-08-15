@@ -14,19 +14,15 @@ import type { ReferrerAcquisitionData } from 'helpers/tracking/acquisitions';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { IsoCurrency } from 'helpers/internationalisation/currency';
 import type { Status } from 'helpers/switch';
-import {
-  setFullNameShouldValidate,
-  setEmailShouldValidate,
-  type Action,
-} from 'helpers/user/userActions';
+import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
 import postCheckout from '../helpers/ajax';
-
 
 // ----- Types ----- //
 
 type PropTypes = {|
-  dispatch: Function,
-  email: string,
+  dispatch: Dispatch<*>,
+  email: UserFormFieldAttribute,
+  fullName: UserFormFieldAttribute,
   error: ?string,
   amount: number,
   referrerAcquisitionData: ReferrerAcquisitionData,
@@ -36,8 +32,6 @@ type PropTypes = {|
   isPostDeploymentTestUser: boolean,
   stripeSwitchStatus: Status,
   paymentComplete: boolean,
-  setEmailShouldValidate: () => void,
-  setFullNameShouldValidate: () => void,
 |};
 
 
@@ -47,7 +41,8 @@ function mapStateToProps(state) {
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
-    email: state.page.user.email.value,
+    email: state.page.user.email,
+    fullName: state.page.user.fullName,
     error: state.page.oneoffContrib.error,
     amount: state.page.oneoffContrib.amount,
     referrerAcquisitionData: state.common.referrerAcquisitionData,
@@ -58,12 +53,8 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<Action>) {
-  return {
-    dispatch,
-    setEmailShouldValidate: () => dispatch(setEmailShouldValidate()),
-    setFullNameShouldValidate: () => dispatch(setFullNameShouldValidate()),
-  };
+function mapDispatchToProps(dispatch: Dispatch<*>) {
+  return { dispatch };
 }
 
 
@@ -98,8 +89,9 @@ function OneoffContributionsPayment(props: PropTypes, context) {
         amount={props.amount}
         switchStatus={props.stripeSwitchStatus}
         disable={false}
-        setShouldValidateFunctions={[props.setFullNameShouldValidate, props.setEmailShouldValidate]}
+        formElements={[props.fullName, props.email]}
         formClassName="oneoff-contrib__name-form"
+        dispatch={props.dispatch}
       />
     </section>
   );
