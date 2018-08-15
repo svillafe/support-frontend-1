@@ -21,8 +21,8 @@ type PropTypes = {
 
 
 const EmailFormField = (props: PropTypes) => {
-
-  const showEmailError = props.email.shouldValidate && !validateEmailAddress(props.email.value);
+  const emailValue = props.email.value;
+  const showEmailError = props.email.shouldValidate && !props.email.isValid(emailValue);
 
   if (props.isSignedIn) {
     return null;
@@ -38,7 +38,7 @@ const EmailFormField = (props: PropTypes) => {
     <div className="component-email-form-field">
       <TextInput
         id="email"
-        value={props.email.value}
+        value={emailValue}
         labelText="Email"
         placeholder="Email"
         onChange={props.emailUpdate}

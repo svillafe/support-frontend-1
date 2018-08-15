@@ -24,7 +24,6 @@ import { countryGroups } from 'helpers/internationalisation/countryGroup';
 import type { IsoCountry, UsState, CaState } from 'helpers/internationalisation/country';
 import type { SelectOption } from 'components/selectInput/selectInput';
 import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
-import { emptyInputField } from 'helpers/utilities';
 import ErrorMessage from 'components/errorMessage/errorMessage';
 import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import EmailFormFieldContainer from './emailFormFieldContainer';
@@ -141,8 +140,8 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
-  const showFirstNameError = emptyInputField(props.firstName.value) && props.firstName.shouldValidate;
-  const showLastNameError = emptyInputField(props.lastName.value) && props.lastName.shouldValidate;
+  const showFirstNameError = props.firstName.shouldValidate && props.firstName.isValid(props.firstName.value);
+  const showLastNameError =  props.lastName.shouldValidate && props.lastName.isValid(props.lastName.value);
   const firstNameModifier = showFirstNameError
     ? ['first-name', 'error']
     : ['first-name'];
