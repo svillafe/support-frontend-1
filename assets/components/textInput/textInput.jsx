@@ -61,7 +61,6 @@ export default function TextInput(props: PropTypes) {
         required={props.required}
         autoComplete={props.autocomplete}
         autoCapitalize={props.autocapitalize}
-        pattern={props.pattern}
       />
     </div>
   );
@@ -77,9 +76,7 @@ TextInput.defaultProps = {
   required: false,
   autocomplete: 'on',
   autocapitalize: 'off',
-  pattern: '',
   modifierClasses: [],
-  type: 'text',
   pattern: '.*',
   onBlur: () => undefined,
 };

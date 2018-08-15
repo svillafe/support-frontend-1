@@ -40,14 +40,23 @@ Object {
   "user": Object {
     "displayName": "",
     "email": Object {
+      "isValid": [Function],
+      "setShouldValidate": [Function],
+      "setValue": [Function],
       "shouldValidate": false,
       "value": "",
     },
     "firstName": Object {
+      "isValid": [Function],
+      "setShouldValidate": [Function],
+      "setValue": [Function],
       "shouldValidate": false,
       "value": "",
     },
     "fullName": Object {
+      "isValid": [Function],
+      "setShouldValidate": [Function],
+      "setValue": [Function],
       "shouldValidate": false,
       "value": "",
     },
@@ -57,6 +66,9 @@ Object {
     "isSignedIn": false,
     "isTestUser": null,
     "lastName": Object {
+      "isValid": [Function],
+      "setShouldValidate": [Function],
+      "setValue": [Function],
       "shouldValidate": false,
       "value": "",
     },

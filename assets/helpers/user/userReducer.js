@@ -38,17 +38,6 @@ export type User = {
   isSignedIn: boolean,
 };
 
-// We provide a fallback validation function as sometimes the field may not be present
-// but the state will be - for example, if the user is signed in, their email address
-// is stored in the state but there is no email form on the page
-function formElementIsValid(elementId: string, fallbackValidation?: boolean = false) {
-  const element = document && document.getElementById(elementId);
-  if (element && element instanceof HTMLInputElement) {
-    return element.validity.valid;
-  }
-  return fallbackValidation;
-}
-
 // ----- Setup ----- //
 
 const initialState: User = {
@@ -56,14 +45,14 @@ const initialState: User = {
   firstName: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('first-name'),
+    isValid: (value: string) => !emptyInputField(value),
     setShouldValidate: (dispatch: Function) => () => dispatch(setFirstNameShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setFirstName(value)),
   },
   email: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('email', !emptyInputField(value) && validateEmailAddress(value)),
+    isValid: (value: string) => !emptyInputField(value) && validateEmailAddress(value),
     setShouldValidate: (dispatch: Function) => () => dispatch(setEmailShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setEmail(value)),
   },
@@ -71,14 +60,14 @@ const initialState: User = {
   lastName: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('last-name'),
+    isValid: (value: string) => !emptyInputField(value),
     setShouldValidate: (dispatch: Function) => () => dispatch(setLastNameShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setLastName(value)),
   },
   fullName: {
     value: '',
     shouldValidate: false,
-    isValid: (value: string) => formElementIsValid('name'),
+    isValid: (value: string) => !emptyInputField(value),
     setShouldValidate: (dispatch: Function) => () => dispatch(setFullNameShouldValidate()),
     setValue: (dispatch: Function) => (value: string) => dispatch(setFullName(value)),
   },

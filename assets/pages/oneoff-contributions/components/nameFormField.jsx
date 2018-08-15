@@ -28,7 +28,7 @@ const NameFormField = (props: PropTypes) => {
   }
 
   return (
-    <div>
+    <div className="component-text-input__input--name__container">
       <TextInput
         id="name"
         placeholder="Full name"
