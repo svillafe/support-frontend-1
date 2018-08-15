@@ -163,9 +163,9 @@ function mapStateToProps(state) {
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
     email: state.page.user.email.value,
     disable:
-      firstName.isValid(firstName.value)
-      || lastName.isValid(lastName.value)
-      || email.isValid(email.value),
+      !firstName.isValid(firstName.value)
+      || !lastName.isValid(lastName.value)
+      || !email.isValid(email.value),
     error: state.page.regularContrib.error,
     paymentStatus: state.page.regularContrib.paymentStatus,
     amount: state.page.regularContrib.amount,

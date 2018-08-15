@@ -140,8 +140,8 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
-  const showFirstNameError = props.firstName.shouldValidate && props.firstName.isValid(props.firstName.value);
-  const showLastNameError =  props.lastName.shouldValidate && props.lastName.isValid(props.lastName.value);
+  const showFirstNameError = props.firstName.shouldValidate && !props.firstName.isValid(props.firstName.value);
+  const showLastNameError =  props.lastName.shouldValidate && !props.lastName.isValid(props.lastName.value);
   const firstNameModifier = showFirstNameError
     ? ['first-name', 'error']
     : ['first-name'];
