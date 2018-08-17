@@ -1,8 +1,5 @@
 // @flow
 
-// ----- Imports ----- //
-import { emailRegexPattern } from 'helpers/utilities';
-
 // ----- Types ----- //
 export type UserFormFieldAttribute = {
   value: string,
@@ -29,19 +26,13 @@ export type User = {
 
 // ----- Setup ----- //
 
-const defaultUserFormFieldAttributeState = {
-  value: '',
-  shouldValidate: false,
-  required: true,
-};
-
 const initialState: User = {
   id: '',
-  firstName: { ...defaultUserFormFieldAttributeState },
-  email: { ...defaultUserFormFieldAttributeState, pattern: emailRegexPattern },
+  firstName: '',
+  email: '',
   displayName: '',
-  lastName: { ...defaultUserFormFieldAttributeState },
-  fullName: { ...defaultUserFormFieldAttributeState },
+  lastName: '',
+  fullName: '',
   isTestUser: null,
   isPostDeploymentTestUser: false,
   gnmMarketing: false,
@@ -64,13 +55,13 @@ function userReducer(
       return { ...state, displayName: action.name };
 
     case 'SET_FIRST_NAME':
-      return { ...state, firstName: { ...state.firstName, value: action.name } };
+      return { ...state, firstName: action.name  };
 
     case 'SET_LAST_NAME':
-      return { ...state, lastName: { ...state.lastName, value: action.name } };
+      return { ...state, lastName: action.name };
 
     case 'SET_FULL_NAME':
-      return { ...state, fullName: { ...state.fullName, value: action.name } };
+      return { ...state, fullName: action.name };
 
     case 'SET_TEST_USER':
       return { ...state, isTestUser: action.testUser };
@@ -79,7 +70,7 @@ function userReducer(
       return { ...state, isPostDeploymentTestUser: action.postDeploymentTestUser };
 
     case 'SET_EMAIL':
-      return { ...state, email: { ...state.email, value: action.email } };
+      return { ...state, email: action.email };
 
     case 'SET_STATEFIELD':
       return { ...state, stateField: action.stateField };
@@ -90,23 +81,10 @@ function userReducer(
     case 'SET_IS_SIGNED_IN':
       return { ...state, isSignedIn: action.isSignedIn };
 
-    case 'SET_FIRST_NAME_SHOULD_VALIDATE':
-    return { ...state, firstName: { ...state.firstName, shouldValidate: true } };
-
-    case 'SET_LAST_NAME_SHOULD_VALIDATE':
-      return { ...state, lastName: { ...state.lastName, shouldValidate: true } };
-
-    case 'SET_EMAIL_SHOULD_VALIDATE':
-      return { ...state, email: { ...state.email, shouldValidate: true } };
-
-    case 'SET_FULL_NAME_SHOULD_VALIDATE':
-      return { ...state, fullName: { ...state.fullName, shouldValidate: true } };
-
     default:
       return state;
 
   }
-
 }
 
 export { userReducer };

@@ -10,6 +10,7 @@ import type { DirectDebitState } from 'components/directDebit/directDebitReducer
 import { userReducer as user } from 'helpers/user/userReducer';
 import { directDebitReducer as directDebit } from 'components/directDebit/directDebitReducer';
 import { marketingConsentReducerFor } from 'components/marketingConsent/marketingConsentReducer';
+import { checkoutFormReducer as checkoutForm, type RegularContributionsCheckoutFormState} from './components/contributionsCheckoutContainer/checkoutFormReducer';
 import csrf from 'helpers/csrf/csrfReducer';
 import type { CommonState } from 'helpers/page/page';
 import type { PaymentMethod } from 'helpers/checkouts';
@@ -37,7 +38,7 @@ export type CombinedState = {
   regularContrib: State,
   user: UserState,
   csrf: CsrfState,
-  directDebit: DirectDebitState,
+  checkoutForm: RegularContributionsCheckoutFormState,
   marketingConsent: MarketingConsentState,
 };
 

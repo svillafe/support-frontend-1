@@ -2,8 +2,6 @@
 
 // ----- Types ----- //
 
-import { setSession } from 'helpers/storage';
-
 export type Action =
   | { type: 'SET_EMAIL_SHOULD_VALIDATE' }
   | { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' }
@@ -14,7 +12,7 @@ export type Action =
 // ----- Actions Creators ----- //
 
 
-export function contributionsCheckoutActions(): Object {
+export function checkoutFormActions(): Object {
   return {
     setEmailShouldValidate(): Action {
       return { type: 'SET_EMAIL_SHOULD_VALIDATE' };

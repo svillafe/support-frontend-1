@@ -157,15 +157,15 @@ function RegularContributionsPayment(props: PropTypes, context) {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
-  const { firstName, lastName, email } = state.page.user;
+  const { firstName, lastName, email } = state.page.checkoutForm;
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
     email,
     disable:
-      !firstName.isValid(firstName.value)
-      || !lastName.isValid(lastName.value)
-      || !email.isValid(email.value),
+      !firstName.isValid
+      || !lastName.isValid
+      || !email.isValid,
     error: state.page.regularContrib.error,
     paymentStatus: state.page.regularContrib.paymentStatus,
     amount: state.page.regularContrib.amount,

@@ -5,9 +5,7 @@
 import React from 'react';
 import TextInput from 'components/textInput/textInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { emailRegexPattern } from 'helpers/utilities';
-import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
-import type { Dispatch } from 'redux';
+import { emailRegexPattern, UserFormFieldAttribute } from 'helpers/checkoutForm/checkoutForm';
 
 // ----- Types ----- //
 
@@ -21,7 +19,6 @@ type PropTypes = {
 
 const EmailFormField = (props: PropTypes) => {
   const emailValue = props.email.value;
-  const showEmailError = props.email.shouldValidate && !props.email.isValid(emailValue);
 
   if (props.isSignedIn) {
     return null;
@@ -29,7 +26,7 @@ const EmailFormField = (props: PropTypes) => {
 
   const modifierClass = ['email'];
 
-  if (showEmailError) {
+  if (props.email.showError) {
     modifierClass.push('error');
   }
 
@@ -40,15 +37,15 @@ const EmailFormField = (props: PropTypes) => {
         value={emailValue}
         labelText="Email"
         placeholder="Email"
-        onChange={props.onChange}
-        onBlur={props.onBlur}
+        onChange={props.email.setValue}
+        onBlur={props.email.setShouldValidate}
         modifierClasses={modifierClass}
         type="email"
         pattern={emailRegexPattern}
         required
       />
       <ErrorMessage
-        showError={showEmailError}
+        showError={props.email.showError}
         message="Please enter a valid email address."
       />
     </div>

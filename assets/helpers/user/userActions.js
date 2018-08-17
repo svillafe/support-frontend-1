@@ -15,11 +15,7 @@ export type Action =
   | { type: 'SET_TEST_USER', testUser: boolean }
   | { type: 'SET_POST_DEPLOYMENT_TEST_USER', postDeploymentTestUser: boolean }
   | { type: 'SET_GNM_MARKETING', preference: boolean }
-  | { type: 'SET_IS_SIGNED_IN', isSignedIn: boolean }
-  | { type: 'SET_EMAIL_SHOULD_VALIDATE' }
-  | { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' }
-  | { type: 'SET_LAST_NAME_SHOULD_VALIDATE' }
-  | { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
+  | { type: 'SET_IS_SIGNED_IN', isSignedIn: boolean };
 
 
 // ----- Actions Creators ----- //
@@ -60,18 +56,6 @@ export function userActions(): Object {
     },
     setGnmMarketing(preference: boolean): Action {
       return { type: 'SET_GNM_MARKETING', preference };
-    },
-    setEmailShouldValidate(): Action {
-      return { type: 'SET_EMAIL_SHOULD_VALIDATE' };
-    },
-    setFirstNameShouldValidate(): Action {
-      return { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' };
-    },
-    setLastNameShouldValidate(): Action {
-      return { type: 'SET_LAST_NAME_SHOULD_VALIDATE' };
-    },
-    setFullNameShouldValidate(): Action {
-      return { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
     },
   }
 }

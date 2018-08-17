@@ -10,6 +10,7 @@ import SelectInput from 'components/selectInput/selectInput';
 
 import {
   setStateField,
+  userActions,
   type Action as UserAction,
 } from 'helpers/user/userActions';
 
@@ -23,7 +24,8 @@ import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 import ErrorMessage from 'components/errorMessage/errorMessage';
 import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
 import EmailFormFieldContainer from './emailFormFieldContainer';
-
+import { type Action as CheckoutAction, checkoutFormActions } from "helpers/checkoutForm/checkoutFormActions";
+import { showFormFieldError } from 'helpers/checkoutForm/checkoutForm'
 
 // ----- Types ----- //
 
@@ -40,30 +42,72 @@ type PropTypes = {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
+  const firstNameFormfield = {
+    value: state.page.user.firstName,
+    ...state.page.checkoutForm.firstName,
+  };
+  const lastNameFormField = {
+    value: state.page.user.lastName,
+    ...state.page.checkoutForm.lastName,
+  };
 
   return {
-    firstName: state.page.user.firstName,
-    lastName: state.page.user.lastName,
+    stateFirstName: firstNameFormfield,
+    stateLastName: lastNameFormField,
     countryGroup: state.common.internationalisation.countryGroupId,
     country: state.common.internationalisation.countryId,
   };
 
 }
 
-function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction>) {
+function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction | CheckoutAction>) {
 
   return {
     dispatch,
     stateUpdate: (value: UsState | CaState) => {
-      dispatch(setStateField(value));
+      dispatch(userActions().setStateField(value));
     },
     countryUpdate: (value: IsoCountry) => {
       dispatch(setCountry(value));
     },
+    firstNameActions: {
+      setShouldValidate: () => {
+        dispatch(checkoutFormActions().setFirstNameShouldValidate());
+      },
+      setValue: (firstName: string) => {
+        dispatch(userActions().setFirstName(firstName));
+      },
+    },
+    lastNameActions: {
+      setShouldValidate: () => {
+        dispatch(checkoutFormActions().setLastNameShouldValidate());
+      },
+      setValue: (lastName: string) => {
+        dispatch(userActions().setLastName(lastName));
+      },
+    }
   };
-
 }
 
+function mergeProps(stateProps, dispatchProps, ownProps) {
+
+  const firstName: UserFormFieldAttribute = {
+    ...stateProps.stateFirstName,
+    ...dispatchProps.firstNameActions,
+    showError: showFormFieldError(stateProps.stateFirstName.value, true)
+  };
+
+  const lastName: UserFormFieldAttribute = {
+    ...stateProps.stateLastName,
+    ...dispatchProps.lastNameActions,
+    showError: showFormFieldError(stateProps.stateLastName.value, true)
+  };
+
+  return {
+    firstName,
+    lastName,
+  }
+}
 
 // ----- Functions ----- //
 
@@ -122,8 +166,8 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
-  const showFirstNameError = props.firstName.shouldValidate && !props.firstName.isValid(props.firstName.value);
-  const showLastNameError = props.lastName.shouldValidate && !props.lastName.isValid(props.lastName.value);
+  const showFirstNameError = props.firstName.shouldValidate && !props.firstName.isValid;
+  const showLastNameError = props.lastName.shouldValidate && !props.lastName.isValid;
   const firstNameModifier = showFirstNameError
     ? ['first-name', 'error']
     : ['first-name'];
@@ -172,4 +216,4 @@ function NameForm(props: PropTypes) {
 
 // ----- Exports ----- //
 
-export default connect(mapStateToProps, mapDispatchToProps)(NameForm);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(NameForm);

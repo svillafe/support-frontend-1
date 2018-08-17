@@ -4,10 +4,10 @@
 
 import { connect } from 'react-redux';
 
-import { type Action as CheckoutAction, contributionsCheckoutActions } from "./contributionsCheckoutContainer/contributionsCheckoutActions";
+import { type Action as CheckoutFormAction, checkoutFormActions } from "helpers/checkoutForm/checkoutFormActions";
 import {type Action as UserAction, userActions } from 'helpers/user/userActions'
-import { contributionsCheckoutActions } from "./contributionsCheckoutContainer/contributionsCheckoutActions";
-import { UserFormFieldAttribute, showFormFieldError } from 'helpers/checkouts'
+import { UserFormFieldAttribute, showFormFieldError, emailRegexPattern } from 'helpers/checkoutForm/checkoutForm'
+import EmailFormField from 'components/emailFormField/emailFormField';
 import { Dispatch } from 'redux';
 
 // ----- State/Action Maps ----- //
@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 function mapStateToProps(state) {
   const emailFormField = {
     value: state.page.user.email,
-    ...state.page.checkoutFormFields.email,
+    ...state.page.checkoutForm.email,
   };
   return {
     stateEmail: emailFormField,
@@ -24,10 +24,10 @@ function mapStateToProps(state) {
 
 }
 
-function mapDispatchToProps(dispatch: Dispatch<CheckoutAction | UserAction >) {
+function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction >) {
   return {
     setShouldValidate: () => {
-      dispatch(contributionsCheckoutActions.setEmailShouldValidate());
+      dispatch(checkoutFormActions.setEmailShouldValidate());
     },
     setValue: (email: string) => {
       dispatch(userActions.setEmail(email));
@@ -41,11 +41,12 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   const email: UserFormFieldAttribute = {
     ...stateProps.stateEmail,
     ...dispatchProps,
+    showError: showFormFieldError(stateProps.stateEmail.value, true, emailRegexPattern)
   };
 
   return {
+    ...ownProps,
     email,
-    emailError: showFormFieldError(email),
   }
 }
 
