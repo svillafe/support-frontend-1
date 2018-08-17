@@ -24,8 +24,8 @@ import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 import ErrorMessage from 'components/errorMessage/errorMessage';
 import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
 import EmailFormFieldContainer from './emailFormFieldContainer';
-import { type Action as CheckoutAction, checkoutFormActions } from "helpers/checkoutForm/checkoutFormActions";
-import { showFormFieldError } from 'helpers/checkoutForm/checkoutForm'
+import { type Action as CheckoutAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
+import { formFieldError, showError } from 'helpers/checkoutForm'
 
 // ----- Types ----- //
 
@@ -63,7 +63,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction | CheckoutAction>) {
 
   return {
-    dispatch,
     stateUpdate: (value: UsState | CaState) => {
       dispatch(userActions().setStateField(value));
     },
@@ -94,16 +93,18 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   const firstName: UserFormFieldAttribute = {
     ...stateProps.stateFirstName,
     ...dispatchProps.firstNameActions,
-    showError: showFormFieldError(stateProps.stateFirstName.value, true)
+    isValid: formFieldError(stateProps.stateFirstName.value, true),
   };
 
   const lastName: UserFormFieldAttribute = {
     ...stateProps.stateLastName,
     ...dispatchProps.lastNameActions,
-    showError: showFormFieldError(stateProps.stateLastName.value, true)
+    isValid: formFieldError(stateProps.stateLastName.value, true),
   };
 
   return {
+    ownProps,
+    dispatchProps,
     firstName,
     lastName,
   }
@@ -166,8 +167,8 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
-  const showFirstNameError = props.firstName.shouldValidate && !props.firstName.isValid;
-  const showLastNameError = props.lastName.shouldValidate && !props.lastName.isValid;
+  const showFirstNameError = showError(props.firstName);
+  const showLastNameError = showError(props.lastName);
   const firstNameModifier = showFirstNameError
     ? ['first-name', 'error']
     : ['first-name'];
@@ -177,16 +178,14 @@ function NameForm(props: PropTypes) {
 
   return (
     <form className="regular-contrib__name-form">
-      <EmailFormFieldContainer
-        dispatch={props.dispatch}
-      />
+      <EmailFormFieldContainer />
       <TextInput
         id="first-name"
         labelText="First name"
         placeholder="First name"
         value={props.firstName.value}
-        onChange={props.firstName.setValue(props.dispatch)}
-        onBlur={props.firstName.setShouldValidate(props.dispatch)}
+        onChange={props.firstName.setValue}
+        onBlur={props.firstName.setShouldValidate}
         modifierClasses={firstNameModifier}
         required
       />
@@ -199,8 +198,8 @@ function NameForm(props: PropTypes) {
         labelText="Last name"
         placeholder="Last name"
         value={props.lastName.value}
-        onChange={props.lastName.setValue(props.dispatch)}
-        onBlur={props.lastName.setShouldValidate(props.dispatch)}
+        onChange={props.lastName.setValue}
+        onBlur={props.lastName.setShouldValidate}
         modifierClasses={lastNameModifier}
         required
       />

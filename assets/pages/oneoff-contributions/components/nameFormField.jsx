@@ -8,20 +8,24 @@ import type { Dispatch } from 'redux';
 import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import ErrorMessage from 'components/errorMessage/errorMessage';
 
+import { userActions, type Action as UserAction } from 'helpers/user/userActions';
 import TextInput from 'components/textInput/textInput';
+import { formFieldError, showError } from 'helpers/checkoutForm'
+import type { Action as CheckoutFormAction } from './contributionsCheckoutContainer/checkoutFormActions';
+import { checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
+
 
 // ----- Types ----- //
 
 type PropTypes = {
   name: UserFormFieldAttribute,
-  dispatch: Dispatch<*>
 };
 
 
 // ----- Component ----- //
 
 const NameFormField = (props: PropTypes) => {
-  const showError = props.name.shouldValidate && !props.name.value;
+  const showError = showError(props.firstName);
   const modifierClass = ['name'];
   if (showError) {
     modifierClass.push('error');
@@ -34,8 +38,8 @@ const NameFormField = (props: PropTypes) => {
         placeholder="Full name"
         labelText="Full name"
         value={props.name.value}
-        onChange={props.name.setValue(props.dispatch)}
-        onBlur={props.name.setShouldValidate(props.dispatch)}
+        onChange={props.name.setValue}
+        onBlur={props.name.setShouldValidate}
         modifierClasses={modifierClass}
         required
       />
@@ -51,24 +55,42 @@ const NameFormField = (props: PropTypes) => {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
-  const { user } = state.page;
+  const nameFormField = {
+    value: state.page.user.fullName,
+    shouldValidate: state.page.checkoutForm.fullName.shouldValidate,
+  };
   return {
-    name: user.fullName,
-    isoCountry: state.common.internationalisation.countryId,
-    isSignedIn: state.page.user.isSignedIn,
+    stateName: nameFormField,
   };
 
 }
 
-function mapDispatchToProps(dispatch: Dispatch<*>) {
-
+function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction >) {
   return {
-    dispatch,
+    setShouldValidate: () => {
+      dispatch(checkoutFormActions().setFullNameShouldValidate());
+    },
+    setValue: (name: string) => {
+      dispatch(userActions().setFullName(name));
+    },
+
+  };
+}
+
+function mergeProps(stateProps, dispatchProps, ownProps) {
+
+  const name: UserFormFieldAttribute = {
+    ...stateProps.stateName,
+    ...dispatchProps,
+    isValid: formFieldError(stateProps.stateName.value, true)
   };
 
+  return {
+    name,
+  }
 }
 
 
 // ----- Exports ----- //
 
-export default connect(mapStateToProps, mapDispatchToProps)(NameFormField);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(NameFormField);

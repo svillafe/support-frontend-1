@@ -5,7 +5,7 @@
 import React from 'react';
 import TextInput from 'components/textInput/textInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { emailRegexPattern, UserFormFieldAttribute } from 'helpers/checkoutForm/checkoutForm';
+import { emailRegexPattern, UserFormFieldAttribute, showError } from 'helpers/checkoutForm';
 
 // ----- Types ----- //
 
@@ -24,9 +24,11 @@ const EmailFormField = (props: PropTypes) => {
     return null;
   }
 
+  const showError = showError(props.email);
+
   const modifierClass = ['email'];
 
-  if (props.email.showError) {
+  if (showError) {
     modifierClass.push('error');
   }
 
@@ -45,7 +47,7 @@ const EmailFormField = (props: PropTypes) => {
         required
       />
       <ErrorMessage
-        showError={props.email.showError}
+        showError={showError}
         message="Please enter a valid email address."
       />
     </div>

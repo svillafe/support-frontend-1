@@ -12,37 +12,32 @@ export type CheckoutFormAttribute = {
   shouldValidate: boolean,
 }
 
-export type RegularContributionsCheckoutFormState = {
+export type OneOffContributionsCheckoutFormState = {
   emailField: CheckoutFormAttribute,
-  firstNameField: CheckoutFormAttribute,
-  lastNameField: CheckoutFormAttribute,
+  fullName: CheckoutFormAttribute,
 };
 
 // ----- Setup ----- //
 
-const initialState: RegularContributionsCheckoutFormState = {
+const initialState: OneOffContributionsCheckoutFormState = {
   email: { shouldValidate: false },
-  firstName: { shouldValidate: false },
-  lastName: { shouldValidate: false },
+  fullName: { shouldValidate: false },
 };
 
 
 // ----- Reducer ----- //
 
 function checkoutFormReducer(
-  state: RegularContributionsCheckoutFormState = initialState,
+  state: OneOffContributionsCheckoutFormState = initialState,
   action: Action,
 ): User {
 
   switch (action.type) {
-    case 'SET_FIRST_NAME_SHOULD_VALIDATE':
-      return { ...state, firstName: { shouldValidate: true } };
-
-    case 'SET_LAST_NAME_SHOULD_VALIDATE':
-      return { ...state, lastName: { shouldValidate: true } };
-
     case 'SET_EMAIL_SHOULD_VALIDATE':
       return { ...state, email: { shouldValidate: true } };
+
+    case 'SET_FULL_NAME_SHOULD_VALIDATE':
+      return { ...state, fullName: { shouldValidate: true } };
 
     default:
       return state;

@@ -28,6 +28,7 @@ type PropTypes = {|
   email: UserFormFieldAttribute,
   isTestUser: boolean,
   isPostDeploymentTestUser: boolean,
+  canOpen: () => boolean,
   switchStatus: Status,
   disable: boolean,
   formElements: Array<UserFormFieldAttribute>,
@@ -67,11 +68,12 @@ function Button(props: PropTypes) {
     if (props.isPostDeploymentTestUser) {
       const testTokenId = 'tok_visa';
       props.callback(testTokenId);
-    } else if (props.formElements.every(el => el.isValid(el.value))) {
+    } else if (props.canOpen()) {
       storage.setSession('paymentMethod', 'Stripe');
       openDialogBox(props.amount, props.email.value);
     }
-    props.formElements.forEach(f => f.setShouldValidate(props.dispatch)());
+    props.onClick();
+
   };
 
   const baseClass = 'component-stripe-pop-up-button';

@@ -12,7 +12,7 @@ export const emailRegexPattern = '^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9]
 
 export function patternIsValid(value: string, pattern: string) {
   const regex = new RegExp(pattern);
-  return regex.test(pattern);
+  return regex.test(value);
 }
 
 export function emptyInputField(input: ?string): boolean {
@@ -24,11 +24,22 @@ export type UserFormFieldAttribute = {
   shouldValidate: boolean,
   setShouldValidate: () => void,
   setValue: (string) => void,
-  showError: boolean,
+  isValid: boolean,
 }
 
-export function showFormFieldError(value: string, required: boolean, pattern: ?string) {
+export const defaultUserFormFieldAttribute = {
+  value: '',
+  shouldValidate: false,
+  setShouldValidate: () => {},
+  setValue: () => {},
+  showError: false,
+};
+
+
+export const showError = (field: UserFormFieldAttribute) => field.shouldValidate && field.isValid;
+
+export function formFieldError(value: string, required: boolean, pattern: ?string) {
   const emptyFieldError = required && emptyInputField(value);
   const patternMatchError = pattern && !patternIsValid(value, pattern);
-  return emptyFieldError && patternMatchError;
+  return emptyFieldError || !!patternMatchError;
 }

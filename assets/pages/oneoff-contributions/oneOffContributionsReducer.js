@@ -13,6 +13,8 @@ import csrf from 'helpers/csrf/csrfReducer';
 import type { CommonState } from 'helpers/page/page';
 import type { State as MarketingConsentState } from 'components/marketingConsent/marketingConsentReducer';
 import type { Action } from './oneoffContributionsActions';
+import { checkoutFormReducer as checkoutForm, type OneOffContributionsCheckoutFormState} from './components/contributionsCheckoutContainer/checkoutFormReducer';
+
 
 
 // ----- Types ----- //
@@ -27,6 +29,7 @@ export type CombinedState = {
   oneoffContrib: State,
   user: UserState,
   csrf: CsrfState,
+  checkoutForm: OneOffContributionsCheckoutFormState
   marketingConsent: MarketingConsentState
 };
 
@@ -72,5 +75,6 @@ export default function createRootOneOffContribReducer(amount: number) {
     marketingConsent: marketingConsentReducerFor('CONTRIBUTIONS_THANK_YOU'),
     user,
     csrf,
+    checkoutForm,
   });
 }

@@ -23,6 +23,7 @@ import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
 import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import { setPayPalHasLoaded } from '../regularContributionsActions';
 import { postCheckout } from '../helpers/ajax';
+import { emailRegexPattern, formFieldError } from 'helpers/checkoutForm';
 
 
 // ----- Types ----- //
@@ -157,15 +158,15 @@ function RegularContributionsPayment(props: PropTypes, context) {
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
-  const { firstName, lastName, email } = state.page.checkoutForm;
+  const { firstName, lastName, email } = state.page.user;
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
-    email,
+    email: state.page.user.email,
     disable:
-      !firstName.isValid
-      || !lastName.isValid
-      || !email.isValid,
+      formFieldError(firstName, true)
+      || formFieldError(lastName, true)
+      || formFieldError(email, true, emailRegexPattern),
     error: state.page.regularContrib.error,
     paymentStatus: state.page.regularContrib.paymentStatus,
     amount: state.page.regularContrib.amount,

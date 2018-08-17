@@ -4,9 +4,9 @@
 
 import { connect } from 'react-redux';
 
-import { type Action as CheckoutFormAction, checkoutFormActions } from "helpers/checkoutForm/checkoutFormActions";
+import { type Action as CheckoutFormAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
 import {type Action as UserAction, userActions } from 'helpers/user/userActions'
-import { UserFormFieldAttribute, showFormFieldError, emailRegexPattern } from 'helpers/checkoutForm/checkoutForm'
+import { UserFormFieldAttribute, formFieldError, emailRegexPattern } from 'helpers/checkoutForm'
 import EmailFormField from 'components/emailFormField/emailFormField';
 import { Dispatch } from 'redux';
 
@@ -15,7 +15,7 @@ import { Dispatch } from 'redux';
 function mapStateToProps(state) {
   const emailFormField = {
     value: state.page.user.email,
-    ...state.page.checkoutForm.email,
+    shouldValidate: state.page.checkoutForm.email.shouldValidate,
   };
   return {
     stateEmail: emailFormField,
@@ -27,10 +27,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction >) {
   return {
     setShouldValidate: () => {
-      dispatch(checkoutFormActions.setEmailShouldValidate());
+      dispatch(checkoutFormActions().setEmailShouldValidate());
     },
     setValue: (email: string) => {
-      dispatch(userActions.setEmail(email));
+      dispatch(userActions().setEmail(email));
     },
 
   };
@@ -41,11 +41,11 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   const email: UserFormFieldAttribute = {
     ...stateProps.stateEmail,
     ...dispatchProps,
-    showError: showFormFieldError(stateProps.stateEmail.value, true, emailRegexPattern)
+    isValid: formFieldError(stateProps.stateEmail.value, true, emailRegexPattern),
   };
 
   return {
-    ...ownProps,
+    isSignedIn: stateProps.isSignedIn,
     email,
   }
 }

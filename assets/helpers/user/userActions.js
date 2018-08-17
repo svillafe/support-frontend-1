@@ -43,7 +43,7 @@ export function userActions(): Object {
     },
     setEmail(email: string): Action {
       setSession('gu.email', email);
-      return { type: 'SET_EMAIL', ema,il };
+      return { type: 'SET_EMAIL', email };
     },
     setStateField(stateField: string): Action {
       return { type: 'SET_STATEFIELD', stateField };
