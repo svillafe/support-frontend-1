@@ -24,63 +24,59 @@ export type Action =
 
 // ----- Actions Creators ----- //
 
-export function setId(id: string): Action {
-  return { type: 'SET_USER_ID', id };
+
+export function userActions(): Object {
+  return {
+    setId(id: string): Action {
+      return { type: 'SET_USER_ID', id };
+    },
+    setDisplayName(name: string): Action {
+      return { type: 'SET_DISPLAY_NAME', name };
+    },
+    setFirstName(name: string): Action {
+      return { type: 'SET_FIRST_NAME', name };
+    },
+    setLastName(name: string): Action {
+      return { type: 'SET_LAST_NAME', name };
+    },
+    setFullName(name: string): Action {
+      return { type: 'SET_FULL_NAME', name };
+    },
+    setIsSignedIn(isSignedIn: boolean): Action {
+      return { type: 'SET_IS_SIGNED_IN', isSignedIn };
+    },
+    setEmail(email: string): Action {
+      setSession('gu.email', email);
+      return { type: 'SET_EMAIL', ema,il };
+    },
+    setStateField(stateField: string): Action {
+      return { type: 'SET_STATEFIELD', stateField };
+    },
+    setTestUser(testUser: boolean): Action {
+      return { type: 'SET_TEST_USER', testUser };
+    },
+    setPostDeploymentTestUser(postDeploymentTestUser: boolean): Action {
+      return { type: 'SET_POST_DEPLOYMENT_TEST_USER', postDeploymentTestUser };
+    },
+    setGnmMarketing(preference: boolean): Action {
+      return { type: 'SET_GNM_MARKETING', preference };
+    },
+    setEmailShouldValidate(): Action {
+      return { type: 'SET_EMAIL_SHOULD_VALIDATE' };
+    },
+    setFirstNameShouldValidate(): Action {
+      return { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' };
+    },
+    setLastNameShouldValidate(): Action {
+      return { type: 'SET_LAST_NAME_SHOULD_VALIDATE' };
+    },
+    setFullNameShouldValidate(): Action {
+      return { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
+    },
+  }
 }
 
-export function setDisplayName(name: string): Action {
-  return { type: 'SET_DISPLAY_NAME', name };
-}
 
-export function setFirstName(name: string): Action {
-  return { type: 'SET_FIRST_NAME', name };
-}
 
-export function setLastName(name: string): Action {
-  return { type: 'SET_LAST_NAME', name };
-}
 
-export function setFullName(name: string): Action {
-  return { type: 'SET_FULL_NAME', name };
-}
 
-export function setIsSignedIn(isSignedIn: boolean): Action {
-  return { type: 'SET_IS_SIGNED_IN', isSignedIn };
-}
-
-export function setEmail(email: string): Action {
-  setSession('gu.email', email);
-  return { type: 'SET_EMAIL', email };
-}
-
-export function setStateField(stateField: string): Action {
-  return { type: 'SET_STATEFIELD', stateField };
-}
-
-export function setTestUser(testUser: boolean): Action {
-  return { type: 'SET_TEST_USER', testUser };
-}
-
-export function setPostDeploymentTestUser(postDeploymentTestUser: boolean): Action {
-  return { type: 'SET_POST_DEPLOYMENT_TEST_USER', postDeploymentTestUser };
-}
-
-export function setGnmMarketing(preference: boolean): Action {
-  return { type: 'SET_GNM_MARKETING', preference };
-}
-
-export function setEmailShouldValidate(): Action {
-  return { type: 'SET_EMAIL_SHOULD_VALIDATE' };
-}
-
-export function setFirstNameShouldValidate(): Action {
-  return { type: 'SET_FIRST_NAME_SHOULD_VALIDATE' };
-}
-
-export function setLastNameShouldValidate(): Action {
-  return { type: 'SET_LAST_NAME_SHOULD_VALIDATE' };
-}
-
-export function setFullNameShouldValidate(): Action {
-  return { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
-}

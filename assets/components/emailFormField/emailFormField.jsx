@@ -13,7 +13,6 @@ import type { Dispatch } from 'redux';
 
 type PropTypes = {
   email: UserFormFieldAttribute,
-  dispatch: Dispatch<*>,
   isSignedIn: boolean,
 };
 
@@ -41,8 +40,8 @@ const EmailFormField = (props: PropTypes) => {
         value={emailValue}
         labelText="Email"
         placeholder="Email"
-        onChange={props.email.setValue(props.dispatch)}
-        onBlur={props.email.setShouldValidate(props.dispatch)}
+        onChange={props.onChange}
+        onBlur={props.onBlur}
         modifierClasses={modifierClass}
         type="email"
         pattern={emailRegexPattern}

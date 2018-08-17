@@ -1,38 +1,27 @@
 // @flow
 
 // ----- Imports ----- //
-import { emptyInputField, validateEmailAddress } from 'helpers/utilities';
-import {
-  setFirstNameShouldValidate,
-  setLastNameShouldValidate,
-  setEmailShouldValidate,
-  setFullNameShouldValidate,
-  setEmail,
-  setFirstName,
-  setLastName,
-  setFullName,
-  type Action,
-} from './userActions';
+import { emailRegexPattern } from 'helpers/utilities';
 
 // ----- Types ----- //
 export type UserFormFieldAttribute = {
   value: string,
   shouldValidate: boolean,
-  isValid: (string) => boolean,
-  setShouldValidate: (Function) => () => void,
-  setValue: (Function) => (string) => void,
+  required: boolean,
+  pattern: ?string,
+  setShouldValidate: () => void,
+  setValue: (string) => void,
 }
-
 
 export type User = {
   id: ?string,
-  email: UserFormFieldAttribute,
+  email: string,
   displayName: ?string,
-  firstName: UserFormFieldAttribute,
-  lastName: UserFormFieldAttribute,
+  firstName: string,
+  lastName: string,
   isTestUser: ?boolean,
   isPostDeploymentTestUser: boolean,
-  fullName: UserFormFieldAttribute,
+  fullName: string,
   stateField?: string,
   gnmMarketing: boolean,
   isSignedIn: boolean,
@@ -40,37 +29,19 @@ export type User = {
 
 // ----- Setup ----- //
 
+const defaultUserFormFieldAttributeState = {
+  value: '',
+  shouldValidate: false,
+  required: true,
+};
+
 const initialState: User = {
   id: '',
-  firstName: {
-    value: '',
-    shouldValidate: false,
-    isValid: (value: string) => !emptyInputField(value),
-    setShouldValidate: (dispatch: Function) => () => dispatch(setFirstNameShouldValidate()),
-    setValue: (dispatch: Function) => (value: string) => dispatch(setFirstName(value)),
-  },
-  email: {
-    value: '',
-    shouldValidate: false,
-    isValid: (value: string) => !emptyInputField(value) && validateEmailAddress(value),
-    setShouldValidate: (dispatch: Function) => () => dispatch(setEmailShouldValidate()),
-    setValue: (dispatch: Function) => (value: string) => dispatch(setEmail(value)),
-  },
+  firstName: { ...defaultUserFormFieldAttributeState },
+  email: { ...defaultUserFormFieldAttributeState, pattern: emailRegexPattern },
   displayName: '',
-  lastName: {
-    value: '',
-    shouldValidate: false,
-    isValid: (value: string) => !emptyInputField(value),
-    setShouldValidate: (dispatch: Function) => () => dispatch(setLastNameShouldValidate()),
-    setValue: (dispatch: Function) => (value: string) => dispatch(setLastName(value)),
-  },
-  fullName: {
-    value: '',
-    shouldValidate: false,
-    isValid: (value: string) => !emptyInputField(value),
-    setShouldValidate: (dispatch: Function) => () => dispatch(setFullNameShouldValidate()),
-    setValue: (dispatch: Function) => (value: string) => dispatch(setFullName(value)),
-  },
+  lastName: { ...defaultUserFormFieldAttributeState },
+  fullName: { ...defaultUserFormFieldAttributeState },
   isTestUser: null,
   isPostDeploymentTestUser: false,
   gnmMarketing: false,
@@ -98,10 +69,8 @@ function userReducer(
     case 'SET_LAST_NAME':
       return { ...state, lastName: { ...state.lastName, value: action.name } };
 
-
     case 'SET_FULL_NAME':
       return { ...state, fullName: { ...state.fullName, value: action.name } };
-
 
     case 'SET_TEST_USER':
       return { ...state, isTestUser: action.testUser };
@@ -111,7 +80,6 @@ function userReducer(
 
     case 'SET_EMAIL':
       return { ...state, email: { ...state.email, value: action.email } };
-
 
     case 'SET_STATEFIELD':
       return { ...state, stateField: action.stateField };
@@ -123,7 +91,7 @@ function userReducer(
       return { ...state, isSignedIn: action.isSignedIn };
 
     case 'SET_FIRST_NAME_SHOULD_VALIDATE':
-      return { ...state, firstName: { ...state.firstName, shouldValidate: true } };
+    return { ...state, firstName: { ...state.firstName, shouldValidate: true } };
 
     case 'SET_LAST_NAME_SHOULD_VALIDATE':
       return { ...state, lastName: { ...state.lastName, shouldValidate: true } };

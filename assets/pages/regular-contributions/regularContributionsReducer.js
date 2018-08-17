@@ -105,5 +105,6 @@ export default function createRootRegularContributionsReducer(
     user,
     csrf,
     directDebit,
+    checkoutForm,
   });
 }

@@ -4,7 +4,6 @@
 
 import React from 'react';
 
-import type { Dispatch } from 'redux';
 import SvgCreditCard from 'components/svgs/creditCard';
 import Switchable from 'components/switchable/switchable';
 import PaymentError from 'components/switchable/errorComponents/paymentError';
@@ -33,7 +32,7 @@ type PropTypes = {|
   disable: boolean,
   formElements: Array<UserFormFieldAttribute>,
   formClassName: string,
-  dispatch: Dispatch<*>
+  dispatch: Function
 |};
 /* eslint-enable react/no-unused-prop-types */
 
