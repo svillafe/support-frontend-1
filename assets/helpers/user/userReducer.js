@@ -11,21 +11,22 @@ export type User = {
   displayName: ?string,
   firstName: string,
   lastName: string,
+  fullName: string,
   isTestUser: ?boolean,
   isPostDeploymentTestUser: boolean,
-  fullName: string,
   stateField?: string,
   gnmMarketing: boolean,
   isSignedIn: boolean,
 };
 
+
 // ----- Setup ----- //
 
 const initialState: User = {
   id: '',
-  firstName: '',
   email: '',
   displayName: '',
+  firstName: '',
   lastName: '',
   fullName: '',
   isTestUser: null,

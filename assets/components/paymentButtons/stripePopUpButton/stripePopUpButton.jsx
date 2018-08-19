@@ -32,9 +32,6 @@ type PropTypes = {|
   onClick: () => void,
   switchStatus: Status,
   disable: boolean,
-  formElements: Array<UserFormFieldAttribute>,
-  formClassName: string,
-  dispatch: Function
 |};
 /* eslint-enable react/no-unused-prop-types */
 
@@ -103,7 +100,6 @@ StripePopUpButton.defaultProps = {
   canOpen: () => true,
   onClick: () => {},
   switchStatus: 'On',
-  formElements: [],
 };
 
 

@@ -160,8 +160,8 @@ function requestData(
   }
 
   const regularContribFields: RegularContribFields = {
-    firstName: user.firstName.value,
-    lastName: user.lastName.value,
+    firstName: user.firstName,
+    lastName: user.lastName,
     country,
     contribution: {
       amount,
@@ -172,7 +172,7 @@ function requestData(
     ophanIds,
     referrerAcquisitionData,
     supportAbTests,
-    email: user.email.value,
+    email: user.email,
   };
 
   if (user.stateField) {

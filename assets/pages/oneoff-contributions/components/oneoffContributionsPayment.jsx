@@ -142,9 +142,6 @@ function OneoffContributionsPayment(props: PropTypes, context) {
         amount={props.amount}
         switchStatus={props.stripeSwitchStatus}
         disable={false}
-        formElements={[props.fullName, props.email]}
-        formClassName="oneoff-contrib__name-form"
-        dispatch={props.dispatch}
       />
     </section>
   );

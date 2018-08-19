@@ -4,7 +4,6 @@
 // ----- Functions ----- //
 
 // Ascending comparison function for use with Array.prototype.sort.
-
 function ascending(a: number, b: number): number {
   return a > b ? 1 : 0;
 }

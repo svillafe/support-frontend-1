@@ -64,7 +64,7 @@ function requestData(
         currency,
         amount,
         token: paymentToken,
-        email: user.email.value,
+        email: user.email,
       },
       acquisitionData: derivePaymentApiAcquisitionData(referrerAcquisitionData, abParticipations),
     };
