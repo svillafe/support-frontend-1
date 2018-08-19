@@ -28,7 +28,7 @@ describe('user reducer tests', () => {
     };
 
     const newState = reducer(undefined, action);
-    expect(newState.firstName.value).toEqual(name);
+    expect(newState.firstName).toEqual(name);
   });
 
   it('should handle SET_LAST_NAME', () => {
@@ -40,7 +40,7 @@ describe('user reducer tests', () => {
 
     const newState = reducer(undefined, action);
 
-    expect(newState.lastName.value).toEqual(name);
+    expect(newState.lastName).toEqual(name);
   });
 
   it('should handle SET_FULL_NAME', () => {
@@ -53,7 +53,7 @@ describe('user reducer tests', () => {
 
     const newState = reducer(undefined, action);
 
-    expect(newState.fullName.value).toEqual(name);
+    expect(newState.fullName).toEqual(name);
   });
 
   it('should handle SET_TEST_USER', () => {
@@ -92,7 +92,7 @@ describe('user reducer tests', () => {
 
     const newState = reducer(undefined, action);
 
-    expect(newState.email.value).toEqual(email);
+    expect(newState.email).toEqual(email);
   });
 
   it('should handle SET_STATEFIELD', () => {
@@ -119,4 +119,3 @@ describe('user reducer tests', () => {
     expect(newState.gnmMarketing).toEqual(preference);
   });
 });
-

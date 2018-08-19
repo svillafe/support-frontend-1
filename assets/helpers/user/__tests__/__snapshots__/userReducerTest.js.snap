@@ -3,38 +3,14 @@
 exports[`user reducer tests should return the initial state 1`] = `
 Object {
   "displayName": "",
-  "email": Object {
-    "isValid": [Function],
-    "setShouldValidate": [Function],
-    "setValue": [Function],
-    "shouldValidate": false,
-    "value": "",
-  },
-  "firstName": Object {
-    "isValid": [Function],
-    "setShouldValidate": [Function],
-    "setValue": [Function],
-    "shouldValidate": false,
-    "value": "",
-  },
-  "fullName": Object {
-    "isValid": [Function],
-    "setShouldValidate": [Function],
-    "setValue": [Function],
-    "shouldValidate": false,
-    "value": "",
-  },
+  "email": "",
+  "firstName": "",
+  "fullName": "",
   "gnmMarketing": false,
   "id": "",
   "isPostDeploymentTestUser": false,
   "isSignedIn": false,
   "isTestUser": null,
-  "lastName": Object {
-    "isValid": [Function],
-    "setShouldValidate": [Function],
-    "setValue": [Function],
-    "shouldValidate": false,
-    "value": "",
-  },
+  "lastName": "",
 }
 `;

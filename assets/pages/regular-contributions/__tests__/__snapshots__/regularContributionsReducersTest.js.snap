@@ -6,6 +6,17 @@ exports[`Regular contributions Reducer should handle SET_PAYPAL_BUTTON 1`] = `nu
 
 exports[`Regular contributions Reducer should return the initial state 1`] = `
 Object {
+  "checkoutForm": Object {
+    "email": Object {
+      "shouldValidate": false,
+    },
+    "firstName": Object {
+      "shouldValidate": false,
+    },
+    "lastName": Object {
+      "shouldValidate": false,
+    },
+  },
   "csrf": Object {
     "token": null,
   },
@@ -39,39 +50,15 @@ Object {
   },
   "user": Object {
     "displayName": "",
-    "email": Object {
-      "isValid": [Function],
-      "setShouldValidate": [Function],
-      "setValue": [Function],
-      "shouldValidate": false,
-      "value": "",
-    },
-    "firstName": Object {
-      "isValid": [Function],
-      "setShouldValidate": [Function],
-      "setValue": [Function],
-      "shouldValidate": false,
-      "value": "",
-    },
-    "fullName": Object {
-      "isValid": [Function],
-      "setShouldValidate": [Function],
-      "setValue": [Function],
-      "shouldValidate": false,
-      "value": "",
-    },
+    "email": "",
+    "firstName": "",
+    "fullName": "",
     "gnmMarketing": false,
     "id": "",
     "isPostDeploymentTestUser": false,
     "isSignedIn": false,
     "isTestUser": null,
-    "lastName": Object {
-      "isValid": [Function],
-      "setShouldValidate": [Function],
-      "setValue": [Function],
-      "shouldValidate": false,
-      "value": "",
-    },
+    "lastName": "",
   },
 }
 `;
