@@ -81,7 +81,7 @@ function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction | Checkou
   };
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
+function mergeProps(stateProps, dispatchProps) {
 
   const firstName: UserFormFieldAttribute = {
     ...stateProps.stateFirstName,
@@ -96,8 +96,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   };
 
   return {
-    ownProps,
-    dispatchProps,
+    ...stateProps,
+    ...dispatchProps,
     firstName,
     lastName,
   };

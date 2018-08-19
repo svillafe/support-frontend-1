@@ -56,8 +56,8 @@ function requestData(
 ) {
   const { user } = getState().page;
 
-  if (user.fullName.value !== null && user.fullName.value !== undefined &&
-    user.email.value !== null && user.email.value !== undefined) {
+  if (user.fullName !== null && user.fullName !== undefined &&
+    user.email !== null && user.email !== undefined) {
 
     const oneOffContribFields: PaymentApiStripeExecutePaymentBody = {
       paymentData: {

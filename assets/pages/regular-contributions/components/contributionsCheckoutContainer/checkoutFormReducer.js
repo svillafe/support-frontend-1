@@ -11,9 +11,9 @@ export type CheckoutFormAttribute = {
 }
 
 export type RegularContributionsCheckoutFormState = {
-  emailField: CheckoutFormAttribute,
-  firstNameField: CheckoutFormAttribute,
-  lastNameField: CheckoutFormAttribute,
+  email: CheckoutFormAttribute,
+  firstName: CheckoutFormAttribute,
+  lastName: CheckoutFormAttribute,
 };
 
 // ----- Setup ----- //
@@ -30,7 +30,7 @@ const initialState: RegularContributionsCheckoutFormState = {
 function checkoutFormReducer(
   state: RegularContributionsCheckoutFormState = initialState,
   action: Action,
-): User {
+): RegularContributionsCheckoutFormState {
 
   switch (action.type) {
     case 'SET_FIRST_NAME_SHOULD_VALIDATE':

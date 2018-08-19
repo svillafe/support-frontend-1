@@ -5,9 +5,9 @@
 import { connect } from 'react-redux';
 
 import { type Action as UserAction, userActions } from 'helpers/user/userActions';
-import { UserFormFieldAttribute, formFieldError, emailRegexPattern } from 'helpers/checkoutForm/checkoutForm';
+import { type UserFormFieldAttribute, formFieldError, emailRegexPattern } from 'helpers/checkoutForm/checkoutForm';
 import EmailFormField from 'components/emailFormField/emailFormField';
-import { Dispatch } from 'redux';
+import { type Dispatch } from 'redux';
 import { type Action as CheckoutFormAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
 
 
@@ -37,7 +37,7 @@ function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction>)
   };
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
+function mergeProps(stateProps, dispatchProps) {
 
   const email: UserFormFieldAttribute = {
     ...stateProps.stateEmail,
@@ -46,7 +46,6 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   };
 
   return {
-    ownProps,
     isSignedIn: stateProps.isSignedIn,
     email,
   };

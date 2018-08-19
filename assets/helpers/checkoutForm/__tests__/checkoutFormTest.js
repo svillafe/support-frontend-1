@@ -5,12 +5,8 @@
 import {
   emptyInputField,
   patternIsValid,
-  emailRegexPattern
+  emailRegexPattern,
 } from '../checkoutForm';
-
-
-// ----- Functions ----- //
-
 
 
 // ----- Tests ----- //

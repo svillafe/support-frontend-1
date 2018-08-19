@@ -15,7 +15,7 @@ import {
   openDialogBox,
 } from 'helpers/paymentIntegrations/stripeCheckout';
 import { classNameWithModifiers } from 'helpers/utilities';
-import { type UserFormFieldAttribute } from 'helpers/checkoutForm/CheckoutForm';
+import { type UserFormFieldAttribute } from 'helpers/checkoutForm/checkoutForm';
 
 // ---- Types ----- //
 
@@ -100,6 +100,8 @@ function Button(props: PropTypes) {
 
 StripePopUpButton.defaultProps = {
   closeHandler: () => {},
+  canOpen: () => true,
+  onClick: () => {},
   switchStatus: 'On',
   formElements: [],
 };

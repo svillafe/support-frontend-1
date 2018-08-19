@@ -66,9 +66,9 @@ type RegularContribFields = {|
 // ----- Functions ----- //
 
 const isUserValid = (user: UserState) =>
-  user.firstName.value !== null && user.firstName.value !== undefined &&
-  user.lastName.value !== null && user.lastName.value !== undefined &&
-  user.email.value !== null && user.email.value !== undefined;
+  user.firstName !== null && user.firstName !== undefined &&
+  user.lastName !== null && user.lastName !== undefined &&
+  user.email !== null && user.email !== undefined;
 
 const paymentMethodToPaymentFieldMap = {
   DirectDebit: 'directDebitData',

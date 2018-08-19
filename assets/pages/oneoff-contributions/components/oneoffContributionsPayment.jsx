@@ -22,7 +22,7 @@ import { checkoutFormActions } from './contributionsCheckoutContainer/checkoutFo
 // ----- Types ----- //
 
 type PropTypes = {|
-  dispatch: Dispatch<*>,
+  dispatch: Function,
   email: UserFormFieldAttribute,
   fullName: UserFormFieldAttribute,
   error: ?string,
@@ -65,6 +65,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
+    dispatch,
     nameActions: {
       setShouldValidate: () => {
         dispatch(checkoutFormActions().setFullNameShouldValidate());
@@ -84,7 +85,7 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
   };
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
+function mergeProps(stateProps, dispatchProps) {
 
   const fullName: UserFormFieldAttribute = {
     ...defaultUserFormFieldAttribute,
@@ -101,9 +102,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   };
 
   return {
-    ownProps,
-    stateProps,
-    dispatchProps,
+    ...stateProps,
+    ...dispatchProps,
     fullName,
     email,
   };
