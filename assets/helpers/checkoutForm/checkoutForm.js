@@ -36,7 +36,7 @@ export const defaultUserFormFieldAttribute = {
 };
 
 
-export function shouldShowError (field: UserFormFieldAttribute){
+export function shouldShowError(field: UserFormFieldAttribute) {
   return field.shouldValidate && field.isValid;
 }
 

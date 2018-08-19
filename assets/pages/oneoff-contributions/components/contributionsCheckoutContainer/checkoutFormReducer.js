@@ -1,8 +1,6 @@
 // @flow
 
 // ----- Imports ----- //
-import { emailRegexPattern } from 'helpers/utilities';
-import { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import { type Action } from './checkoutFormActions';
 
 // ----- Types ----- //
@@ -13,7 +11,7 @@ export type CheckoutFormAttribute = {
 }
 
 export type OneOffContributionsCheckoutFormState = {
-  emailField: CheckoutFormAttribute,
+  email: CheckoutFormAttribute,
   fullName: CheckoutFormAttribute,
 };
 
@@ -30,7 +28,7 @@ const initialState: OneOffContributionsCheckoutFormState = {
 function checkoutFormReducer(
   state: OneOffContributionsCheckoutFormState = initialState,
   action: Action,
-): User {
+): OneOffContributionsCheckoutFormState {
 
   switch (action.type) {
     case 'SET_EMAIL_SHOULD_VALIDATE':

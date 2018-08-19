@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch: Dispatch<Action>) {
       );
     },
     marketingPreferenceUpdate: (preference: boolean) => {
-      dispatch(userActions.setGnmMarketing(preference));
+      dispatch(userActions().setGnmMarketing(preference));
     },
   };
 }

@@ -32,11 +32,11 @@ const init = (dispatch: Function) => {
   const testUserCondition = (isUndefinedOrNull(uatMode) && cookie.get('_test_username')) || uatMode;
 
   if (testUserCondition) {
-    dispatch(setTestUser(true));
+    dispatch(userActions().setTestUser(true));
   }
 
   if (testUserCondition && cookie.get('_post_deploy_user')) {
-    dispatch(setPostDeploymentTestUser(true));
+    dispatch(userActions().setPostDeploymentTestUser(true));
   }
 
   if (windowHasUser) {

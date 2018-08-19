@@ -10,13 +10,11 @@ import type { DirectDebitState } from 'components/directDebit/directDebitReducer
 import { userReducer as user } from 'helpers/user/userReducer';
 import { directDebitReducer as directDebit } from 'components/directDebit/directDebitReducer';
 import { marketingConsentReducerFor } from 'components/marketingConsent/marketingConsentReducer';
-import { checkoutFormReducer as checkoutForm, type RegularContributionsCheckoutFormState} from './components/contributionsCheckoutContainer/checkoutFormReducer';
 import csrf from 'helpers/csrf/csrfReducer';
 import type { CommonState } from 'helpers/page/page';
 import type { PaymentMethod } from 'helpers/checkouts';
 import { type RegularContributionType } from 'helpers/contributions';
-import type { State as MarketingConsentState } from 'components/marketingConsent/marketingConsentReducer';
-
+import { checkoutFormReducer as checkoutForm, type RegularContributionsCheckoutFormState } from './components/contributionsCheckoutContainer/checkoutFormReducer';
 import type { Action } from './regularContributionsActions';
 import type { PaymentStatus } from './components/regularContributionsPayment';
 

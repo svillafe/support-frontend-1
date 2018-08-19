@@ -8,25 +8,18 @@ import type { Dispatch } from 'redux';
 import TextInput from 'components/textInput/textInput';
 import SelectInput from 'components/selectInput/selectInput';
 
-import {
-  setStateField,
-  userActions,
-  type Action as UserAction,
-} from 'helpers/user/userActions';
-
+import { userActions, type Action as UserAction } from 'helpers/user/userActions';
 import { setCountry, type Action as PageAction } from 'helpers/page/pageActions';
-
 import { usStates, countries, caStates } from 'helpers/internationalisation/country';
 import { countryGroups } from 'helpers/internationalisation/countryGroup';
 import type { IsoCountry, UsState, CaState } from 'helpers/internationalisation/country';
 import type { SelectOption } from 'components/selectInput/selectInput';
 import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
+import { type UserFormFieldAttribute, formFieldError, shouldShowError } from 'helpers/checkoutForm/checkoutForm';
 import EmailFormFieldContainer from './emailFormFieldContainer';
 import { type Action as CheckoutAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
-import { formFieldError, showError } from 'helpers/checkoutForm'
-import {shouldShowError} from "../../../helpers/checkoutForm";
+
 
 // ----- Types ----- //
 
@@ -37,7 +30,6 @@ type PropTypes = {
   lastName: UserFormFieldAttribute,
   countryGroup: CountryGroupId,
   country: IsoCountry,
-  dispatch: Dispatch<UserAction | PageAction>
 };
 
 // ----- Map State/Props ----- //
@@ -85,7 +77,7 @@ function mapDispatchToProps(dispatch: Dispatch<UserAction | PageAction | Checkou
       setValue: (lastName: string) => {
         dispatch(userActions().setLastName(lastName));
       },
-    }
+    },
   };
 }
 
@@ -108,7 +100,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     dispatchProps,
     firstName,
     lastName,
-  }
+  };
 }
 
 // ----- Functions ----- //

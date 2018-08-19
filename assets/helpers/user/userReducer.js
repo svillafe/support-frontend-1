@@ -1,14 +1,9 @@
 // @flow
 
+// ----- Imports ----- //
+import type { Action } from './userActions';
+
 // ----- Types ----- //
-export type UserFormFieldAttribute = {
-  value: string,
-  shouldValidate: boolean,
-  required: boolean,
-  pattern: ?string,
-  setShouldValidate: () => void,
-  setValue: (string) => void,
-}
 
 export type User = {
   id: ?string,
@@ -55,7 +50,7 @@ function userReducer(
       return { ...state, displayName: action.name };
 
     case 'SET_FIRST_NAME':
-      return { ...state, firstName: action.name  };
+      return { ...state, firstName: action.name };
 
     case 'SET_LAST_NAME':
       return { ...state, lastName: action.name };

@@ -13,8 +13,7 @@ import csrf from 'helpers/csrf/csrfReducer';
 import type { CommonState } from 'helpers/page/page';
 import type { State as MarketingConsentState } from 'components/marketingConsent/marketingConsentReducer';
 import type { Action } from './oneoffContributionsActions';
-import { checkoutFormReducer as checkoutForm, type OneOffContributionsCheckoutFormState} from './components/contributionsCheckoutContainer/checkoutFormReducer';
-
+import { checkoutFormReducer as checkoutForm, type OneOffContributionsCheckoutFormState } from './components/contributionsCheckoutContainer/checkoutFormReducer';
 
 
 // ----- Types ----- //

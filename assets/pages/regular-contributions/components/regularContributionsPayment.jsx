@@ -20,10 +20,9 @@ import type { Contrib } from 'helpers/contributions';
 import type { IsoCountry } from 'helpers/internationalisation/country';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { Csrf as CsrfState } from 'helpers/csrf/csrfReducer';
-import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
+import { type UserFormFieldAttribute, emailRegexPattern, formFieldError } from 'helpers/checkoutForm/checkoutForm';
 import { setPayPalHasLoaded } from '../regularContributionsActions';
 import { postCheckout } from '../helpers/ajax';
-import { emailRegexPattern, formFieldError } from 'helpers/checkoutForm';
 
 
 // ----- Types ----- //

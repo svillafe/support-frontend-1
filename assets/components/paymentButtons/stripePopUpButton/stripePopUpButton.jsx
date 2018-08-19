@@ -15,7 +15,7 @@ import {
   openDialogBox,
 } from 'helpers/paymentIntegrations/stripeCheckout';
 import { classNameWithModifiers } from 'helpers/utilities';
-import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
+import { type UserFormFieldAttribute } from 'helpers/checkoutForm/CheckoutForm';
 
 // ---- Types ----- //
 
@@ -29,6 +29,7 @@ type PropTypes = {|
   isTestUser: boolean,
   isPostDeploymentTestUser: boolean,
   canOpen: () => boolean,
+  onClick: () => void,
   switchStatus: Status,
   disable: boolean,
   formElements: Array<UserFormFieldAttribute>,

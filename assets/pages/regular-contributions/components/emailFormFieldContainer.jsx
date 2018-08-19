@@ -4,11 +4,12 @@
 
 import { connect } from 'react-redux';
 
-import { type Action as CheckoutFormAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
-import {type Action as UserAction, userActions } from 'helpers/user/userActions'
-import { UserFormFieldAttribute, formFieldError, emailRegexPattern } from 'helpers/checkoutForm'
+import { type Action as UserAction, userActions } from 'helpers/user/userActions';
+import { UserFormFieldAttribute, formFieldError, emailRegexPattern } from 'helpers/checkoutForm/checkoutForm';
 import EmailFormField from 'components/emailFormField/emailFormField';
 import { Dispatch } from 'redux';
+import { type Action as CheckoutFormAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
+
 
 // ----- State/Action Maps ----- //
 
@@ -24,7 +25,7 @@ function mapStateToProps(state) {
 
 }
 
-function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction >) {
+function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction>) {
   return {
     setShouldValidate: () => {
       dispatch(checkoutFormActions().setEmailShouldValidate());
@@ -45,9 +46,10 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
   };
 
   return {
+    ownProps,
     isSignedIn: stateProps.isSignedIn,
     email,
-  }
+  };
 }
 
 

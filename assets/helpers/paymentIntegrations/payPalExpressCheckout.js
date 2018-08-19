@@ -108,10 +108,6 @@ function setup(
     // Defines whether user sees 'Agree and Continue' or 'Agree and Pay now' in overlay.
     commit: true,
 
-    onClick: function() {
-      toggleValidationMessage();
-    },
-
     // This function is called when user clicks the PayPal button.
     payment: setupPayment(amount, currencyId, csrf),
 

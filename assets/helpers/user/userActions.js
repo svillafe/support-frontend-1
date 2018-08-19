@@ -57,10 +57,5 @@ export function userActions(): Object {
     setGnmMarketing(preference: boolean): Action {
       return { type: 'SET_GNM_MARKETING', preference };
     },
-  }
+  };
 }
-
-
-
-
-

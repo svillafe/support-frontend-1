@@ -5,7 +5,7 @@
 import React from 'react';
 import TextInput from 'components/textInput/textInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { emailRegexPattern, UserFormFieldAttribute, shouldShowError } from 'helpers/checkoutForm';
+import { type UserFormFieldAttribute, emailRegexPattern, shouldShowError } from 'helpers/checkoutForm/checkoutForm';
 
 // ----- Types ----- //
 

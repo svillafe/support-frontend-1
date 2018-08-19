@@ -5,12 +5,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import type { Dispatch } from 'redux';
-import type { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-
 import { userActions, type Action as UserAction } from 'helpers/user/userActions';
 import TextInput from 'components/textInput/textInput';
-import { formFieldError, showError, shouldShowError } from 'helpers/checkoutForm'
+import { type UserFormFieldAttribute, formFieldError, shouldShowError } from 'helpers/checkoutForm/checkoutForm';
 import type { Action as CheckoutFormAction } from './contributionsCheckoutContainer/checkoutFormActions';
 import { checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
 
@@ -65,7 +63,7 @@ function mapStateToProps(state) {
 
 }
 
-function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction >) {
+function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction>) {
   return {
     setShouldValidate: () => {
       dispatch(checkoutFormActions().setFullNameShouldValidate());
@@ -77,17 +75,17 @@ function mapDispatchToProps(dispatch: Dispatch<CheckoutFormAction | UserAction >
   };
 }
 
-function mergeProps(stateProps, dispatchProps, ownProps) {
+function mergeProps(stateProps, dispatchProps) {
 
   const name: UserFormFieldAttribute = {
     ...stateProps.stateName,
     ...dispatchProps,
-    isValid: formFieldError(stateProps.stateName.value, true)
+    isValid: formFieldError(stateProps.stateName.value, true),
   };
 
   return {
     name,
-  }
+  };
 }
 
 

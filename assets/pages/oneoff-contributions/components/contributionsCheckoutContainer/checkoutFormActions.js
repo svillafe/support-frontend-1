@@ -20,10 +20,5 @@ export function checkoutFormActions(): Object {
     setFullNameShouldValidate(): Action {
       return { type: 'SET_FULL_NAME_SHOULD_VALIDATE' };
     },
-  }
+  };
 }
-
-
-
-
-

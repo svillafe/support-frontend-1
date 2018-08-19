@@ -14,11 +14,10 @@ import type { ReferrerAcquisitionData } from 'helpers/tracking/acquisitions';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { IsoCurrency } from 'helpers/internationalisation/currency';
 import type { Status } from 'helpers/switch';
-import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
+import { userActions } from 'helpers/user/userActions';
+import { type UserFormFieldAttribute, defaultUserFormFieldAttribute, formFieldError } from 'helpers/checkoutForm/checkoutForm';
 import postCheckout from '../helpers/ajax';
-import {checkoutFormActions} from "./contributionsCheckoutContainer/checkoutFormActions";
-import { userActions } from "../../../helpers/user/userActions";
-import { defaultUserFormFieldAttribute, emailRegexPattern, formFieldError } from "../../../helpers/checkoutForm";
+import { checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
 
 // ----- Types ----- //
 
@@ -81,8 +80,8 @@ function mapDispatchToProps(dispatch: Dispatch<*>) {
       setValue: (email: string) => {
         dispatch(userActions().setEmail(email));
       },
-    }
-  }
+    },
+  };
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
@@ -107,10 +106,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     dispatchProps,
     fullName,
     email,
-  }
+  };
 }
-
-
 
 // ----- Component ----- //
 

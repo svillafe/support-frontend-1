@@ -1,8 +1,6 @@
 // @flow
 
 // ----- Imports ----- //
-import { emailRegexPattern } from 'helpers/utilities';
-import { UserFormFieldAttribute } from 'helpers/user/userReducer';
 import { type Action } from './checkoutFormActions';
 
 // ----- Types ----- //

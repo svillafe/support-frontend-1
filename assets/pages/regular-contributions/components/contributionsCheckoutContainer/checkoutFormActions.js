@@ -22,10 +22,5 @@ export function checkoutFormActions(): Object {
     setLastNameShouldValidate(): Action {
       return { type: 'SET_LAST_NAME_SHOULD_VALIDATE' };
     },
-  }
+  };
 }
-
-
-
-
-

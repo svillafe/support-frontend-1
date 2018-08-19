@@ -13,7 +13,6 @@ import type { CountryGroupId } from 'helpers/internationalisation/countryGroup';
 // ----- Types ----- //
 
 
-
 export type PaymentMethod = 'DirectDebit' | 'PayPal' | 'Stripe';
 
 export type RegularCheckoutCallback = (

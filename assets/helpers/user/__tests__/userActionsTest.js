@@ -1,16 +1,5 @@
 // @flow
-import {
-  setDisplayName,
-  setFirstName,
-  setLastName,
-  setFullName,
-  setEmail,
-  setStateField,
-  setTestUser,
-  setPostDeploymentTestUser,
-  setGnmMarketing,
-  setIsSignedIn,
-} from '../userActions';
+import { userActions } from '../userActions';
 
 
 describe('actions', () => {
@@ -21,7 +10,7 @@ describe('actions', () => {
       type: 'SET_DISPLAY_NAME',
       name,
     };
-    expect(setDisplayName(name)).toEqual(expectedAction);
+    expect(userActions().setDisplayName(name)).toEqual(expectedAction);
   });
 
   it('should create SET_FIRST_NAME action', () => {
@@ -30,7 +19,7 @@ describe('actions', () => {
       type: 'SET_FIRST_NAME',
       name,
     };
-    expect(setFirstName(name)).toEqual(expectedAction);
+    expect(userActions().setFirstName(name)).toEqual(expectedAction);
   });
 
   it('should create SET_LAST_NAME action', () => {
@@ -39,7 +28,7 @@ describe('actions', () => {
       type: 'SET_LAST_NAME',
       name,
     };
-    expect(setLastName(name)).toEqual(expectedAction);
+    expect(userActions().setLastName(name)).toEqual(expectedAction);
   });
 
   it('should create SET_FULL_NAME action', () => {
@@ -48,7 +37,7 @@ describe('actions', () => {
       type: 'SET_FULL_NAME',
       name,
     };
-    expect(setFullName(name)).toEqual(expectedAction);
+    expect(userActions().setFullName(name)).toEqual(expectedAction);
   });
 
   it('should create SET_EMAIL action', () => {
@@ -57,7 +46,7 @@ describe('actions', () => {
       type: 'SET_EMAIL',
       email,
     };
-    expect(setEmail(email)).toEqual(expectedAction);
+    expect(userActions().setEmail(email)).toEqual(expectedAction);
   });
 
   it('should create SET_STATEFIELD action', () => {
@@ -66,7 +55,7 @@ describe('actions', () => {
       type: 'SET_STATEFIELD',
       stateField,
     };
-    expect(setStateField(stateField)).toEqual(expectedAction);
+    expect(userActions().setStateField(stateField)).toEqual(expectedAction);
   });
 
   it('should create SET_TEST_USER action', () => {
@@ -75,7 +64,7 @@ describe('actions', () => {
       type: 'SET_TEST_USER',
       testUser,
     };
-    expect(setTestUser(testUser)).toEqual(expectedAction);
+    expect(userActions().setTestUser(testUser)).toEqual(expectedAction);
   });
 
   it('should create SET_POST_DEPLOYMENT_TEST_USER action', () => {
@@ -84,7 +73,7 @@ describe('actions', () => {
       type: 'SET_POST_DEPLOYMENT_TEST_USER',
       postDeploymentTestUser,
     };
-    expect(setPostDeploymentTestUser(postDeploymentTestUser)).toEqual(expectedAction);
+    expect(userActions().setPostDeploymentTestUser(postDeploymentTestUser)).toEqual(expectedAction);
   });
 
   it('should create SET_GNM_MARKETING action', () => {
@@ -93,7 +82,7 @@ describe('actions', () => {
       type: 'SET_GNM_MARKETING',
       preference,
     };
-    expect(setGnmMarketing(preference)).toEqual(expectedAction);
+    expect(userActions().setGnmMarketing(preference)).toEqual(expectedAction);
   });
 
   it('should create SET_IS_SIGNED_IN action', () => {
@@ -102,6 +91,6 @@ describe('actions', () => {
       type: 'SET_IS_SIGNED_IN',
       isSignedIn,
     };
-    expect(setIsSignedIn(isSignedIn)).toEqual(expectedAction);
+    expect(userActions().setIsSignedIn(isSignedIn)).toEqual(expectedAction);
   });
 });
