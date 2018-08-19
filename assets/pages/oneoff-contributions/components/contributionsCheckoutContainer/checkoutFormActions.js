@@ -3,10 +3,8 @@
 // ----- Types ----- //
 
 export type Action =
-  | { type: 'SET_EMAIL_SHOULD_VALIDATE' }
   | { type: 'SET_FULL_NAME_SHOULD_VALIDATE' }
   | { type: 'SET_EMAIL_SHOULD_VALIDATE' }
-  | { type: 'SET_FULL_NAME_SHOULD_VALIDATE' }
 
 
 // ----- Actions Creators ----- //
