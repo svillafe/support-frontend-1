@@ -36,7 +36,9 @@ export const defaultUserFormFieldAttribute = {
 };
 
 
-export const showError = (field: UserFormFieldAttribute) => field.shouldValidate && field.isValid;
+export function shouldShowError (field: UserFormFieldAttribute){
+  return field.shouldValidate && field.isValid;
+}
 
 export function formFieldError(value: string, required: boolean, pattern: ?string) {
   const emptyFieldError = required && emptyInputField(value);

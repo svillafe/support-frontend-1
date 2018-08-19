@@ -26,6 +26,7 @@ import { type UserFormFieldAttribute } from 'helpers/user/userReducer';
 import EmailFormFieldContainer from './emailFormFieldContainer';
 import { type Action as CheckoutAction, checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
 import { formFieldError, showError } from 'helpers/checkoutForm'
+import {shouldShowError} from "../../../helpers/checkoutForm";
 
 // ----- Types ----- //
 
@@ -167,8 +168,8 @@ function countriesDropdown(
 
 function NameForm(props: PropTypes) {
 
-  const showFirstNameError = showError(props.firstName);
-  const showLastNameError = showError(props.lastName);
+  const showFirstNameError = shouldShowError(props.firstName);
+  const showLastNameError = shouldShowError(props.lastName);
   const firstNameModifier = showFirstNameError
     ? ['first-name', 'error']
     : ['first-name'];

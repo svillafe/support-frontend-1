@@ -5,7 +5,7 @@
 import React from 'react';
 import TextInput from 'components/textInput/textInput';
 import ErrorMessage from 'components/errorMessage/errorMessage';
-import { emailRegexPattern, UserFormFieldAttribute, showError } from 'helpers/checkoutForm';
+import { emailRegexPattern, UserFormFieldAttribute, shouldShowError } from 'helpers/checkoutForm';
 
 // ----- Types ----- //
 
@@ -24,7 +24,7 @@ const EmailFormField = (props: PropTypes) => {
     return null;
   }
 
-  const showError = showError(props.email);
+  const showError = shouldShowError(props.email);
 
   const modifierClass = ['email'];
 

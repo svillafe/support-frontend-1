@@ -10,7 +10,7 @@ import ErrorMessage from 'components/errorMessage/errorMessage';
 
 import { userActions, type Action as UserAction } from 'helpers/user/userActions';
 import TextInput from 'components/textInput/textInput';
-import { formFieldError, showError } from 'helpers/checkoutForm'
+import { formFieldError, showError, shouldShowError } from 'helpers/checkoutForm'
 import type { Action as CheckoutFormAction } from './contributionsCheckoutContainer/checkoutFormActions';
 import { checkoutFormActions } from './contributionsCheckoutContainer/checkoutFormActions';
 
@@ -25,7 +25,7 @@ type PropTypes = {
 // ----- Component ----- //
 
 const NameFormField = (props: PropTypes) => {
-  const showError = showError(props.firstName);
+  const showError = shouldShowError(props.name);
   const modifierClass = ['name'];
   if (showError) {
     modifierClass.push('error');
