@@ -14,8 +14,7 @@ import type { ReferrerAcquisitionData } from 'helpers/tracking/acquisitions';
 import type { Participations } from 'helpers/abTests/abtest';
 import type { IsoCurrency } from 'helpers/internationalisation/currency';
 import type { Status } from 'helpers/switch';
-import { setFullName, setEmail } from 'helpers/user/userActions';
-import { type UserFormFieldAttribute, defaultUserFormFieldAttribute, formFieldError } from 'helpers/checkoutForm/checkoutForm';
+import { type UserFormFieldAttribute, formFieldIsValid } from 'helpers/checkoutForm/checkoutForm';
 import postCheckout from '../helpers/ajax';
 import { setFullNameShouldValidate, setEmailShouldValidate } from './contributionsCheckoutContainer/checkoutFormActions';
 
@@ -23,8 +22,8 @@ import { setFullNameShouldValidate, setEmailShouldValidate } from './contributio
 
 type PropTypes = {|
   dispatch: Function,
-  email: UserFormFieldAttribute,
-  fullName: UserFormFieldAttribute,
+  email: string,
+  setShouldValidateFunctions: Array<() => void>,
   error: ?string,
   amount: number,
   referrerAcquisitionData: ReferrerAcquisitionData,
@@ -34,25 +33,40 @@ type PropTypes = {|
   isPostDeploymentTestUser: boolean,
   stripeSwitchStatus: Status,
   paymentComplete: boolean,
+  formFields: Array<UserFormFieldAttribute>
 |};
 
 
 // ----- Map State/Props ----- //
 
 function mapStateToProps(state) {
-  const fullNameFormField = {
+
+  const fullName = {
     value: state.page.user.fullName,
     ...state.page.checkoutForm.fullName,
   };
-  const emailFormField = {
+
+  const email = {
     value: state.page.user.email,
     ...state.page.checkoutForm.email,
   };
+
+  const fullNameFormField = {
+    value: fullName.value,
+    shouldValidate: state.page.checkoutForm.fullName.shouldValidate,
+    isValid: formFieldIsValid(fullName),
+  };
+  const emailFormField = {
+    value: email.value,
+    shouldValidate: state.page.checkoutForm.email.shouldValidate,
+    isValid: formFieldIsValid(email),
+  };
+
   return {
     isTestUser: state.page.user.isTestUser || false,
     isPostDeploymentTestUser: state.page.user.isPostDeploymentTestUser,
-    stateEmail: emailFormField,
-    stateName: fullNameFormField,
+    email: email.value,
+    formFields: [emailFormField, fullNameFormField],
     error: state.page.oneoffContrib.error,
     amount: state.page.oneoffContrib.amount,
     referrerAcquisitionData: state.common.referrerAcquisitionData,
@@ -66,46 +80,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch: Dispatch<*>) {
   return {
     dispatch,
-    nameActions: {
-      setShouldValidate: () => {
-        dispatch(setFullNameShouldValidate());
-      },
-      setValue: (name: string) => {
-        dispatch(setFullName(name));
-      },
-    },
-    emailActions: {
-      setShouldValidate: () => {
-        dispatch(setEmailShouldValidate());
-      },
-      setValue: (email: string) => {
-        dispatch(setEmail(email));
-      },
-    },
-  };
-}
-
-function mergeProps(stateProps, dispatchProps) {
-
-  const fullName: UserFormFieldAttribute = {
-    ...defaultUserFormFieldAttribute,
-    ...stateProps.stateName,
-    ...dispatchProps.nameActions,
-    isValid: formFieldError(stateProps.stateName.value, true),
-  };
-
-  const email: UserFormFieldAttribute = {
-    ...defaultUserFormFieldAttribute,
-    ...stateProps.stateEmail,
-    ...dispatchProps.emailActions,
-    isValid: formFieldError(stateProps.stateEmail.value, true),
-  };
-
-  return {
-    ...stateProps,
-    ...dispatchProps,
-    fullName,
-    email,
+    setShouldValidateFunctions: [
+      () => dispatch(setFullNameShouldValidate()),
+      () => dispatch(setEmailShouldValidate()),
+    ],
   };
 }
 
@@ -119,7 +97,6 @@ function mergeProps(stateProps, dispatchProps) {
  * You should not use context for other purposes. Please use redux.
  */
 function OneoffContributionsPayment(props: PropTypes, context) {
-  const formFields = [props.fullName, props.email];
   return (
     <section className="oneoff-contribution-payment">
       { props.paymentComplete ? <Redirect to={{ pathname: routes.oneOffContribThankyou }} /> : null }
@@ -134,14 +111,15 @@ function OneoffContributionsPayment(props: PropTypes, context) {
           props.referrerAcquisitionData,
           context.store.getState,
         )}
-        canOpen={() => formFields.every(f => !f.isValid)}
-        onClick={() => formFields.forEach(f => f.setShouldValidate())}
+        formFieldsAreValid={(formFields: Array<UserFormFieldAttribute>) => formFields.every(f => f.isValid)}
+        setShouldValidateOnFormFields={() => props.setShouldValidateFunctions.forEach(f => f())}
         currencyId={props.currencyId}
         isTestUser={props.isTestUser}
         isPostDeploymentTestUser={props.isPostDeploymentTestUser}
         amount={props.amount}
         switchStatus={props.stripeSwitchStatus}
         disable={false}
+        formFields={props.formFields}
       />
     </section>
   );
@@ -150,4 +128,4 @@ function OneoffContributionsPayment(props: PropTypes, context) {
 
 // ----- Exports ----- //
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(OneoffContributionsPayment);
+export default connect(mapStateToProps, mapDispatchToProps)(OneoffContributionsPayment);
