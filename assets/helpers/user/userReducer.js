@@ -7,6 +7,7 @@ import { usStates, caStates } from 'helpers/internationalisation/country';
 
 import type { Action } from './userActions';
 
+
 // ----- Types ----- //
 
 export type User = {
