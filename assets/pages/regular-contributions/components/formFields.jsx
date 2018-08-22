@@ -27,7 +27,7 @@ import {
   setFirstNameShouldValidate,
   setLastNameShouldValidate,
   setEmailShouldValidate,
-} from './contributionsCheckoutContainer/checkoutFormActions';
+} from './contributionsCheckoutContainers/checkoutFormActions';
 
 
 // ----- Types ----- //

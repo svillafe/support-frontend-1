@@ -5,7 +5,7 @@ import { emailRegexPattern } from 'helpers/checkoutForm/checkoutForm';
 import { type Action } from './checkoutFormActions';
 
 // ----- Types ----- //
-
+export type Stage = 'checkout' | 'payment';
 
 export type CheckoutFormAttribute = {
   shouldValidate: boolean,
@@ -37,6 +37,7 @@ const initialState: RegularContributionsCheckoutFormState = {
     required: true,
     pattern: /.*/,
   },
+  stage: 'checkout',
 };
 
 
@@ -56,6 +57,9 @@ function checkoutFormReducer(
 
     case 'SET_EMAIL_SHOULD_VALIDATE':
       return { ...state, email: { ...state.email, shouldValidate: true } };
+
+    case 'SET_STAGE':
+      return { ...state, stage: action.stage };
 
     default:
       return state;

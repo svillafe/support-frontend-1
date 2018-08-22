@@ -13,11 +13,12 @@ import YourContribution from 'components/yourContribution/yourContribution';
 import YourDetails from 'components/yourDetails/yourDetails';
 import PageSection from 'components/pageSection/pageSection';
 import LegalSectionContainer from 'components/legal/legalSection/legalSectionContainer';
+import { type UserFormFieldAttribute } from 'helpers/checkoutForm/checkoutForm';
 
 import { type Contrib as ContributionType } from 'helpers/contributions';
 import { type IsoCurrency } from 'helpers/internationalisation/currency';
 import { type IsoCountry } from 'helpers/internationalisation/country';
-
+import { type SubmitYourDetailsGuestCheckoutParams } from './contributionsGuestCheckoutContainer';
 
 // ----- Types ----- //
 
@@ -31,6 +32,12 @@ type PropTypes = {
   form: Node,
   payment: Node,
   guestCheckout: boolean,
+  setShouldValidateFunctions: Array<() => void>,
+  submitYourDetailsForm: (
+    Array<UserFormFieldAttribute>,
+    () => void,
+    Array<() => void>
+  ) => void,
 };
 
 
@@ -58,7 +65,52 @@ function getTitle(
 
 export default function ContributionsCheckout(props: PropTypes) {
 
-  return (
+  const NextButton = () => {
+    return (
+      <CtaLink
+        text={`Continue`}
+        accessibilityHint={`Continue`}
+        id="qa-contribute-button"
+        onClick={() => {
+            props.submitYourDetailsForm();
+          }
+        }
+        modifierClasses={['continue']}
+      />
+    )
+  };
+
+
+  const CheckoutStage = () => {
+    switch (props.stage) {
+
+      case 'payment':
+        return (
+          <PageSection heading={"Payment methods"} modifierClass="payment-methods">
+            {props.payment}
+          </PageSection>
+        );
+
+      case 'checkout':
+      default:
+        return (
+          <YourDetails
+            name={props.displayName}
+            isSignedIn={props.isSignedIn}
+            setStage={props.setStage}
+            setFirstNameShouldValidate={props.setFirstNameShouldValidate}
+            setLastNameShouldValidate={props.setLastNameShouldValidate}
+            setEmailShouldValidate={props.setEmailShouldValidate}
+          >
+            {props.form}
+          </YourDetails>
+        );
+
+
+    }
+
+
+    return (
     <div className="component-contributions-checkout">
       <Page
         header={[<TestUserBanner />, <SimpleHeader />]}

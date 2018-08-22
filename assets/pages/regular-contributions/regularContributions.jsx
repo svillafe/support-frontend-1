@@ -16,7 +16,9 @@ import { getAmount, getPaymentMethod } from 'helpers/checkouts';
 import { parseRegularContributionType } from 'helpers/contributions';
 import { getQueryParameter } from 'helpers/url';
 import { detect as detectCountryGroup } from 'helpers/internationalisation/countryGroup';
-import ContributionsCheckoutContainer from './components/contributionsCheckoutContainer/contributionsCheckoutContainer';
+import ContributionsCheckoutContainer from './components/contributionsCheckoutContainers/contributionsCheckoutContainer';
+import ContributionsGuestCheckoutContainer from './components/contributionsCheckoutContainers/contributionsGuestCheckoutContainer';
+
 import MarketingConsentContainer from './components/marketingConsentContainer';
 import reducer from './regularContributionsReducer';
 import FormFields from './components/formFields';
@@ -64,7 +66,7 @@ const router = (
           exact
           path={routes.recurringContribCheckoutGuest}
           render={() => (
-            <ContributionsCheckoutContainer
+            <ContributionsGuestCheckoutContainer
               contributionType={contributionType}
               form={<FormFields />}
               payment={<RegularContributionsPayment />}
