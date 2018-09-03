@@ -16,7 +16,7 @@ import {
   type Action as CheckoutAction,
   setFullNameShouldValidate,
   setEmailShouldValidate,
-} from './contributionsCheckoutContainer/checkoutFormActions';
+} from '../helpers/checkoutForm/checkoutFormActions';
 import { getFormFields } from '../helpers/checkoutFormFieldsSelector';
 import { type PageState as State } from '../oneOffContributionsReducer';
 

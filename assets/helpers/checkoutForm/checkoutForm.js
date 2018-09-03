@@ -29,6 +29,21 @@ export function shouldShowError(field: UserFormFieldAttribute): boolean {
   return field.shouldValidate && !field.isValid;
 }
 
+export function getTitle(
+  contributionType: ContributionType,
+  country: IsoCountry,
+): string {
+
+  switch (contributionType) {
+    case 'ANNUAL':
+      return 'Make an annual';
+    case 'MONTHLY':
+      return 'Make a monthly';
+    case 'ONE_OFF':
+    default:
+      return `Make a ${country === 'US' ? 'one-time' : 'one-off'}`;
+  }
+
 export type formFieldIsValidParameters = {
   value: string,
   required: boolean,

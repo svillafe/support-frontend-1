@@ -17,7 +17,7 @@ import { getTitle } from 'helpers/checkoutForm/checkoutForm'
 import { type Contrib as ContributionType } from 'helpers/contributions';
 import { type IsoCurrency } from 'helpers/internationalisation/currency';
 import { type IsoCountry } from 'helpers/internationalisation/country';
-
+import { type SubmitYourDetailsGuestCheckoutParams } from './contributionsGuestCheckoutContainer';
 
 // ----- Types ----- //
 
@@ -30,6 +30,8 @@ type PropTypes = {
   isSignedIn: boolean,
   form: Node,
   payment: Node,
+  submitYourDetailsForm: SubmitYourDetailsGuestCheckoutParams => void,
+
 };
 
 

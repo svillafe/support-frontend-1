@@ -27,7 +27,7 @@ import {
   setFirstNameShouldValidate,
   setLastNameShouldValidate,
   setEmailShouldValidate,
-} from './contributionsCheckoutContainer/checkoutFormActions';
+} from '../helpers/checkoutForm/checkoutFormActions';
 import { type PageState as State } from '../regularContributionsReducer';
 import { getFormFields } from '../helpers/checkoutFormFieldsSelector';
 
