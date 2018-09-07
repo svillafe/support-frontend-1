@@ -24,7 +24,6 @@ type PropTypes = {|
   hasLoaded: boolean,
   setHasLoaded: () => void,
   switchStatus: Status,
-  disable: boolean,
 |};
 
 
@@ -58,22 +57,11 @@ function Button(props: PropTypes) {
     props.callback,
   );
 
-  const disabledButton = (
-    <button
-      className="component-paypal-button-checkout__disabled-pop-up-button"
-      disabled
-    >
-      Pay with PayPal
-      <SvgArrowRightStraight />
-    </button>
-  );
-
-
   const ActiveButton = window.paypal.Button.driver('react', { React, ReactDOM });
 
   return (
     <div id="component-paypal-button-checkout" className="component-paypal-button-checkout">
-      { props.disable ? disabledButton : <ActiveButton {...payPalOptions} /> }
+      <ActiveButton {...payPalOptions} />
     </div>
   );
 }

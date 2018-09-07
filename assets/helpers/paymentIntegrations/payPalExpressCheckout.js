@@ -82,6 +82,14 @@ function createAgreement(payPalData: Object, csrf: CsrfState) {
     .then(response => response.json());
 }
 
+function formElementIsValid(elementId: string) {
+  const element = document && document.getElementById(elementId);
+  if (element && element instanceof HTMLInputElement) {
+    return element.validity.valid;
+  }
+  return true;
+}
+
 function setup(
   amount: number,
   currencyId: IsoCurrency,
@@ -101,12 +109,34 @@ function setup(
       });
   };
 
+  function onFormChange(handler) {
+    document.getElementById('first-name').addEventListener('change', handler);
+    document.getElementById('last-name').addEventListener('change', handler);
+    document.getElementById('email').addEventListener('change', handler);
+  }
+
+  function toggleButton(actions){
+    return isValid() ? actions.enable() : actions.disable ();
+  }
+
+  function isValid() {
+    return ['first-name', 'lastName', 'email'].every(e => formElementIsValid(e));
+  }
+
   const payPalOptions: Object = {
     env: window.guardian.payPalEnvironment,
     style: { color: 'blue', size: 'responsive', label: 'pay' },
 
     // Defines whether user sees 'Agree and Continue' or 'Agree and Pay now' in overlay.
     commit: true,
+
+    validate: function(actions) {
+      toggleButton(actions);
+
+      onFormChange(function() {
+        toggleButton(actions);
+      });
+    },
 
     // This function is called when user clicks the PayPal button.
     payment: setupPayment(amount, currencyId, csrf),
